@@ -134,6 +134,7 @@ public:
    {
       WindowSystem_Unknown = 0,
       WindowSystem_Windows,
+	   WindowSystem_Cocoa,
       WindowSystem_X11,
    };
 

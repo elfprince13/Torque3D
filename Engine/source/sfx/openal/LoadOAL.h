@@ -27,7 +27,7 @@
 #  include "platform/platform.h"
 #endif
 
-#if defined(TORQUE_OS_MAC)
+#if defined( __APPLE__ ) || defined(TORQUE_OS_MAC)
 #  include <OpenAL/al.h>
 #  include <OpenAL/alc.h>
 #elif defined(TORQUE_OS_LINUX)

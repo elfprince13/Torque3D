@@ -125,18 +125,19 @@ void* PlatformWindowSDL::getSystemWindow(const WindowSystem system)
      SDL_VERSION(&info.version);
      SDL_GetWindowWMInfo(mWindowHandle,&info);     
 
-#ifdef TORQUE_OS_WIN32
+#if defined(TORQUE_OS_WIN32)
      if( system == WindowSystem_Windows && info.subsystem == SDL_SYSWM_WINDOWS)
         return info.info.win.window;
-#endif
-
-#if defined(TORQUE_OS_LINUX)
+#elif defined(__APPLE__)
+     if (system == WindowSystem_Cocoa && info.subsystem ==  SDL_SYSWM_COCOA)
+	 return (void*)info.info.cocoa.window;
+#elif defined(TORQUE_OS_LINUX)
      if( system == WindowSystem_X11 && info.subsystem == SDL_SYSWM_X11)
         return (void*)info.info.x11.window;
-#endif
-
+#else
     AssertFatal(0, "");
     return NULL;
+#endif
 }
 
 void PlatformWindowSDL::setVideoMode( const GFXVideoMode &mode )

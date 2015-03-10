@@ -129,7 +129,7 @@ void   tc_sleep(NxU32 ms)
 
 void tc_spinloop()
 {
-   #ifdef __linux__
+   #if defined(__linux__) || defined( __APPLE__ )
       asm ( "pause" );
    #elif defined( _XBOX )
       // Pause would do nothing on the Xbox. Threads are not scheduled.
