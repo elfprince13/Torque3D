@@ -1,7 +1,7 @@
 #include "platformQT.h"
-#include <QStandardPaths>
-#include <QDir>
-#include <QFile>
+#include <QtCore/qstandardpaths.h>
+#include <QtCore/qdir.h>
+#include <QtCore/qfile.h>
 
 #include "core/util/tVector.h"
 #include "core/stringTable.h"
@@ -14,10 +14,10 @@
 StringTableEntry osGetTemporaryDirectory()
 {
 	QString tmpPath = QStandardPaths::writableLocation(QStandardPaths::TempLocation);
-	bool canUse = QDir::mkpath(tmpPath);
-	QFile qf(tmpPath);
+	QDir current(QDir::currentPath());
+	bool canUse = current.mkpath(tmpPath);
 	AssertFatal(canUse,"No writeable tempdir");
-	QByteArray byteArray = qf.encodeName();
+	QByteArray byteArray = QFile::encodeName(tmpPath);
 	const char* cString = byteArray.constData();
 	return StringTable->insert(cString);
 }
@@ -29,15 +29,15 @@ QString qsFromPath(const char *path){
 
 bool dPathCopy(const char *fromName, const char *toName, bool nooverwrite)
 {
-	QStr fN = qsFromPath(fromName);
+	QString fN = qsFromPath(fromName);
 	QFile from(fN);
-	QStr tN = qsFromPath(toName);
+	QString tN = qsFromPath(toName);
 	QFile to(tN);
 	if(!nooverwrite && to.exists()){
-		bool ret = to.remove()
+		bool ret = to.remove();
 		if(!ret) return ret;
 	}
-	return from.copy(tN)
+	return from.copy(tN);
 }
 
  //-----------------------------------------------------------------------------
@@ -62,6 +62,6 @@ bool dFileTouch(const char * name)
 		
 	QFile qf(qsFromPath(oldName));
 	QString toName = qsFromPath(newName);
-	return qf.rename(qf, toName);
+	return qf.rename(toName);
 }
 
