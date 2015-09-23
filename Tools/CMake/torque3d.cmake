@@ -629,7 +629,7 @@ if(WIN32)
     set_property(TARGET ${PROJECT_NAME} APPEND PROPERTY INCLUDE_DIRECTORIES $ENV{DXSDK_DIR}/Include)
 endif()
 
-if(UNIX)
+if(UNIX AND NOT APPLE)
 	addInclude("/usr/include/freetype2/freetype")
 	addInclude("/usr/include/freetype2")
 endif()
