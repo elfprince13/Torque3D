@@ -539,13 +539,19 @@ if(WIN32)
    endif()
 endif()
 
-if(UNIX)
+if(UNIX AND NOT APPLE)
     # copy pasted from T3D build system, some might not be needed
 	set(TORQUE_EXTERNAL_LIBS "rt dl Xxf86vm Xext X11 Xft stdc++ pthread GL" CACHE STRING "external libs to link against")
 	mark_as_advanced(TORQUE_EXTERNAL_LIBS)
 
     string(REPLACE " " ";" TORQUE_EXTERNAL_LIBS_LIST ${TORQUE_EXTERNAL_LIBS})
     addLib( "${TORQUE_EXTERNAL_LIBS_LIST}" )
+endif()
+
+if (APPLE)
+	addFramework("Cocoa")
+	addFramework("OpenGL")
+	addFramework("OpenAL")
 endif()
 
 ###############################################################################
