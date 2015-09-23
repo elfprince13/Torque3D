@@ -150,7 +150,7 @@ void Thread::_setName( const char* )
 
 U32 ThreadManager::getCurrentThreadId()
 {
-   return (U32)pthread_self();
+	return static_cast<U32>(pthread_self()->__sig);
 }
 
 bool ThreadManager::compare(U32 threadId_1, U32 threadId_2)
