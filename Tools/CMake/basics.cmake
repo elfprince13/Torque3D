@@ -164,6 +164,12 @@ macro(_process_libs)
     endif()
 endmacro()
 
+macro(addFramework framework)
+	if (APPLE)
+		addLib("-framework ${framework}")
+	endif()
+endmacro()
+
 ###############################################################################
 ### Include Handling
 ###############################################################################
@@ -349,7 +355,7 @@ if(WIN32)
        set(TORQUE_CXX_FLAGS_COMMON_DEFAULT "${TORQUE_CXX_FLAGS_COMMON_DEFAULT} /arch:SSE2")
     endif()
     set(TORQUE_CXX_FLAGS_COMMON ${TORQUE_CXX_FLAGS_COMMON_DEFAULT} CACHE TYPE STRING)
-    
+
     mark_as_advanced(TORQUE_CXX_FLAGS_COMMON)
 
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${TORQUE_CXX_FLAGS_COMMON}")
