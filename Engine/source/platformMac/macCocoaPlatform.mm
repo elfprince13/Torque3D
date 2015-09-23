@@ -65,10 +65,6 @@ bool Platform::getUserIsAdministrator()
 
 #pragma mark ---- Cosmetic ----
 //-----------------------------------------------------------------------------
-bool Platform::displaySplashWindow()
-{
-    return false;
-}
 
 bool Platform::closeSplashWindow()
 {
@@ -238,7 +234,7 @@ void ExecuteThread::run(void* arg)
 
 ConsoleFunction(shellExecute, bool, 2, 4, "(executable, [args], [directory])")
 {
-   ExecuteThread *et = new ExecuteThread(argv[1], argc > 2 ? argv[2] : NULL, argc > 3 ? argv[3] : NULL);
-   TORQUE_UNUSED(et);
+   //ExecuteThread *et = new ExecuteThread(argv[1], argc > 2 ? argv[2] : NULL, argc > 3 ? argv[3] : NULL);
+   //TORQUE_UNUSED(et);
    return true; // Bug: BPNC error: need feedback on whether the command was sucessful
 }

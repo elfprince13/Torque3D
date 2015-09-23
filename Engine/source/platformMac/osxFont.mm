@@ -26,6 +26,7 @@
 #import "platformMac/osxFont.h"
 #import "core/stringTable.h"
 #import "core/strings/unicode.h"
+#include "console/console.h"
 #import <Cocoa/Cocoa.h>
 
 //------------------------------------------------------------------------------
@@ -77,7 +78,7 @@ OSXFont::~OSXFont()
 
 //------------------------------------------------------------------------------
 
-bool OSXFont::create( const char* name, U32 size, U32 charset )
+bool OSXFont::create( const char* name, dsize_t size, U32 charset )
 {
     // Sanity!
     AssertFatal( name != NULL, "Cannot create a NULL font name." );

@@ -102,8 +102,8 @@ void MacCursorController::setCursorShape(U32 cursorID)
          [[NSCursor arrowCursor] set];
          break;
       case PlatformCursorController::curWait:
-         // hack: black-sheep carbon call
-         SetThemeCursor(kThemeWatchCursor);
+		   // TODO: make a new cursor for this.
+		   [[NSCursor currentCursor] set];
          break;
       case PlatformCursorController::curPlus:
          [[NSCursor crosshairCursor] set];
@@ -150,7 +150,7 @@ void MacCursorController::setCursorShape( const UTF8 *fileName, bool reload )
 
 U32 MacCursorController::getDoubleClickTime()
 {
-   return GetDblTime() / 60.0f * 1000.0f;
+	return [NSEvent doubleClickInterval] / 60.0f * 1000.0f;
 }
 
 S32 MacCursorController::getDoubleClickWidth()
