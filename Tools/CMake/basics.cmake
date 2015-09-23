@@ -69,6 +69,8 @@ macro(addPath dir)
              ${dir}/*.c
              ${dir}/*.cc
              ${dir}/*.h
+             ${dir}/*.mm
+             ${dir}/*.m
              #${dir}/*.asm
              )
     LIST(APPEND ${PROJECT_NAME}_files "${tmp_files}")
