@@ -439,7 +439,7 @@ if(PS3)
     addPath("${srcDir}/forest/glsl")
 endif()
 
-if(UNIX)
+if(UNIX AND NOT APPLE)
     # linux_dedicated
     if(TORQUE_DEDICATED)
 		addPath("${srcDir}/windowManager/dedicated")
