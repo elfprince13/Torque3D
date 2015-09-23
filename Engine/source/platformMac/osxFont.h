@@ -47,7 +47,7 @@ public:
     virtual ~OSXFont();
     
     /// Look up the requested font, cache style, layout, colorspace, and some metrics.
-    virtual bool create( const char* name, U32 size, U32 charset = TGE_ANSI_CHARSET);
+    virtual bool create( const char* name, dsize_t size, U32 charset = TGE_ANSI_CHARSET);
     
     /// Determine if the character requested is a drawable character, or if it should be ignored.
     virtual bool isValidChar( const UTF16 character) const;

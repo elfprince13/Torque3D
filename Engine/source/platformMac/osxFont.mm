@@ -19,11 +19,14 @@
 // FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
 // IN THE SOFTWARE.
 //-----------------------------------------------------------------------------
- 
+
 #import "platform/platform.h"
-#import "platformOSX/platformOSX.h"
-#import "platformOSX/osxFont.h"
-#import "string/Unicode.h"
+#include "core/util/tVector.h"
+#import "platformMac/platformMacCarb.h"
+#import "platformMac/osxFont.h"
+#import "core/stringTable.h"
+#import "core/strings/unicode.h"
+#import <Cocoa/Cocoa.h>
 
 //------------------------------------------------------------------------------
 
@@ -41,7 +44,7 @@ PlatformFont* createPlatformFont( const char* name, U32 size, U32 charset )
 
 //------------------------------------------------------------------------------
 
-void PlatformFont::enumeratePlatformFonts( Vector<StringTableEntry>& fonts )
+void PlatformFont::enumeratePlatformFonts( Vector<StringTableEntry>& fonts, UTF16 *fontFamily )
 {
     // Fetch available fonts.
     NSArray* availableFonts = [[NSFontManager sharedFontManager] availableFontNamesWithTraits:0];
