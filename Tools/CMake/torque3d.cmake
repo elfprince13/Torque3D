@@ -571,7 +571,7 @@ addDef(PCRE_STATIC)
 addDef(_CRT_SECURE_NO_WARNINGS)
 addDef(_CRT_SECURE_NO_DEPRECATE)
 
-if(UNIX)
+if(UNIX AND NOT APPLE)
 	addDef(LINUX)
 endif()
 
