@@ -306,7 +306,11 @@ macro(finishExecutable)
         set_source_files_properties(${${PROJECT_NAME}_files} PROPERTIES COMPILE_FLAGS "${TORQUE_CXX_FLAGS_EXECUTABLES}")
     endif()
 
-    add_executable("${PROJECT_NAME}" WIN32 ${${PROJECT_NAME}_files})
+	 if (APPLE)
+       add_executable("${PROJECT_NAME}" MACOSX_BUNDLE ${${PROJECT_NAME}_files})
+    else()
+      add_executable("${PROJECT_NAME}" WIN32 ${${PROJECT_NAME}_files})
+    endif()
     addInclude("${firstDir}")
 
     _postTargetProcess()
