@@ -310,7 +310,7 @@ macro(finishExecutable)
         add_executable("${PROJECT_NAME}" MACOSX_BUNDLE ${${PROJECT_NAME}_files})
         set_target_properties("${PROJECT_NAME}" PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${projectOutDir}/../buildFiles/Xcode/Info.plist")
     else()
-      add_executable("${PROJECT_NAME}" WIN32 ${${PROJECT_NAME}_files})
+        add_executable("${PROJECT_NAME}" WIN32 ${${PROJECT_NAME}_files})
     endif()
     addInclude("${firstDir}")
 
