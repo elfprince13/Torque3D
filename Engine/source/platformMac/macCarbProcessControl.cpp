@@ -25,6 +25,11 @@
 #include "core/util/journal/process.h"
 #include "console/console.h"
 
+void Platform::postQuitMessage(const S32 in_quitVal)
+{
+	Process::requestShutdown();
+}
+
 void Platform::debugBreak()
 {
    DebugStr("\pDEBUG_BREAK!");
