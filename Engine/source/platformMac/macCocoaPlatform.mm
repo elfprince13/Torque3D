@@ -228,7 +228,8 @@ void ExecuteThread::run(void* arg)
    [aTask launch];
    [aTask waitUntilExit];
    U32 ret = [aTask terminationStatus];
-   Con::executef("onExecuteDone", Con::getIntArg(ret));
+	// TODO:
+   //Con::executef("onExecuteDone", Con::getIntArg(ret));
    printf("done nstask\n");
 }
 
