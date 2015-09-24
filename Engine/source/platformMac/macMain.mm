@@ -81,6 +81,14 @@ extern S32 sgTimeManagerProcessInterval;
 
 #pragma mark -
 
+@interface macApplication : NSApplication
+
+@end
+
+@implementation macApplication
+
+@end
+
 #ifndef TORQUE_SHARED
 //-----------------------------------------------------------------------------
 // main() - the real one - this is the actual program entry point.
