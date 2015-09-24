@@ -309,6 +309,12 @@ macro(finishExecutable)
     if (APPLE)
         add_executable("${PROJECT_NAME}" MACOSX_BUNDLE ${${PROJECT_NAME}_files})
         set_target_properties("${PROJECT_NAME}" PROPERTIES MACOSX_BUNDLE_INFO_PLIST "${projectOutDir}/../buildFiles/Xcode/Info.plist")
+
+        add_custom_command (TARGET "${PROJECT_NAME}" POST_BUILD 
+                      COMMAND mkdir -p ${projectOutDir}/${PROJECT_NAME}.app/Contents/Resources/
+                      COMMAND cp -a "${projectOutDir}/../buildFiles/Xcode/mainMenu.nib"
+                      ${projectOutDir}/${PROJECT_NAME}.app/Contents/Resources/)
+
     else()
         add_executable("${PROJECT_NAME}" WIN32 ${${PROJECT_NAME}_files})
     endif()
