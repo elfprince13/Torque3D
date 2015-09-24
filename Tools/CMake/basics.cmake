@@ -66,14 +66,14 @@ macro(addPath dir)
     endif()
 	set(mac_files "")
 	if(APPLE)
-		set(mac_files "${dir}/*.mm ${dir}/*.m")   
+		set(mac_files ${dir}/*.mm ${dir}/*.m)
 	endif()
     file(${glob_config} tmp_files
              ${dir}/*.cpp
              ${dir}/*.c
              ${dir}/*.cc
              ${dir}/*.h
-			 mac_files
+			 	 ${mac_files}
              #${dir}/*.asm
              )
     LIST(APPEND ${PROJECT_NAME}_files "${tmp_files}")
