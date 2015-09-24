@@ -28,7 +28,7 @@
 #include "platform/threads/thread.h"
 // TODO: examine & dump errno if pthread_* funcs fail. ( only in debug build )
 
-class PlatformMutexData
+struct PlatformMutexData
 {
 public:
    pthread_mutex_t   mMutex;
