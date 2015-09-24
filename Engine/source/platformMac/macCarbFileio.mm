@@ -527,35 +527,6 @@ bool Platform::setCurrentDirectory(StringTableEntry newDir)
 }
 
 //-----------------------------------------------------------------------------
-void Platform::openFolder(const char* path )
-{
-   // TODO: users can still run applications by calling openfolder on an app bundle.
-   // this may be a bad thing.
-   if(!Platform::isDirectory(path))
-   {
-      Con::errorf(avar("Error: not a directory: %s",path));
-      return;
-   }
-   
-   const char* arg = avar("open '%s'", path);
-   U32 ret = system(arg);
-   if(ret != 0)
-      Con::printf(strerror(errno));
-}
-
-void Platform::openFile(const char* path )
-{
-   if( !Platform::isFile( path ) )
-   {
-      Con::errorf( avar( "Error: not a file: %s", path ) );
-      return;
-   }
-   
-   const char* arg = avar( "open '%s'", path );
-   U32 ret = system( arg );
-   if( ret != 0 )
-      Con::printf( strerror( errno ) );
-}
 
 // helper func for getWorkingDirectory
 bool isMainDotCsPresent(NSString* dir)
