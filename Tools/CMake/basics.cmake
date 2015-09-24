@@ -64,13 +64,16 @@ macro(addPath dir)
     if(${ARGC} GREATER 1 AND "${ARGV1}" STREQUAL "REC")
         set(glob_config GLOB_RECURSE)
     endif()
+	set(mac_files "")
+	if(APPLE)
+		set(mac_files "${dir}/*.mm ${dir}/*.m")   
+	endif()
     file(${glob_config} tmp_files
              ${dir}/*.cpp
              ${dir}/*.c
              ${dir}/*.cc
              ${dir}/*.h
-             ${dir}/*.mm
-             ${dir}/*.m
+			 mac_files
              #${dir}/*.asm
              )
     LIST(APPEND ${PROJECT_NAME}_files "${tmp_files}")
