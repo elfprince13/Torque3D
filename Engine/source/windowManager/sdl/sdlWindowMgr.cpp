@@ -24,7 +24,6 @@
 #include "gfx/gfxDevice.h"
 #include "core/util/journal/process.h"
 #include "core/strings/unicode.h"
-#include <ctime>
 
 #include "SDL.h"
 
@@ -194,7 +193,6 @@ void* PlatformWindowManagerSDL::getParentWindow()
 void PlatformWindowManagerSDL::_process()
 {
    SDL_Event evt;
-   Con::printf("%llu", SDL_GetPerformanceCounter());
    while( SDL_PollEvent(&evt) )
    {      
       switch(evt.type)
@@ -213,7 +211,6 @@ void PlatformWindowManagerSDL::_process()
             PlatformWindowSDL *window = mWindowMap[evt.key.windowID];
             if(window)
                window->_processSDLEvent(evt);
-            Con::printf("SDLWindow::keyup or down %llu", SDL_GetPerformanceCounter());
             break;
          }
 
