@@ -88,8 +88,8 @@ void Processor::init()
 	U32 procflags;
 	int err, cpufam, cputype, cpusub;
 	char buf[20];
-	unsigned long lraw;
-	unsigned long long llraw;
+	U32 lraw;
+	U64 llraw;
 	
 	Con::printf( "System & Processor Information:" );
 
@@ -111,13 +111,13 @@ void Processor::init()
 	else
 		Con::printf( "   Mac OS Kernel version: %s", buf );
 	
-	err = _getSysCTLvalue<unsigned long long>("hw.memsize", &llraw);	
+	err = _getSysCTLvalue<U64>("hw.memsize", &llraw);
 	if (err)
 		Con::printf( "   Unable to determine amount of physical RAM\n" );
 	else
 		Con::printf( "   Physical memory installed: %d MB", (llraw >> 20));
 	
-	err = _getSysCTLvalue<unsigned long>("hw.usermem", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.usermem", &lraw);
 	if (err)
 		Con::printf( "   Unable to determine available user address space\n");
 	else
@@ -132,17 +132,17 @@ void Processor::init()
 	cpufam = 0;
 	cputype = 0;
 	cpusub = 0;
-	err = _getSysCTLvalue<unsigned long>("hw.cpufamily", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.cpufamily", &lraw);
 	if (err)
 		Con::printf( "   Unable to determine 'family' of CPU\n");
 	else {
 		cpufam = (int) lraw;
-		err = _getSysCTLvalue<unsigned long>("hw.cputype", &lraw);	
+		err = _getSysCTLvalue<U32>("hw.cputype", &lraw);
 		if (err)
 			Con::printf( "   Unable to determine CPU type\n");
 		else {
 			cputype = (int) lraw;
-			err = _getSysCTLvalue<unsigned long>("hw.cpusubtype", &lraw);	
+			err = _getSysCTLvalue<U32>("hw.cpusubtype", &lraw);
 			if (err)
 				Con::printf( "   Unable to determine CPU subtype\n");
 			else
@@ -154,7 +154,7 @@ void Processor::init()
 	
 	// The Gestalt version was known to have issues with some Processor Upgrade cards
 	// but it is uncertain whether this version has similar issues.
-	err = _getSysCTLvalue<unsigned long long>("hw.cpufrequency", &llraw);
+	err = _getSysCTLvalue<U64>("hw.cpufrequency", &llraw);
 	if (err) {
 		llraw = BASE_MHZ_SPEED;
 		Con::printf( "   Unable to determine CPU Frequency. Defaulting to %d MHz\n", llraw);
@@ -167,7 +167,7 @@ void Processor::init()
 	// Here's one that the original version of this routine couldn't do -- number
 	// of processors (cores)
    U32 ncpu = 1;
-	err = _getSysCTLvalue<unsigned long>("hw.ncpu", &lraw);
+	err = _getSysCTLvalue<U32>("hw.ncpu", &lraw);
 	if (err)
 		Con::printf( "   Unable to determine number of processor cores\n");
 	else
@@ -237,31 +237,31 @@ void Processor::init()
 	// actually supported/implemented by the processor: 0 = no, 1 = yes, others are undefined.
 	procflags = 0;
 	// Seriously this one should be an Assert()
-	err = _getSysCTLvalue<unsigned long>("hw.optional.floatingpoint", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.floatingpoint", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_FPU;
 	// List of chip-specific features
-	err = _getSysCTLvalue<unsigned long>("hw.optional.mmx", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.mmx", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_MMX;
-	err = _getSysCTLvalue<unsigned long>("hw.optional.sse", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.sse", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_SSE;
-	err = _getSysCTLvalue<unsigned long>("hw.optional.sse2", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.sse2", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_SSE2;
-	err = _getSysCTLvalue<unsigned long>("hw.optional.sse3", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.sse3", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_SSE3;
-	err = _getSysCTLvalue<unsigned long>("hw.optional.supplementalsse3", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.supplementalsse3", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_SSE3xt;
-	err = _getSysCTLvalue<unsigned long>("hw.optional.sse4_1", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.sse4_1", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_SSE4_1;
-	err = _getSysCTLvalue<unsigned long>("hw.optional.sse4_2", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.sse4_2", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_SSE4_2;
-	err = _getSysCTLvalue<unsigned long>("hw.optional.altivec", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.optional.altivec", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_ALTIVEC;
 	// Finally some architecture-wide settings
-	err = _getSysCTLvalue<unsigned long>("hw.ncpu", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.ncpu", &lraw);
 	if ((err==0)&&(lraw>1)) procflags |= CPU_PROP_MP;
-	err = _getSysCTLvalue<unsigned long>("hw.cpu64bit_capable", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.cpu64bit_capable", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_64bit;
-	err = _getSysCTLvalue<unsigned long>("hw.byteorder", &lraw);	
+	err = _getSysCTLvalue<U32>("hw.byteorder", &lraw);
 	if ((err==0)&&(lraw==1234)) procflags |= CPU_PROP_LE;
 
 	Platform::SystemInfo.processor.properties = procflags;
