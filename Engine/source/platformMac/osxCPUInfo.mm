@@ -184,18 +184,6 @@ void Processor::init()
 	// and the Optional Capability flags (further down) should be more than enough.
 	switch(cpufam)
 	{
-		case CPUFAMILY_POWERPC_G3:
-			Platform::SystemInfo.processor.type = CPU_PowerPC_G3;
-			Platform::SystemInfo.processor.name = StringTable->insert("PowerPC G3");
-			break;
-		case CPUFAMILY_POWERPC_G4:
-			Platform::SystemInfo.processor.type = CPU_PowerPC_G3;
-			Platform::SystemInfo.processor.name = StringTable->insert("PowerPC G4");
-			break;
-		case CPUFAMILY_POWERPC_G5:
-			Platform::SystemInfo.processor.type = CPU_PowerPC_G3;
-			Platform::SystemInfo.processor.name = StringTable->insert("PowerPC G5");
-			break;
 		case CPUFAMILY_INTEL_6_14:
 			Platform::SystemInfo.processor.type = CPU_Intel_Core;
          if( ncpu == 2 )
@@ -254,8 +242,7 @@ void Processor::init()
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_SSE4_1;
 	err = _getSysCTLvalue<U32>("hw.optional.sse4_2", &lraw);
 	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_SSE4_2;
-	err = _getSysCTLvalue<U32>("hw.optional.altivec", &lraw);
-	if ((err==0)&&(lraw==1)) procflags |= CPU_PROP_ALTIVEC;
+
 	// Finally some architecture-wide settings
 	err = _getSysCTLvalue<U32>("hw.ncpu", &lraw);
 	if ((err==0)&&(lraw>1)) procflags |= CPU_PROP_MP;
@@ -275,8 +262,6 @@ void Processor::init()
 		Con::printf( "   SSE2 detected");
 	if (Platform::SystemInfo.processor.properties & CPU_PROP_SSE3)
 		Con::printf( "   SSE3 detected");
-	if (Platform::SystemInfo.processor.properties & CPU_PROP_ALTIVEC)
-		Con::printf( "   AltiVec detected");
 	
 	Con::printf( "" );
    
