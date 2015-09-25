@@ -155,6 +155,11 @@ void GFXGLDevice::initGLState()
       // @todo OPENGL INTEL - This is a workaround for a warning spam or even crashes with actual framebuffer code, remove when implemented TGL layer.
       __openglBindFramebuffer = glBindFramebuffer;
       glBindFramebuffer = &_t3d_glBindFramebuffer;
+      
+#ifdef __APPLE__
+      // JTH: apple intel drivers have a bug with using glmap
+      mUseGlMap = false;
+#endif
    }
 
 #ifdef TORQUE_NSIGHT_WORKAROUND
