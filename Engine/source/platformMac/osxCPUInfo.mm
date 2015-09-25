@@ -262,6 +262,10 @@ void Processor::init()
 		Con::printf( "   SSE2 detected");
 	if (Platform::SystemInfo.processor.properties & CPU_PROP_SSE3)
 		Con::printf( "   SSE3 detected");
+	if (Platform::SystemInfo.processor.properties & CPU_PROP_SSE4_1)
+		Con::printf( "   SSE4.1 detected");
+	if (Platform::SystemInfo.processor.properties & CPU_PROP_SSE4_2)
+		Con::printf( "   SSE4.2 detected");
 	
 	Con::printf( "" );
    
