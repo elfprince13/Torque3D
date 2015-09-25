@@ -13,14 +13,15 @@ namespace PlatformGL
            return;
 
        inited = true;
-       const U32 majorOGL = 4;
+       const U32 majorOGL = 3;
        const U32 minorOGL = 2;
        U32 debugFlag = 0;
 #ifdef TORQUE_DEBUG
        debugFlag |= SDL_GL_CONTEXT_DEBUG_FLAG;
 #endif
 
-#if 0  // cause problem with glew, no extension load
+//#if 0  // cause problem with glew, no extension load
+#ifdef __APPLE__
        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MAJOR_VERSION, majorOGL);
        SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, minorOGL);
        SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
