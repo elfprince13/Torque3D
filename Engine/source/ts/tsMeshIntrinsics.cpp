@@ -108,13 +108,6 @@ MODULE_BEGIN( TSMeshIntrinsics )
             */
    #endif
       }
-      else if(Platform::SystemInfo.processor.properties & CPU_PROP_ALTIVEC)
-      {
-   #if !defined(TORQUE_OS_XENON) && defined(TORQUE_CPU_PPC)
-         zero_vert_normal_bulk = zero_vert_normal_bulk_gccvec;
-         m_matF_x_BatchedVertWeightList = m_matF_x_BatchedVertWeightList_gccvec;
-   #endif
-      }
    #endif
    }
 

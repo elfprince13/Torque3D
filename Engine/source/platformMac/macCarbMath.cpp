@@ -71,10 +71,6 @@ ConsoleFunction( MathInit, void, 1, 10, "(DETECT|C|VEC|SSE)")
          properties |= CPU_PROP_C; 
          continue; 
       }
-      if (dStricmp(*argv, "VEC") == 0) { 
-         properties |= CPU_PROP_ALTIVEC; 
-         continue; 
-      }
       if( dStricmp( *argv, "SSE" ) == 0 )
       {
          properties |= CPU_PROP_SSE;
