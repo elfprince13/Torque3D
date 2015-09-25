@@ -31,7 +31,7 @@ float vernierScale(float fCos)
 	float xnew = (3.83 + x * x5p6);
 	float xfinal = (0.459 + x * xnew);
 	float xfinal2 = -0.00287 + x * xfinal;
-	float outx = exp( xfinal2 ); 
+	float outx = exp( xfinal2 );
 	return 0.25 * outx;
 }
 
@@ -52,11 +52,9 @@ out vec4  mieColor;
 #define OUT_mieColor mieColor
 out vec3  v3Direction;
 #define OUT_v3Direction v3Direction
-out float zPosition;
-#define OUT_zPosition zPosition
 out vec3  pos;
 #define OUT_pos pos
- 
+
 uniform mat4 modelView;
 uniform vec4 misc;
 uniform vec4 sphereRadii;
@@ -66,35 +64,35 @@ uniform vec3 lightDir;
 uniform vec4 invWaveLength;
 uniform vec4 colorize;
 
-vec3 desaturate(const vec3 color, const float desaturation) 
-{  
-   const vec3 gray_conv = vec3 (0.30, 0.59, 0.11);  
-   return mix(color, vec3(dot(gray_conv , color)), desaturation);  
-}  
- 
+vec3 desaturate(const vec3 color, const float desaturation)
+{
+   const vec3 gray_conv = vec3 (0.30, 0.59, 0.11);
+   return mix(color, vec3(dot(gray_conv , color)), desaturation);
+}
+
 void main()
 {
    // Pull some variables out:
    float camHeight = misc.x;
    float camHeightSqr = misc.y;
-   
+
    float scale = misc.z;
    float scaleOverScaleDepth = misc.w;
-   
+
    float outerRadius = sphereRadii.x;
    float outerRadiusSqr = sphereRadii.y;
-   
+
    float innerRadius = sphereRadii.z;
    float innerRadiusSqr = sphereRadii.w;
-   
+
    float rayleighBrightness = scatteringCoeffs.x; // Kr * ESun
    float rayleigh4PI = scatteringCoeffs.y; // Kr * 4 * PI
 
    float mieBrightness = scatteringCoeffs.z; // Km * ESun
    float mie4PI = scatteringCoeffs.w; // Km * 4 * PI
-   
-   // Get the ray from the camera to the vertex, 
-   // and its length (which is the far point of the ray 
+
+   // Get the ray from the camera to the vertex,
+   // and its length (which is the far point of the ray
    // passing through the atmosphere).
    vec3 v3Pos = vec3(IN_position / 6378000.0);// / outerRadius;
    vec3 newCamPos = vec3( 0, 0, camHeight );
@@ -103,10 +101,10 @@ void main()
    float fFar = length(v3Ray);
    v3Ray /= fFar;
 
-   // Calculate the ray's starting position, 
+   // Calculate the ray's starting position,
    // then calculate its scattering offset.
    vec3 v3Start = newCamPos;
-   float fHeight = length(v3Start); 
+   float fHeight = length(v3Start);
    float fDepth = exp(scaleOverScaleDepth * (innerRadius - camHeight));
    float fStartAngle = dot(v3Ray, v3Start) / fHeight;
 
@@ -134,9 +132,9 @@ void main()
       vec3 v3Attenuate = exp(-fScatter * (invWaveLength.xyz * rayleigh4PI + mie4PI));
       v3FrontColor += v3Attenuate * (fDepth * fScaledLength);
       v3SamplePoint += v3SampleRay;
-   } 
-   
-   // Finally, scale the Mie and Rayleigh colors 
+   }
+
+   // Finally, scale the Mie and Rayleigh colors
    // and set up the varying variables for the pixel shader.
    gl_Position = modelView * IN_position;
    OUT_mieColor.rgb = v3FrontColor * mieBrightness;
@@ -145,17 +143,17 @@ void main()
    OUT_rayleighColor.a = 1.0;
    OUT_v3Direction = newCamPos - v3Pos.xyz;
    OUT_pos = IN_position.xyz;
-   
-#ifdef USE_COLORIZE  
-  
-   OUT_rayleighColor.rgb = desaturate(OUT_rayleighColor.rgb, 1) * colorize.a;  
-     
-   OUT_rayleighColor.r *= colorize.r;  
-   OUT_rayleighColor.g *= colorize.g;  
-   OUT_rayleighColor.b *= colorize.b;  
-     
-#endif 
-   
+
+#ifdef USE_COLORIZE
+
+   OUT_rayleighColor.rgb = desaturate(OUT_rayleighColor.rgb, 1) * colorize.a;
+
+   OUT_rayleighColor.r *= colorize.r;
+   OUT_rayleighColor.g *= colorize.g;
+   OUT_rayleighColor.b *= colorize.b;
+
+#endif
+
    correctSSP(gl_Position);
 }
 
