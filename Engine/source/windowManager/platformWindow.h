@@ -135,6 +135,7 @@ public:
       WindowSystem_Unknown = 0,
       WindowSystem_Windows,
       WindowSystem_X11,
+      WindowSystem_Cocoa
    };
 
    virtual void* getSystemWindow(const WindowSystem system) { return NULL; }

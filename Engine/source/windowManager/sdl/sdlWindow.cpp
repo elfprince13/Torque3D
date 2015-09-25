@@ -134,6 +134,11 @@ void* PlatformWindowSDL::getSystemWindow(const WindowSystem system)
      if( system == WindowSystem_X11 && info.subsystem == SDL_SYSWM_X11)
         return (void*)info.info.x11.window;
 #endif
+   
+#if defined(TORQUE_OS_MAC)
+      if ( system == WindowSystem_Cocoa && info.subsystem == SDL_SYSWM_COCOA)
+         return reinterpret_cast<void*>(info.info.cocoa.window);
+#endif
 
     AssertFatal(0, "");
     return NULL;
