@@ -62,11 +62,11 @@ option(TORQUE_HIFI "HIFI? support" OFF)
 mark_as_advanced(TORQUE_HIFI)
 option(TORQUE_EXTENDED_MOVE "Extended move support" OFF)
 mark_as_advanced(TORQUE_EXTENDED_MOVE)
-if(WIN32)
+if(WIN32 OR APPLE)
 	option(TORQUE_SDL "Use SDL for window and input" OFF)
 	mark_as_advanced(TORQUE_SDL)
 else()
-	set(TORQUE_SDL ON) # we need sdl to work on Linux/Mac
+	set(TORQUE_SDL ON) # we need sdl to work on Linux
 endif()
 if(WIN32)
 	option(TORQUE_OPENGL "Allow OpenGL render" OFF)
