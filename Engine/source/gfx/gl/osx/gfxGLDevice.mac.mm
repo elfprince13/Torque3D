@@ -21,15 +21,16 @@
 //-----------------------------------------------------------------------------
 
 // Don't include Apple's GL header
-#define __gl_h_
+//#define __gl_h_
 // Include our GL header before Apple headers.
-#include "gfx/gl/ggl/ggl.h"
+#include "gfx/gl/tgl/tgl.h"
 
 #include "platform/tmm_off.h"
 #include <Cocoa/Cocoa.h>
 #include <OpenGL/OpenGL.h>
 #include "gfx/gl/gfxGLDevice.h"
 #include "platform/tmm_on.h"
+#include "platform/platformGL.h"
 
 #include "gfx/gl/gfxGLTextureTarget.h"
 #include "gfx/gl/gfxGLCardProfiler.h"
@@ -298,7 +299,7 @@ void GFXGLWindowTarget::_WindowPresent()
 {
    GFX->updateStates();
    mFullscreenContext ? [(NSOpenGLContext*)mFullscreenContext flushBuffer] : [(NSOpenGLContext*)mContext flushBuffer];
-   return true;
+   return;
 }
 
 void GFXGLWindowTarget::_teardownCurrentMode()
@@ -340,4 +341,8 @@ void GFXGLWindowTarget::_setupNewMode()
       static_cast<GFXGLDevice*>(mDevice)->resurrect();
       GFX->updateStates(true);
    }
+}
+
+void PlatformGL::setVSync(const int i) {
+   // TODO OSX vsync
 }

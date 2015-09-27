@@ -242,7 +242,6 @@ void MacWindow::_initCocoaWindow(const char* windowText, Point2I clientExtent)
    [view setTorqueWindow:this];
    [mCocoaWindow setContentView:view];
    [mCocoaWindow setDelegate:view];
-   
 }
 
 void MacWindow::_disassociateCocoaWindow()

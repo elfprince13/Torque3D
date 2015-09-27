@@ -26,6 +26,7 @@
 #include "platform/platform.h"
 #include "console/console.h"
 #include "core/stringTable.h"
+#include "core/util/str.h"
 #include "platform/platformInput.h"
 #include "platform/threads/thread.h"
 
@@ -65,6 +66,10 @@ bool Platform::getUserIsAdministrator()
 
 #pragma mark ---- Cosmetic ----
 //-----------------------------------------------------------------------------
+
+bool Platform::displaySplashWindow( String path ) {
+   return false;
+}
 
 bool Platform::closeSplashWindow()
 {

@@ -27,7 +27,7 @@
 #include "windowManager/mac/macWindow.h"
 
 /// GGMacView handles displaying content and responding to user input.
-@interface GGMacView : NSOpenGLView
+@interface GGMacView : NSOpenGLView<NSWindowDelegate,NSApplicationDelegate>
 {
    MacWindow* mTorqueWindow;
    U32 mLastMods;

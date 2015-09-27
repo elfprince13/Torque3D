@@ -383,7 +383,9 @@ bool Platform::setClipboard(const char *text)
    err = PutScrapFlavor( clip, kScrapFlavorTypeText, kScrapFlavorMaskNone, textSize, text);
    
    // put the data on the clipboard as unicode
-   const UTF16 *utf16Data = convertUTF8toUTF16(text);
+   UTF16 *utf16Data = new UTF16[textSize];
+   convertUTF8toUTF16N(text, utf16Data, textSize);
+   //= convertUTF8toUTF16((UTF8*)text);
    err |= PutScrapFlavor( clip, kScrapFlavorTypeUnicode, kScrapFlavorMaskNone,
                         dStrlen(utf16Data) * sizeof(UTF16), utf16Data);
    delete [] utf16Data;

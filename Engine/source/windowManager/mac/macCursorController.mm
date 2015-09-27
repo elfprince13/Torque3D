@@ -103,7 +103,8 @@ void MacCursorController::setCursorShape(U32 cursorID)
          break;
       case PlatformCursorController::curWait:
          // hack: black-sheep carbon call
-         SetThemeCursor(kThemeWatchCursor);
+         //SetThemeCursor(kThemeWatchCursor);
+         [[NSCursor arrowCursor] set];
          break;
       case PlatformCursorController::curPlus:
          [[NSCursor crosshairCursor] set];

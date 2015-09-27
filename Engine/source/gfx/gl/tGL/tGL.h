@@ -22,8 +22,8 @@
 
 #ifndef T_GL_H
 #define T_GL_H
-#include "GL/glew.h"
 
+#include "GL/glew.h"
 #define gglHasExtension(EXTENSION) GLEW_##EXTENSION
 
 #endif

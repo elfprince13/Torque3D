@@ -33,8 +33,8 @@ static Vector<NSOpenGLPixelFormatAttribute> _beginPixelFormatAttributesForDispla
    attributes.push_back(NSOpenGLPFANoRecovery);
    attributes.push_back(NSOpenGLPFADoubleBuffer);
    attributes.push_back(NSOpenGLPFAAccelerated);
-   attributes.push_back(NSOpenGLPFAAuxBuffers);
-   attributes.push_back((NSOpenGLPixelFormatAttribute)1);
+   attributes.push_back(NSOpenGLPFAOpenGLProfile);
+   attributes.push_back(NSOpenGLProfileVersion3_2Core);
    return attributes;
 }
 

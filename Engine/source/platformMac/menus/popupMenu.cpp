@@ -183,7 +183,7 @@ static void _assignCommandKeys(const char* accel, MenuRef menu, MenuItemIndex it
 }
 
 
-S32 PopupMenu::insertItem(S32 pos, const char *title, const char* accel)
+S32 PopupMenu::insertItem(S32 pos, const char *title, const char* accel, const char *command)
 {
    MenuItemIndex item;
    CFStringRef cftitle;
@@ -300,7 +300,7 @@ bool PopupMenu::isItemChecked(S32 pos)
 {
    CharParameter mark;
    GetItemMark(mData->mMenu, pos, &mark);
-   return (mark == checkMark);
+   return (mark == 18);
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -374,7 +374,8 @@ bool PopupMenu::handleSelect(U32 command, const char *text /* = NULL */)
    }
    
    // [tom, 8/20/2006] Wasn't handled by a submenu, pass off to script
-   return dAtob(Con::executef(this, "onSelectItem", Con::getIntArg(pos - 1), text ? text : ""));
+   //return dAtob(Con::executef(this, "onSelectItem", Con::getIntArg(pos - 1), text ? text : ""));
+   return false; // TODO
 }
 
 //////////////////////////////////////////////////////////////////////////
@@ -415,7 +416,7 @@ U32 PopupMenu::getItemCount()
    return CountMenuItems( mData->mMenu );
 }
 
-bool PopupMenu::setItem(S32 pos, const char *title, const char *accelerator)
+bool PopupMenu::setItem(S32 pos, const char *title, const char *accelerator, const char *command)
 {
    //TODO: update accelerator?
    

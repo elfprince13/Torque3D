@@ -21,7 +21,7 @@
 //-----------------------------------------------------------------------------
 
 #include "windowManager/mac/macView.h"
-#include "platform/event.h"
+#include "platform/input/event.h"
 #include "platform/platformInput.h"
 #include "console/console.h"
 #include "sim/actionMap.h"
@@ -359,7 +359,8 @@ inline U32 NSModifiersToTorqueModifiers( NSUInteger mods )
    PlatformWindow* focusWindow = WindowManager->getFocusedWindow();
    if(focusWindow && focusWindow != mTorqueWindow)
       focusWindow->appEvent.trigger(mTorqueWindow->getWindowId(), LoseFocus);
-   [NSApp setDelegate:self];
+   //[NSApp setDelegate:self];
+   [[NSApplication sharedApplication] setDelegate:self];
    [self signalGainFocus];
 }
 
