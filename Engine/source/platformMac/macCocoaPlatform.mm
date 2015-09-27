@@ -66,6 +66,11 @@ bool Platform::getUserIsAdministrator()
 #pragma mark ---- Cosmetic ----
 //-----------------------------------------------------------------------------
 
+bool Platform::closeSplashWindow()
+{
+    return false;
+}
+
 #pragma mark ---- File IO ----
 //-----------------------------------------------------------------------------
 bool dPathCopy(const char* source, const char* dest, bool nooverwrite)
