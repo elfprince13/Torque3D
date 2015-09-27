@@ -550,6 +550,11 @@ if (APPLE)
 	addFramework("Cocoa")
 	addFramework("OpenGL")
 	addFramework("OpenAL")
+
+	# EW EW EW EW EW EW
+	# MUST BE 32BIT NOW :C
+	# MUST COMPILE WITH 10.7 SDK
+	addFramework("Carbon")
 endif()
 
 ###############################################################################
