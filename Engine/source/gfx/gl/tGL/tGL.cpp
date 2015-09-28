@@ -32,6 +32,11 @@ namespace GL
       glewExperimental = true;
       GLenum err = glewInit();
       AssertFatal(GLEW_OK == err, avar("Error: %s\n", glewGetErrorString(err)) );
+      
+      // clear out any GLEW errors, as it generates them cuz glew isn't for core
+      // contexts. don't want to pollute the error stack on the driver to give us
+      // invalid errors for *OUR* code
+      while (glGetError());
    }
 
    void gglPerformExtensionBinds(void *context)
