@@ -58,6 +58,8 @@ public:
 
       glDeleteSync(mSync);
       mSync = 0;
+      
+      TGL_DEBUG();
    }
 
    void swap( GLFenceRange &r )
@@ -163,6 +165,8 @@ public:
       {
          glBufferData(mBinding, mBufferSize, NULL, GL_DYNAMIC_DRAW);
       }
+      
+      TGL_DEBUG();
    }
 
    struct 
@@ -218,12 +222,16 @@ public:
 
       //align 4bytes
       mBufferFreePos = ( (mBufferFreePos/4) + 1 ) * 4;
+      
+      TGL_DEBUG();
    }
 
    void unlock()
    {
+      TGL_DEBUG();
       if( gglHasExtension(ARB_buffer_storage) )
       {
+         TGL_DEBUG();
          return;
       }
       else if( GFXGL->glUseMap() )
@@ -245,7 +253,7 @@ public:
 
          mFrameAllocator.unlock();
       }
-      
+      TGL_DEBUG();
    }
 
    U32 getHandle() const { return mBufferName; }

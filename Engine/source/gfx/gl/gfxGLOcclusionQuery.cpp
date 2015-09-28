@@ -73,7 +73,7 @@ GFXOcclusionQuery::OcclusionQueryStatus GFXGLOcclusionQuery::getStatus(bool bloc
    
    if (data)
       *data = numPixels;
-   
+
    return numPixels > 0 ? NotOccluded : Occluded;
 }
 

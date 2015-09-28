@@ -112,6 +112,8 @@ void GFXGLCubemap::fillCubeTextures(GFXTexHandle* faces)
    
     if( !isCompressed )
         glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+   
+   TGL_DEBUG();
 }
 
 void GFXGLCubemap::initStatic(GFXTexHandle* faces)
@@ -181,6 +183,8 @@ void GFXGLCubemap::initStatic( DDSFile *dds )
          glCompressedTexImage2D(faceList[i], mip, GFXGLTextureInternalFormat[mFaceFormat], mipWidth, mipHeight, 0, dds->getSurfaceSize(mip), dds->mSurfaces[i]->mMips[mip]);
       }
    }
+   
+   TGL_DEBUG();
 }
 
 void GFXGLCubemap::initDynamic(U32 texSize, GFXFormat faceFormat)
@@ -222,6 +226,8 @@ void GFXGLCubemap::initDynamic(U32 texSize, GFXFormat faceFormat)
 
     if( !isCompressed )
         glGenerateMipmap(GL_TEXTURE_CUBE_MAP);
+   
+   TGL_DEBUG();
 }
 
 void GFXGLCubemap::zombify()
@@ -270,6 +276,8 @@ void GFXGLCubemap::bind(U32 textureUnit) const
    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GFXGLTextureAddress[ssd.addressModeU]);
    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GFXGLTextureAddress[ssd.addressModeV]);
    glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GFXGLTextureAddress[ssd.addressModeW]);
+   
+   TGL_DEBUG();
 }
 
 void GFXGLCubemap::_onTextureEvent( GFXTexCallbackCode code )

@@ -23,6 +23,7 @@
 #include "platform/platform.h"
 #include "gfx/gl/gfxGLShader.h"
 #include "gfx/gl/gfxGLVertexAttribLocation.h"
+#include "gfx/gl/gfxGLUtils.h"
 
 #include "core/frameAllocator.h"
 #include "core/stream/fileStream.h"
@@ -501,7 +502,7 @@ bool GFXGLShader::_init()
    Vector<GFXShaderConstBuffer*>::iterator biter = mActiveBuffers.begin();
    for ( ; biter != mActiveBuffers.end(); biter++ )   
       ((GFXGLShaderConstBuffer*)(*biter))->onShaderReload( this );
-   
+   TGL_DEBUG();
    return true;
 }
 
@@ -587,6 +588,7 @@ void GFXGLShader::initConstantDescs()
       
       mConstants.push_back(desc);
    }
+   TGL_DEBUG();
 }
 
 void GFXGLShader::initHandles()
@@ -721,6 +723,7 @@ void GFXGLShader::initHandles()
       }
 
    }
+   TGL_DEBUG();
 }
 
 GFXShaderConstHandle* GFXGLShader::getShaderConstHandle(const String& name)
@@ -806,6 +809,7 @@ void GFXGLShader::setConstantsFromBuffer(GFXGLShaderConstBuffer* buffer)
             break;
       }
    }
+   TGL_DEBUG();
 }
 
 GFXShaderConstBufferRef GFXGLShader::allocConstBuffer()
@@ -1001,7 +1005,7 @@ bool GFXGLShader::_loadShaderFromStream(  GLuint shader,
       dFree( buffers[i] );
 
    glCompileShader(shader);
-
+   TGL_DEBUG();
    return true;
 }
 
@@ -1061,7 +1065,7 @@ bool GFXGLShader::initShader( const Torque::Path &file,
       else if ( smLogWarnings )
          Con::warnf( "Program %s: %s", file.getFullPath().c_str(), log );
    }
-
+   TGL_DEBUG();
    return compileStatus != GL_FALSE;
 }
 

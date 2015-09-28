@@ -97,6 +97,7 @@ void GFXGLWindowTarget::resolveTo(GFXTextureObject* obj)
    
    glBlitFramebuffer(0, 0, getSize().x, getSize().y,
       0, 0, glTexture->getWidth(), glTexture->getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
+   TGL_DEBUG();
 }
 
 inline void GFXGLWindowTarget::_setupAttachments()
@@ -110,6 +111,7 @@ inline void GFXGLWindowTarget::_setupAttachments()
    mBackBufferDepthTex.set(dstSize.x, dstSize.y, GFXFormatD24S8, &BackBufferDepthProfile, "backBuffer");
    GFXGLTextureObject *depth = static_cast<GFXGLTextureObject*>(mBackBufferDepthTex.getPointer());
    glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_ATTACHMENT, GL_TEXTURE_2D, depth->getHandle(), 0);
+   TGL_DEBUG();
 }
 
 void GFXGLWindowTarget::makeActive()
@@ -125,6 +127,7 @@ void GFXGLWindowTarget::makeActive()
       _setupAttachments();
       CHECK_FRAMEBUFFER_STATUS();
    }
+   TGL_DEBUG();
 }
 
 bool GFXGLWindowTarget::present()
@@ -148,6 +151,6 @@ bool GFXGLWindowTarget::present()
 
    if(srcSize != dstSize || mBackBufferDepthTex.getWidthHeight() != dstSize)
       _setupAttachments();
-
+   TGL_DEBUG();
    return true;
 }

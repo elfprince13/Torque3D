@@ -50,7 +50,9 @@ GFXGLPrimitiveBuffer::GFXGLPrimitiveBuffer(GFXDevice *device, U32 indexCount, U3
    
    PRESERVE_INDEX_BUFFER();
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mBuffer);
-   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(U16), NULL, GFXGLBufferType[bufferType]);   
+   glBufferData(GL_ELEMENT_ARRAY_BUFFER, indexCount * sizeof(U16), NULL, GFXGLBufferType[bufferType]);
+   
+   TGL_DEBUG();
 }
 
 GFXGLPrimitiveBuffer::~GFXGLPrimitiveBuffer()
@@ -110,6 +112,8 @@ void GFXGLPrimitiveBuffer::unlock()
 
    lockedIndexStart = 0;
    lockedIndexEnd = 0;
+   
+   TGL_DEBUG();
 }
 
 void GFXGLPrimitiveBuffer::prepare()
@@ -119,12 +123,15 @@ void GFXGLPrimitiveBuffer::prepare()
    glDevice->setPB(this);
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, mBuffer);
    glDevice->getOpenglCache()->setCacheBinded(GL_ELEMENT_ARRAY_BUFFER, mBuffer);
+   
+   TGL_DEBUG();
 }
 
 void GFXGLPrimitiveBuffer::finish()
 {
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
    static_cast<GFXGLDevice*>(mDevice)->getOpenglCache()->setCacheBinded(GL_ELEMENT_ARRAY_BUFFER, 0);
+   TGL_DEBUG();
 }
 
 GLvoid* GFXGLPrimitiveBuffer::getBuffer()
@@ -144,6 +151,7 @@ void GFXGLPrimitiveBuffer::zombify()
    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, 0);
    glDeleteBuffers(1, &mBuffer);
    mBuffer = 0;
+   TGL_DEBUG();
 }
 
 void GFXGLPrimitiveBuffer::resurrect()
@@ -158,6 +166,7 @@ void GFXGLPrimitiveBuffer::resurrect()
    
    delete[] mZombieCache;
    mZombieCache = NULL;
+   TGL_DEBUG();
 }
 
 namespace

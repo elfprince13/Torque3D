@@ -2,6 +2,7 @@
 #include "gfx/gl/gfxGLStateCache.h"
 #include "gfx/gl/gfxGLVertexAttribLocation.h"
 #include "gfx/gl/gfxGLVertexDecl.h"
+#include "gfx/gl/gfxGLUtils.h"
 
 void GFXGLVertexDecl::init(const GFXVertexFormat *format)
 {
@@ -27,6 +28,7 @@ void GFXGLVertexDecl::prepareVertexFormat() const
 
       updateActiveVertexAttrib( GFXGL->getOpenglCache()->getCacheVertexAttribActive() );
 
+      TGL_DEBUG();
       return;
    }
 }
@@ -62,6 +64,7 @@ void GFXGLVertexDecl::prepareBuffer_old(U32 stream, GLint mBuffer, GLint mDiviso
       );
       glVertexAttribDivisor( e.attrIndex, mDivisor );
    }
+   TGL_DEBUG();
 }
 
 void GFXGLVertexDecl::updateActiveVertexAttrib(U32 lastActiveMask) const
@@ -83,6 +86,7 @@ void GFXGLVertexDecl::updateActiveVertexAttrib(U32 lastActiveMask) const
    }
 
    GFXGL->getOpenglCache()->setCacheVertexAttribActive(mVertexAttribActiveMask);
+   TGL_DEBUG();
 }
 
 void GFXGLVertexDecl::_initVerticesFormat2()

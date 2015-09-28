@@ -32,45 +32,6 @@
 
 #include "windowManager/platformWindow.h"
 
-#ifdef TORQUE_DEBUG
-
-inline void _debugGL(const char *file, S32 line) {
-   GLenum err;
-   while ((err = glGetError()) != GL_NO_ERROR) {
-      switch (err) {
-         case GL_INVALID_ENUM:
-            Con::errorf("OpenGL error: Invalid Enum File: %s Line: %d", file, line);
-            break;
-         case GL_INVALID_VALUE:
-            Con::errorf("OpenGL error: Invalid Value File: %s Line: %d", file, line);
-            break;
-         case GL_INVALID_OPERATION:
-            Con::errorf("OpenGL error: Invalid operation File: %s Line: %d", file, line);
-            break;
-         case GL_STACK_OVERFLOW:
-            Con::errorf("OpenGL error: Stack Overflow File: %s Line: %d", file, line);
-            break;
-         case GL_STACK_UNDERFLOW:
-            Con::errorf("OpenGL error: Stack Underflow File: %s Line: %d", file, line);
-            break;
-         case GL_OUT_OF_MEMORY:
-            Con::errorf("OpenGL error: Out of Memory File: %s Line: %d", file, line);
-            break;
-         case GL_INVALID_FRAMEBUFFER_OPERATION:
-            Con::errorf("OpenGL error: Invalid Framebuffer Operation File: %s Line: %d", file, line);
-            break;
-         default:
-            Con::errorf("OpenGL error: (Unknown) %d File: %s Line: %d", err, file, line);
-            break;
-      }
-   }
-}
-
-#define TGL_DEBUG() _debugGL(__FILE__, __LINE__)
-#else
-#define TGL_DEBUG()
-#endif
-
 #include "gfx/gfxFence.h"
 #include "gfx/gfxResource.h"
 #include "gfx/gl/gfxGLStateBlock.h"

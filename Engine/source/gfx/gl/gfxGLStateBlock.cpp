@@ -41,7 +41,7 @@ GFXGLStateBlock::GFXGLStateBlock(const GFXStateBlockDesc& desc) :
 {
     if( !gglHasExtension(ARB_sampler_objects) )
 	   return;
-
+   TGL_DEBUG();
    static Map<GFXSamplerStateDesc, U32> mSamplersMap;
 
 	for(int i = 0; i < TEXTURE_STAGE_COUNT; ++i)
@@ -66,6 +66,7 @@ GFXGLStateBlock::GFXGLStateBlock(const GFXStateBlockDesc& desc) :
       else
          id = itr->value;
 	}
+   TGL_DEBUG();
 }
 
 GFXGLStateBlock::~GFXGLStateBlock()
@@ -166,5 +167,6 @@ void GFXGLStateBlock::activate(const GFXGLStateBlock* oldState)
       }
    }	  
 
+   TGL_DEBUG();
    // TODO: states added for detail blend   
 }

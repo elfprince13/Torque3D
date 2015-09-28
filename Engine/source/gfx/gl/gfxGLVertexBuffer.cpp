@@ -59,6 +59,7 @@ GFXGLVertexBuffer::GFXGLVertexBuffer(  GFXDevice *device,
    PRESERVE_VERTEX_BUFFER();
    glBindBuffer(GL_ARRAY_BUFFER, mBuffer);
    glBufferData(GL_ARRAY_BUFFER, numVerts * vertexSize, NULL, GFXGLBufferType[bufferType]);
+   TGL_DEBUG();
 }
 
 GFXGLVertexBuffer::~GFXGLVertexBuffer()
@@ -98,6 +99,7 @@ void GFXGLVertexBuffer::lock( U32 vertexStart, U32 vertexEnd, void **vertexPtr )
 
 	lockedVertexStart = vertexStart;
 	lockedVertexEnd   = vertexEnd;
+   TGL_DEBUG();
 }
 
 void GFXGLVertexBuffer::unlock()
@@ -127,6 +129,7 @@ void GFXGLVertexBuffer::unlock()
    lockedVertexStart = 0;
 	lockedVertexEnd   = 0;
    lockedVertexPtr = NULL;
+   TGL_DEBUG();
 }
 
 void GFXGLVertexBuffer::prepare()
@@ -140,6 +143,7 @@ void GFXGLVertexBuffer::prepare(U32 stream, U32 divisor)
    {      
       glBindVertexBuffer( stream, mBuffer, mBufferOffset, mVertexSize );
       glVertexBindingDivisor( stream, divisor );
+      TGL_DEBUG();
       return;
    }
 }
@@ -166,6 +170,7 @@ void GFXGLVertexBuffer::zombify()
    glBindBuffer(GL_ARRAY_BUFFER, 0);
    glDeleteBuffers(1, &mBuffer);
    mBuffer = 0;
+   TGL_DEBUG();
 }
 
 void GFXGLVertexBuffer::resurrect()
@@ -180,6 +185,8 @@ void GFXGLVertexBuffer::resurrect()
    
    delete[] mZombieCache;
    mZombieCache = NULL;
+   
+   TGL_DEBUG();
 }
 
 namespace

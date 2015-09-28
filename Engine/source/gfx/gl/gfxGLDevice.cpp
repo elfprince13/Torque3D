@@ -41,6 +41,7 @@
 #include "gfx/gl/gfxGLShader.h"
 #include "gfx/primBuilder.h"
 #include "console/console.h"
+#include "gfx/gl/gfxGLUtils.h"
 #include "gfx/gl/gfxGLOcclusionQuery.h"
 #include "materials/shaderData.h"
 #include "gfx/gl/gfxGLStateCache.h"
@@ -571,6 +572,8 @@ void GFXGLDevice::drawPrimitive( GFXPrimitiveType primType, U32 vertexStart, U32
       glDrawArrays(GFXGLPrimType[primType], vertexStart, primCountToIndexCount(primType, primitiveCount));   
 
    postDrawPrimitive(primitiveCount);
+   
+   TGL_DEBUG();
 }
 
 void GFXGLDevice::drawIndexedPrimitive(   GFXPrimitiveType primType, 
@@ -594,6 +597,8 @@ void GFXGLDevice::drawIndexedPrimitive(   GFXPrimitiveType primType,
       glDrawElementsBaseVertex(GFXGLPrimType[primType], primCountToIndexCount(primType, primitiveCount), GL_UNSIGNED_SHORT, buf, baseVertex);
 
    postDrawPrimitive(primitiveCount);
+   
+   TGL_DEBUG();
 }
 
 void GFXGLDevice::setPB(GFXGLPrimitiveBuffer* pb)

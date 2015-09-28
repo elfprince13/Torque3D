@@ -117,6 +117,8 @@ void GFXGLTextureObject::unlock(U32 mipLevel)
    FrameAllocator::setWaterMark(mFrameAllocatorMark);
    mFrameAllocatorMark = 0;
    mFrameAllocatorPtr = NULL;
+   
+   TGL_DEBUG();
 }
 
 void GFXGLTextureObject::release()
@@ -187,6 +189,7 @@ bool GFXGLTextureObject::copyToBmp(GBitmap * bmp)
       dest += dstBytesPerPixel;
    }
 
+   TGL_DEBUG();
    return true;
 }
 
@@ -203,6 +206,7 @@ void GFXGLTextureObject::initSamplerState(const GFXSamplerStateDesc &ssd)
 
    mNeedInitSamplerState = false;
    mSampler = ssd;
+   TGL_DEBUG();
 }
 
 void GFXGLTextureObject::bind(U32 textureUnit)
@@ -241,6 +245,7 @@ void GFXGLTextureObject::bind(U32 textureUnit)
       glTexParameterf(mBinding, GL_TEXTURE_MAX_ANISOTROPY_EXT, ssd.maxAnisotropy);
 
    mSampler = ssd;
+   TGL_DEBUG();
 }
 
 U8* GFXGLTextureObject::getTextureData( U32 mip )
@@ -260,6 +265,7 @@ U8* GFXGLTextureObject::getTextureData( U32 mip )
       glGetCompressedTexImage( mBinding, mip, data );
    else
       glGetTexImage(mBinding, mip, GFXGLTextureFormat[mFormat], GFXGLTextureType[mFormat], data);
+   TGL_DEBUG();
    return data;
 }
 
@@ -275,6 +281,7 @@ void GFXGLTextureObject::copyIntoCache()
    mZombieCache = new U8[cacheSize];
    
    glGetTexImage(mBinding, 0, GFXGLTextureFormat[mFormat], GFXGLTextureType[mFormat], mZombieCache);
+   TGL_DEBUG();
 }
 
 void GFXGLTextureObject::reloadFromCache()
@@ -304,6 +311,7 @@ void GFXGLTextureObject::reloadFromCache()
    delete[] mZombieCache;
    mZombieCache = NULL;
    mIsZombie = false;
+   TGL_DEBUG();
 }
 
 void GFXGLTextureObject::zombify()
@@ -316,6 +324,7 @@ void GFXGLTextureObject::zombify()
       copyIntoCache();
       
    release();
+   TGL_DEBUG();
 }
 
 void GFXGLTextureObject::resurrect()
@@ -325,6 +334,7 @@ void GFXGLTextureObject::resurrect()
       
    glGenTextures(1, &mHandle);
    glGenBuffers(1, &mBuffer);
+   TGL_DEBUG();
 }
 
 F32 GFXGLTextureObject::getMaxUCoord() const

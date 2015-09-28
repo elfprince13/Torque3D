@@ -201,6 +201,7 @@ void _GFXGLTextureTargetFBOImpl::applyState()
    }
 
    CHECK_FRAMEBUFFER_STATUS();
+   TGL_DEBUG();
 }
 
 void _GFXGLTextureTargetFBOImpl::makeActive()
@@ -220,6 +221,7 @@ void _GFXGLTextureTargetFBOImpl::makeActive()
     }
 
     glDrawBuffers( i, draws );
+   TGL_DEBUG();
 }
 
 void _GFXGLTextureTargetFBOImpl::finish()
@@ -242,6 +244,7 @@ void _GFXGLTextureTargetFBOImpl::finish()
       glBindTexture( binding, color->getHandle() );
       glGenerateMipmap( binding );
    }
+   TGL_DEBUG();
 }
 
 // Actual GFXGLTextureTarget interface
@@ -256,6 +259,7 @@ GFXGLTextureTarget::GFXGLTextureTarget() : mCopyFboSrc(0), mCopyFboDst(0)
     
    glGenFramebuffers(1, &mCopyFboSrc);
    glGenFramebuffers(1, &mCopyFboDst);
+   TGL_DEBUG();
 }
 
 GFXGLTextureTarget::~GFXGLTextureTarget()
@@ -412,4 +416,5 @@ void GFXGLTextureTarget::resolveTo(GFXTextureObject* obj)
    
    glBlitFramebuffer(0, 0, mTargets[Color0]->getWidth(), mTargets[Color0]->getHeight(),
       0, 0, glTexture->getWidth(), glTexture->getHeight(), GL_COLOR_BUFFER_BIT, GL_NEAREST);
+   TGL_DEBUG();
 }
