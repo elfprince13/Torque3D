@@ -39,28 +39,28 @@ inline void _debugGL(const char *file, S32 line) {
    while ((err = glGetError()) != GL_NO_ERROR) {
       switch (err) {
          case 0x500:
-            Con::printf("OpenGL error: Invalid Enum File: %s Line: %d", file, line);
+            Con::errorf("OpenGL error: Invalid Enum File: %s Line: %d", file, line);
             break;
          case 0x501:
-            Con::printf("OpenGL error: Invalid Value File: %s Line: %d", file, line);
+            Con::errorf("OpenGL error: Invalid Value File: %s Line: %d", file, line);
             break;
          case 0x502:
-            Con::printf("OpenGL error: Invalid operation File: %s Line: %d", file, line);
+            Con::errorf("OpenGL error: Invalid operation File: %s Line: %d", file, line);
             break;
          case 0x503:
-            Con::printf("OpenGL error: Stack Overflow File: %s Line: %d", file, line);
+            Con::errorf("OpenGL error: Stack Overflow File: %s Line: %d", file, line);
             break;
          case 0x504:
-            Con::printf("OpenGL error: Stack Underflow File: %s Line: %d", file, line);
+            Con::errorf("OpenGL error: Stack Underflow File: %s Line: %d", file, line);
             break;
          case 0x505:
-            Con::printf("OpenGL error: Out of Memory File: %s Line: %d", file, line);
+            Con::errorf("OpenGL error: Out of Memory File: %s Line: %d", file, line);
             break;
          case 0x506:
-            Con::printf("OpenGL error: Invalid Framebuffer Operation File: %s Line: %d", file, line);
+            Con::errorf("OpenGL error: Invalid Framebuffer Operation File: %s Line: %d", file, line);
             break;
          default:
-            Con::printf("OpenGL error: (Unknown) %d File: %s Line: %d", err, file, line);
+            Con::errorf("OpenGL error: (Unknown) %d File: %s Line: %d", err, file, line);
             break;
       }
    }
