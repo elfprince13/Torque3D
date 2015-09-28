@@ -38,25 +38,25 @@ inline void _debugGL(const char *file, S32 line) {
    GLenum err;
    while ((err = glGetError()) != GL_NO_ERROR) {
       switch (err) {
-         case 0x500:
+         case GL_INVALID_ENUM:
             Con::errorf("OpenGL error: Invalid Enum File: %s Line: %d", file, line);
             break;
-         case 0x501:
+         case GL_INVALID_VALUE:
             Con::errorf("OpenGL error: Invalid Value File: %s Line: %d", file, line);
             break;
-         case 0x502:
+         case GL_INVALID_OPERATION:
             Con::errorf("OpenGL error: Invalid operation File: %s Line: %d", file, line);
             break;
-         case 0x503:
+         case GL_STACK_OVERFLOW:
             Con::errorf("OpenGL error: Stack Overflow File: %s Line: %d", file, line);
             break;
-         case 0x504:
+         case GL_STACK_UNDERFLOW:
             Con::errorf("OpenGL error: Stack Underflow File: %s Line: %d", file, line);
             break;
-         case 0x505:
+         case GL_OUT_OF_MEMORY:
             Con::errorf("OpenGL error: Out of Memory File: %s Line: %d", file, line);
             break;
-         case 0x506:
+         case GL_INVALID_FRAMEBUFFER_OPERATION:
             Con::errorf("OpenGL error: Invalid Framebuffer Operation File: %s Line: %d", file, line);
             break;
          default:
