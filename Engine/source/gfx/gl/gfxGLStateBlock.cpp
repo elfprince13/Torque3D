@@ -39,7 +39,7 @@ GFXGLStateBlock::GFXGLStateBlock(const GFXStateBlockDesc& desc) :
    mDesc(desc),
    mCachedHashValue(desc.getHashValue())
 {
-    if( !gglHasExtension(ARB_sampler_objects) )
+    if( !static_cast<GFXGLDevice*>(GFX)->mSupportsSamplerObjects )
 	   return;
    TGL_DEBUG();
    static Map<GFXSamplerStateDesc, U32> mSamplersMap;
@@ -158,7 +158,7 @@ void GFXGLStateBlock::activate(const GFXGLStateBlock* oldState)
 #undef CHECK_TOGGLE_STATE
 
    //sampler objects
-   if( gglHasExtension(ARB_sampler_objects) )
+   if( static_cast<GFXGLDevice*>(GFX)->mSupportsSamplerObjects )
    {
       for (U32 i = 0; i < getMin(getOwningDevice()->getNumSamplers(), (U32) TEXTURE_STAGE_COUNT); i++)
       {

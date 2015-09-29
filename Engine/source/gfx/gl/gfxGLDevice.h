@@ -191,6 +191,7 @@ private:
    typedef GFXDevice Parent;
    
    friend class GFXGLTextureObject;
+   friend class GFXGLStateBlock;
    friend class GFXGLCubemap;
    friend class GFXGLWindowTarget;
    friend class GFXGLPrimitiveBuffer;
@@ -220,7 +221,8 @@ private:
 
    F32 mPixelShaderVersion;
    
-   bool mSupportsAnisotropic;   
+   bool mSupportsAnisotropic;
+   bool mSupportsSamplerObjects;
 
    U32 mNumVertexStream;
    

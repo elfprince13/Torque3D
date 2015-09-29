@@ -92,6 +92,9 @@ void GFXGLCardProfiler::setupCardCapabilities()
    // Check for anisotropic filtering support.
    bool suppAnisotropic = gglHasExtension( EXT_texture_filter_anisotropic );
    setCapability( "GL::suppAnisotropic", suppAnisotropic );
+   
+   bool suppSamplerObjects = (gglHasExtension(ARB_sampler_objects) || glVersion >= 3.299f);
+   setCapability("GL::suppSamplerObjects", suppSamplerObjects);
 
    // check to see if we have the fragment shader extension or the gl version is high enough for glsl to be core
    // also check to see if the language version is high enough

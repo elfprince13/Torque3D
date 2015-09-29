@@ -215,7 +215,7 @@ void GFXGLTextureObject::bind(U32 textureUnit)
    glBindTexture(mBinding, mHandle);
    GFXGL->getOpenglCache()->setCacheBindedTex(textureUnit, mBinding, mHandle);
 
-   if( gglHasExtension(ARB_sampler_objects) )
+   if( static_cast<GFXGLDevice*>(GFX)->mSupportsSamplerObjects )
 	   return;
   
    GFXGLStateBlockRef sb = mGLDevice->getCurrentStateBlock();
