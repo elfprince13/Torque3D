@@ -339,11 +339,11 @@ Var* GBufferConditionerGLSL::_conditionOutput( Var *unconditionedOutput, MultiLi
    // Encode depth into two channels
    if(mNormalStorageType != CartesianXYZ)
    {
-      const U64 maxValPerChannel = (U64)1 << mBitsPerChannel;
+      const U32 maxValPerChannel = 1 << static_cast<U32>(mBitsPerChannel);
       meta->addStatement( new GenOp( "   \r\n   // Encode depth into hi/lo\r\n" ) );
-      meta->addStatement( new GenOp( avar( "   float2 _tempDepth = frac(@.a * float2(1.0, %llu.0));\r\n", maxValPerChannel - 1 ), 
+      meta->addStatement( new GenOp( avar( "   float2 _tempDepth = frac(@.a * float2(1.0, %u.0));\r\n", maxValPerChannel - 1 ),
          unconditionedOutput ) );
-      meta->addStatement( new GenOp( avar( "   @.zw = _tempDepth.xy - _tempDepth.yy * float2(1.0/%llu.0, 0.0);\r\n\r\n", maxValPerChannel - 1 ), 
+      meta->addStatement( new GenOp( avar( "   @.zw = _tempDepth.xy - _tempDepth.yy * float2(1.0/%u.0, 0.0);\r\n\r\n", maxValPerChannel - 1 ),
          retVar ) );
    }
 
@@ -397,9 +397,9 @@ Var* GBufferConditionerGLSL::_unconditionInput( Var *conditionedInput, MultiLine
    // Recover depth from encoding
    if(mNormalStorageType != CartesianXYZ)
    {
-      const U64 maxValPerChannel = 1 << mBitsPerChannel;
+      const U32 maxValPerChannel = 1 << static_cast<U32>(mBitsPerChannel);
       meta->addStatement( new GenOp( "   \r\n   // Decode depth\r\n" ) );
-      meta->addStatement( new GenOp( avar( "   @.w = dot( @.zw, float2(1.0, 1.0/%llu.0));\r\n", maxValPerChannel - 1 ), 
+      meta->addStatement( new GenOp( avar( "   @.w = dot( @.zw, float2(1.0, 1.0/%u.0));\r\n", maxValPerChannel - 1 ),
          retVar, conditionedInput ) );
    }
 
