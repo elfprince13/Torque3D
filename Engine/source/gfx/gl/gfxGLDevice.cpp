@@ -146,6 +146,8 @@ void GFXGLDevice::initGLState()
 
    mSupportsAnisotropic = mCardProfiler->queryProfile( "GL::suppAnisotropic" );
    mSupportsSamplerObjects = mCardProfiler->queryProfile("GL::suppSamplerObjects");
+   mSupportsTextureStorage = mCardProfiler->queryProfile("GL::suppTextureStorage");
+   mSupportsShaderModel5 = mCardProfiler->queryProfile("GL::shaderModel5");
 
    String vendorStr = (const char*)glGetString( GL_VENDOR );
    if( vendorStr.find("NVIDIA", 0, String::NoCase | String::Left) != String::NPos)

@@ -95,6 +95,16 @@ void GFXGLCardProfiler::setupCardCapabilities()
    
    bool suppSamplerObjects = (gglHasExtension(ARB_sampler_objects) || glVersion >= 3.299f);
    setCapability("GL::suppSamplerObjects", suppSamplerObjects);
+   
+#ifdef __APPLE__
+   bool suppTextureStorage = true; // OSX 10.9+ only, bug in GLEW. we need to implement fallback if we plan to support < 10.9
+#else
+   bool suppTextureStorage = (gglHasExtension(ARB_texture_storage) || glVersion >= 4.199f);
+#endif
+   setCapability("GL::suppTextureStorage", suppTextureStorage);
+   
+   bool suppGPUShader5 = (gglHasExtension(ARB_gpu_shader5) || glVersion >= 4.099f);
+   setCapability("GL::shaderModel5", suppGPUShader5);
 
    // check to see if we have the fragment shader extension or the gl version is high enough for glsl to be core
    // also check to see if the language version is high enough

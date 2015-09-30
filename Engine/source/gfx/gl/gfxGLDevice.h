@@ -196,6 +196,8 @@ private:
    friend class GFXGLWindowTarget;
    friend class GFXGLPrimitiveBuffer;
    friend class GFXGLVertexBuffer;
+   friend class GFXGLTextureManager;
+   friend class GFXGLShader;
 
    static GFXAdapter::CreateDeviceInstanceDelegate mCreateDeviceInstance; 
 
@@ -223,6 +225,8 @@ private:
    
    bool mSupportsAnisotropic;
    bool mSupportsSamplerObjects;
+   bool mSupportsTextureStorage;
+   bool mSupportsShaderModel5;
 
    U32 mNumVertexStream;
    

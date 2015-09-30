@@ -956,7 +956,7 @@ bool GFXGLShader::_loadShaderFromStream(  GLuint shader,
    buffers.push_back( dStrdup( versionDecl ) );
    lengths.push_back( dStrlen( versionDecl ) );
 
-   if(gglHasExtension(ARB_gpu_shader5))
+   if (static_cast<GFXGLDevice*>(GFX)->mSupportsShaderModel5)
    {
       const char *extension = "#extension GL_ARB_gpu_shader5 : enable\r\n";
       buffers.push_back( dStrdup( extension ) );
