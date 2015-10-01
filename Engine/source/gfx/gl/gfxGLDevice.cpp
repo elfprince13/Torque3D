@@ -628,7 +628,7 @@ void GFXGLDevice::setLightMaterialInternal(const GFXLightMaterial mat)
 
 void GFXGLDevice::setGlobalAmbientInternal(ColorF color)
 {
-   glLightModelfv(GL_LIGHT_MODEL_AMBIENT, (GLfloat*)&color);
+   // ONLY NEEDED ON FFP
 }
 
 void GFXGLDevice::setTextureInternal(U32 textureUnit, const GFXTextureObject*texture)
