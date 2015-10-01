@@ -853,7 +853,7 @@ void GFXGLDevice::setShaderConstBufferInternal(GFXShaderConstBuffer* buffer)
 
 U32 GFXGLDevice::getNumSamplers() const
 {
-   return getMin((U32)TEXTURE_STAGE_COUNT, smMaxShaderTextures);
+   return getMin((U32)TEXTURE_STAGE_COUNT, mMaxShaderTextures);
 }
 
 GFXTextureObject* GFXGLDevice::getDefaultDepthTex() const 
