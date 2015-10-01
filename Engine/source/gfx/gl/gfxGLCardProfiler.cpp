@@ -86,11 +86,16 @@ void GFXGLCardProfiler::setupCardCapabilities()
    bool suppBlit = gglHasExtension(EXT_framebuffer_blit);
    setCapability("GL::suppRTBlit", suppBlit);
    
-   bool suppFloatTex = gglHasExtension(ARB_texture_float);
+   bool suppFloatTex = (gglHasExtension(ARB_texture_float) || glVersion > 2.1f);
    setCapability("GL::suppFloatTexture", suppFloatTex);
 
    // Check for anisotropic filtering support.
+#ifdef __APPLE__
+   // apple supports this extension in both legacy and core profile all the way back to at least 10.6
+   bool suppAnisotropic = true;
+#else
    bool suppAnisotropic = gglHasExtension( EXT_texture_filter_anisotropic );
+#endif
    setCapability( "GL::suppAnisotropic", suppAnisotropic );
    
    bool suppSamplerObjects = (gglHasExtension(ARB_sampler_objects) || glVersion >= 3.299f);
