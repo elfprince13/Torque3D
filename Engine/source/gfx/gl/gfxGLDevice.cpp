@@ -459,12 +459,13 @@ void GFXGLDevice::clear(U32 flags, ColorI color, F32 z, U32 stencil)
    glColorMask(true, true, true, true);
    glDepthMask(true);
    glStencilMask(0xFFFFFFFF);
-   
+   TGL_DEBUG();
 
    ColorF c = color;   
    glClearColor(c.red, c.green, c.blue, c.alpha);
    glClearDepth(z);
    glClearStencil(stencil);
+   TGL_DEBUG();
 
    GLbitfield clearflags = 0;
    clearflags |= (flags & GFXClearTarget)   ? GL_COLOR_BUFFER_BIT : 0;
@@ -472,6 +473,7 @@ void GFXGLDevice::clear(U32 flags, ColorI color, F32 z, U32 stencil)
    clearflags |= (flags & GFXClearStencil)  ? GL_STENCIL_BUFFER_BIT : 0;
 
    glClear(clearflags);
+   TGL_DEBUG();
 
    if(!writeAllColors)
       glColorMask(desc->colorWriteRed, desc->colorWriteGreen, desc->colorWriteBlue, desc->colorWriteAlpha);
@@ -481,6 +483,7 @@ void GFXGLDevice::clear(U32 flags, ColorI color, F32 z, U32 stencil)
 
    if(!writeAllStencil)
       glStencilMask(desc->stencilWriteMask);
+   TGL_DEBUG();
 }
 
 // Given a primitive type and a number of primitives, return the number of indexes/vertexes used.
@@ -646,6 +649,7 @@ void GFXGLDevice::setTextureInternal(U32 textureUnit, const GFXTextureObject*tex
       getOpenglCache()->setCacheBindedTex(textureUnit, mActiveTextureType[textureUnit], 0);
       mActiveTextureType[textureUnit] = GL_ZERO;
    }
+   TGL_DEBUG();
 }
 
 void GFXGLDevice::setCubemapInternal(U32 textureUnit, const GFXGLCubemap* texture)
@@ -662,6 +666,7 @@ void GFXGLDevice::setCubemapInternal(U32 textureUnit, const GFXGLCubemap* textur
       getOpenglCache()->setCacheBindedTex(textureUnit, mActiveTextureType[textureUnit], 0);
       mActiveTextureType[textureUnit] = GL_ZERO;
    }
+   TGL_DEBUG();
 }
 
 void GFXGLDevice::setMatrix( GFXMatrixType mtype, const MatrixF &mat )
