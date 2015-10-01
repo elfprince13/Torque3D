@@ -52,16 +52,18 @@ GFXGLStateBlock::GFXGLStateBlock(const GFXStateBlockDesc& desc) :
       if(itr == mSamplersMap.end())
       {
 		   glGenSamplers(1, &id);
-
+         TGL_DEBUG();
 		   glSamplerParameteri(id, GL_TEXTURE_MIN_FILTER, minificationFilter(ssd.minFilter, ssd.mipFilter, 1) );
 		   glSamplerParameteri(id, GL_TEXTURE_MAG_FILTER, GFXGLTextureFilter[ssd.magFilter]);
 		   glSamplerParameteri(id, GL_TEXTURE_WRAP_S, GFXGLTextureAddress[ssd.addressModeU]);
 		   glSamplerParameteri(id, GL_TEXTURE_WRAP_T, GFXGLTextureAddress[ssd.addressModeV]);
 		   glSamplerParameteri(id, GL_TEXTURE_WRAP_R, GFXGLTextureAddress[ssd.addressModeW]);
+         TGL_DEBUG();
 		   if(static_cast< GFXGLDevice* >( GFX )->supportsAnisotropic() )
 			   glSamplerParameterf(id, GL_TEXTURE_MAX_ANISOTROPY_EXT, ssd.maxAnisotropy);
 
          mSamplersMap[ssd] = id;
+         TGL_DEBUG();
       }
       else
          id = itr->value;
