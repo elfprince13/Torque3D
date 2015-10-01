@@ -23,6 +23,7 @@
 #include "gfx/gl/gfxGLCardProfiler.h"
 #include "gfx/gl/gfxGLDevice.h"
 #include "gfx/gl/gfxGLEnumTranslate.h"
+#include "gfx/gl/gfxGLUtils.h"
 
 void GFXGLCardProfiler::init()
 {
@@ -60,6 +61,8 @@ void GFXGLCardProfiler::init()
       GFXGLTextureInternalFormat[GFXFormatR32G32B32A32F] = GL_RGBA_FLOAT32_ATI;
       GFXGLTextureInternalFormat[GFXFormatR32F] = GL_RGBA_FLOAT32_ATI;
    }
+   
+   TGL_DEBUG();
 }
 
 void GFXGLCardProfiler::setupCardCapabilities()
@@ -132,6 +135,8 @@ void GFXGLCardProfiler::setupCardCapabilities()
    // Certain Intel drivers have a divide by 0 crash if mipmaps are specified with
    // glTexSubImage2D.
    setCapability("GL::Workaround::noManualMips", false);
+   
+   TGL_DEBUG();
 }
 
 bool GFXGLCardProfiler::_queryCardCap(const String& query, U32& foundResult)

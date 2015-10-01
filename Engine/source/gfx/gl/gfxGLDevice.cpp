@@ -133,13 +133,16 @@ void GFXGLDevice::initGLState()
    
    // Deal with the card profiler here when we know we have a valid context.
    mCardProfiler = new GFXGLCardProfiler();
-   mCardProfiler->init(); 
+   mCardProfiler->init();
+   TGL_DEBUG();
    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, (GLint*)&mMaxShaderTextures);
-   glGetIntegerv(GL_MAX_TEXTURE_UNITS, (GLint*)&mMaxFFTextures);
+   TGL_DEBUG();
    glGetIntegerv(GL_MAX_COLOR_ATTACHMENTS, (GLint*)&mMaxTRColors);
+   TGL_DEBUG();
    mMaxTRColors = getMin( mMaxTRColors, (U32)(GFXTextureTarget::MaxRenderSlotId-1) );
-   
+   TGL_DEBUG();
    glPixelStorei(GL_UNPACK_ALIGNMENT, 1);
+   TGL_DEBUG();
    
    // Setting mPixelShaderVersion to 3.0 will allow Advanced Lighting to run.   
    mPixelShaderVersion = 3.0;
@@ -199,6 +202,8 @@ void GFXGLDevice::initGLState()
    GLuint vao;
    glGenVertexArrays(1, &vao);
    glBindVertexArray(vao);
+   
+   TGL_DEBUG();
 }
 
 GFXGLDevice::GFXGLDevice(U32 adapterIndex) :
@@ -848,7 +853,7 @@ void GFXGLDevice::setShaderConstBufferInternal(GFXShaderConstBuffer* buffer)
 
 U32 GFXGLDevice::getNumSamplers() const
 {
-   return getMin((U32)TEXTURE_STAGE_COUNT,mPixelShaderVersion > 0.001f ? mMaxShaderTextures : mMaxFFTextures);
+   return getMin((U32)TEXTURE_STAGE_COUNT, smMaxShaderTextures);
 }
 
 GFXTextureObject* GFXGLDevice::getDefaultDepthTex() const 
