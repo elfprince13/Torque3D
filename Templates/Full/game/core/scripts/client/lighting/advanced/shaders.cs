@@ -24,32 +24,7 @@
 // Vector Light State
 new GFXStateBlockData( AL_VectorLightState )
 {
-   blendDefined = true;
-   blendEnable = true;
-   blendSrc = GFXBlendOne;
-   blendDest = GFXBlendOne;
-   blendOp = GFXBlendOpAdd;
-   
-   zDefined = true;
-   zEnable = false;
-   zWriteEnable = false;
 
-   samplersDefined = true;
-   samplerStates[0] = SamplerClampPoint;  // G-buffer
-   samplerStates[1] = SamplerClampPoint;  // Shadow Map (Do not change this to linear, as all cards can not filter equally.)
-   samplerStates[2] = SamplerClampLinear;  // SSAO Mask
-   samplerStates[3] = SamplerWrapPoint;   // Random Direction Map
-   
-   cullDefined = true;
-   cullMode = GFXCullNone;
-   
-   stencilDefined = true;
-   stencilEnable = true;
-   stencilFailOp = GFXStencilOpKeep;
-   stencilZFailOp = GFXStencilOpKeep;
-   stencilPassOp = GFXStencilOpKeep;
-   stencilFunc = GFXCmpLess;
-   stencilRef = 0;
 };
 
 // Vector Light Material
@@ -60,12 +35,12 @@ new ShaderData( AL_VectorLightShader )
 
    OGLVertexShaderFile = "shaders/common/lighting/advanced/gl/farFrustumQuadV.glsl";
    OGLPixelShaderFile  = "shaders/common/lighting/advanced/gl/vectorLightP.glsl";
-   
+
    samplerNames[0] = "$prePassBuffer";
    samplerNames[1] = "$ShadowMap";
    samplerNames[2] = "$ssaoMask";
    samplerNames[3] = "$gTapRotationTex";
-   
+
    pixVersion = 3.0;
 };
 
@@ -73,13 +48,13 @@ new CustomMaterial( AL_VectorLightMaterial )
 {
    shader = AL_VectorLightShader;
    stateBlock = AL_VectorLightState;
-   
+
    sampler["prePassBuffer"] = "#prepass";
    sampler["ShadowMap"] = "$dynamiclight";
    sampler["ssaoMask"] = "#ssaoMask";
-   
+
    target = "lightinfo";
-   
+
    pixVersion = 3.0;
 };
 
@@ -93,7 +68,7 @@ new GFXStateBlockData( AL_ConvexLightState )
    blendSrc = GFXBlendOne;
    blendDest = GFXBlendOne;
    blendOp = GFXBlendOpAdd;
-   
+
    zDefined = true;
    zEnable = true;
    zWriteEnable = false;
@@ -102,12 +77,12 @@ new GFXStateBlockData( AL_ConvexLightState )
    samplersDefined = true;
    samplerStates[0] = SamplerClampPoint;  // G-buffer
    samplerStates[1] = SamplerClampPoint;  // Shadow Map (Do not use linear, these are perspective projections)
-   samplerStates[2] = SamplerClampLinear; // Cookie Map   
+   samplerStates[2] = SamplerClampLinear; // Cookie Map
    samplerStates[3] = SamplerWrapPoint;   // Random Direction Map
-   
+
    cullDefined = true;
    cullMode = GFXCullCW;
-   
+
    stencilDefined = true;
    stencilEnable = true;
    stencilFailOp = GFXStencilOpKeep;
@@ -130,7 +105,7 @@ new ShaderData( AL_PointLightShader )
    samplerNames[1] = "$shadowMap";
    samplerNames[2] = "$cookieMap";
    samplerNames[3] = "$gTapRotationTex";
-   
+
    pixVersion = 3.0;
 };
 
@@ -138,13 +113,13 @@ new CustomMaterial( AL_PointLightMaterial )
 {
    shader = AL_PointLightShader;
    stateBlock = AL_ConvexLightState;
-   
+
    sampler["prePassBuffer"] = "#prepass";
    sampler["shadowMap"] = "$dynamiclight";
    sampler["cookieMap"] = "$dynamiclightmask";
-   
+
    target = "lightinfo";
-   
+
    pixVersion = 3.0;
 };
 
@@ -156,12 +131,12 @@ new ShaderData( AL_SpotLightShader )
 
    OGLVertexShaderFile = "shaders/common/lighting/advanced/gl/convexGeometryV.glsl";
    OGLPixelShaderFile  = "shaders/common/lighting/advanced/gl/spotLightP.glsl";
-   
+
    samplerNames[0] = "$prePassBuffer";
    samplerNames[1] = "$shadowMap";
    samplerNames[2] = "$cookieMap";
-   samplerNames[3] = "$gTapRotationTex";   
-   
+   samplerNames[3] = "$gTapRotationTex";
+
    pixVersion = 3.0;
 };
 
@@ -169,47 +144,47 @@ new CustomMaterial( AL_SpotLightMaterial )
 {
    shader = AL_SpotLightShader;
    stateBlock = AL_ConvexLightState;
-   
+
    sampler["prePassBuffer"] = "#prepass";
    sampler["shadowMap"] = "$dynamiclight";
    sampler["cookieMap"] = "$dynamiclightmask";
-   
+
    target = "lightinfo";
-   
+
    pixVersion = 3.0;
 };
 
-/// This material is used for generating prepass 
+/// This material is used for generating prepass
 /// materials for objects that do not have materials.
 new Material( AL_DefaultPrePassMaterial )
 {
-   // We need something in the first pass else it 
-   // won't create a proper material instance.  
+   // We need something in the first pass else it
+   // won't create a proper material instance.
    //
    // We use color here because some objects may not
-   // have texture coords in their vertex format... 
+   // have texture coords in their vertex format...
    // for example like terrain.
    //
    diffuseColor[0] = "1 1 1 1";
 };
 
-/// This material is used for generating shadow 
+/// This material is used for generating shadow
 /// materials for objects that do not have materials.
 new Material( AL_DefaultShadowMaterial )
 {
-   // We need something in the first pass else it 
-   // won't create a proper material instance.  
+   // We need something in the first pass else it
+   // won't create a proper material instance.
    //
    // We use color here because some objects may not
-   // have texture coords in their vertex format... 
+   // have texture coords in their vertex format...
    // for example like terrain.
    //
    diffuseColor[0] = "1 1 1 1";
-               
+
    // This is here mostly for terrain which uses
    // this material to create its shadow material.
    //
-   // At sunset/sunrise the sun is looking thru 
+   // At sunset/sunrise the sun is looking thru
    // backsides of the terrain which often are not
    // closed.  By changing the material to be double
    // sided we avoid holes in the shadowed geometry.
@@ -225,9 +200,9 @@ new ShaderData( AL_ParticlePointLightShader )
 
    OGLVertexShaderFile = "shaders/common/lighting/advanced/gl/convexGeometryV.glsl";
    OGLPixelShaderFile  = "shaders/common/lighting/advanced/gl/pointLightP.glsl";
-   
-   samplerNames[0] = "$prePassBuffer";   
-      
+
+   samplerNames[0] = "$prePassBuffer";
+
    pixVersion = 3.0;
 };
 
@@ -235,9 +210,9 @@ new CustomMaterial( AL_ParticlePointLightMaterial )
 {
    shader = AL_ParticlePointLightShader;
    stateBlock = AL_ConvexLightState;
-   
+
    sampler["prePassBuffer"] = "#prepass";
    target = "lightinfo";
-   
+
    pixVersion = 3.0;
 };
