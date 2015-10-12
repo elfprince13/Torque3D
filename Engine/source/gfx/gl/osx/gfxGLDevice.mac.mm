@@ -297,9 +297,7 @@ GFXFence* GFXGLDevice::_createPlatformSpecificFence()
 
 void GFXGLWindowTarget::_WindowPresent()
 {
-   GFX->updateStates();
    mFullscreenContext ? [(NSOpenGLContext*)mFullscreenContext flushBuffer] : [(NSOpenGLContext*)mContext flushBuffer];
-   return;
 }
 
 void GFXGLWindowTarget::_teardownCurrentMode()
