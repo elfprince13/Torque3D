@@ -174,7 +174,8 @@ PlatformFont::CharInfo& OSXFont::getCharInfo(const UTF16 character) const
     if ( !CTFontGetGlyphsForCharacters( mFontRef, &unicodeCharacter, &characterGlyph, (CFIndex)1) )
     {
         // Sanity!
-        AssertFatal( false, "Cannot create font glyph." );
+        //AssertFatal( false, "Cannot create font glyph." );
+       Con::warnf("Font glyph is messed up. Some characters may render incorrectly.");
     }
 
     // Fetch glyph bounding box.
