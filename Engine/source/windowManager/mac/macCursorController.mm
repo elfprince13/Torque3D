@@ -1,5 +1,5 @@
 //-----------------------------------------------------------------------------
-// Copyright (c) 2012 GarageGames, LLC
+// Copyright (c) 2012-2013 GarageGames, LLC
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to
@@ -153,7 +153,9 @@ void MacCursorController::setCursorShape( const UTF8 *fileName, bool reload )
 
 U32 MacCursorController::getDoubleClickTime()
 {
-   return GetDblTime() / 60.0f * 1000.0f;
+   // Get system specified double click time
+   NSTimeInterval doubleInterval = [NSEvent doubleClickInterval];
+   return doubleInterval * 1000;
 }
 
 S32 MacCursorController::getDoubleClickWidth()
