@@ -342,5 +342,6 @@ void GFXGLWindowTarget::_setupNewMode()
 }
 
 void PlatformGL::setVSync(const int i) {
-   // TODO OSX vsync
+   GLint sync = static_cast<GLint>(i);
+   [[NSOpenGLContext currentContext]setValues:&sync forParameter:NSOpenGLCPSwapInterval];
 }
