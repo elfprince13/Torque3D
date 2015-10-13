@@ -60,6 +60,8 @@ void MacCursorController::setCursorVisible(bool visible)
 
 bool MacCursorController::isCursorVisible()
 {
+   // [JTH] Deprecated as of 10.9 and currently has no replacement function afaik.
+   // still supported through 10.11 at this time of writing.
    return CGCursorIsVisible();
 }
 
