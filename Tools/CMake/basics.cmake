@@ -415,6 +415,7 @@ endif()
 
 # fix the debug/release subfolders on windows
 if(MSVC)
+    SET("CMAKE_RUNTIME_OUTPUT_DIRECTORY" "${projectOutDir}")
     FOREACH(CONF ${CMAKE_CONFIGURATION_TYPES})
         # Go uppercase (DEBUG, RELEASE...)
         STRING(TOUPPER "${CONF}" CONF)
