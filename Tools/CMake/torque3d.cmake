@@ -290,15 +290,16 @@ endif()
 # OpenAL
 if(TORQUE_SFX_OPENAL AND NOT TORQUE_DEDICATED)
     addPath("${srcDir}/sfx/openal")
-    #addPath("${srcDir}/sfx/openal/mac")
     if(WIN32)
 		addPath("${srcDir}/sfx/openal/win32")
 		addInclude("${libDir}/openal/win32")
     endif()
-	if(UNIX)
+	if(UNIX AND NOT APPLE)
 		addPath("${srcDir}/sfx/openal/linux")
 	endif()
-
+	if (APPLE)
+		addPath("${srcDir}/sfx/openal/mac")
+	endif()
 endif()
 
 # Vorbis
@@ -553,7 +554,6 @@ if (APPLE)
 
 	# EW EW EW EW EW EW
 	# MUST BE 32BIT NOW :C
-	# MUST COMPILE WITH 10.7 SDK
 	addFramework("Carbon")
 endif()
 
