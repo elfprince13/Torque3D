@@ -285,7 +285,7 @@ U32 OggTheoraDecoder::read( OggTheoraFrame** buffer, U32 num )
       
       // Transcode the packet.
       
-      #if ( defined( TORQUE_COMPILER_GCC ) || defined( TORQUE_COMPILER_VISUALC ) ) && defined( TORQUE_CPU_X86 )
+      #if ( defined( TORQUE_COMPILER_GCC ) || defined( TORQUE_COMPILER_VISUALC ) ) && defined( TORQUE_CPU_X86 ) && defined( TORQUE_SUPPORTS_GCC_INLINE_X86_ASM )
       
       if(      ( mTranscoder == TRANSCODER_Auto || mTranscoder == TRANSCODER_SSE2420RGBA ) &&
                getDecoderPixelFormat() == PIXEL_FORMAT_420 &&
@@ -560,7 +560,7 @@ void OggTheoraDecoder::_transcode420toRGBA_SSE2( th_ycbcr_buffer ycbcr, U8* buff
          jnz hloop
    };
    
-   #elif defined( TORQUE_COMPILER_GCC ) && defined( TORQUE_CPU_X86 )
+   #elif defined( TORQUE_COMPILER_GCC ) && defined( TORQUE_CPU_X86 ) && defined( TORQUE_SUPPORTS_GCC_INLINE_X86_ASM )
 
    asm(  "pushal\n"                                // Save all general-purpose registers.
          
