@@ -628,6 +628,11 @@ StringTableEntry Platform::getExecutableName()
 }
 
 //-----------------------------------------------------------------------------
+bool Platform::fileDelete(const char* name){
+	return dFileDelete(name);
+}
+
+//-----------------------------------------------------------------------------
 bool Platform::isFile(const char *path)
 {
    if (!path || !*path) 
@@ -731,10 +736,10 @@ bool recurseDumpDirectories(const char *basePath, const char *path, Vector<Strin
    dirent *entry;
    U32 len = dStrlen(basePath) + dStrlen(path) + 2;
    char pathbuf[len];
-   
+	
    // construct the file path
    dSprintf(pathbuf, len, "%s/%s", basePath, path);
-   pathbuf[len] = '\0';
+   pathbuf[len - 1] = '\0';
    
    // be sure it opens.
    dir = opendir(pathbuf);
@@ -745,8 +750,10 @@ bool recurseDumpDirectories(const char *basePath, const char *path, Vector<Strin
    while( (entry = readdir(dir)) )
    {
       // we just want directories.
-      if(!isGoodDirectory(entry))
-         continue;
+	   if(!isGoodDirectory(entry)){
+		 continue;
+	   }
+	   
       
       // TODO: better unicode file name handling
       //      // Apple's file system stores unicode file names in decomposed form.
@@ -771,23 +778,24 @@ bool recurseDumpDirectories(const char *basePath, const char *path, Vector<Strin
          dSprintf(newpath, newpathlen,"%s/%s",path,entry->d_name);
       else
          dStrncpy(newpath,entry->d_name, newpathlen);
-      newpath[newpathlen] = '\0';
+      newpath[newpathlen - 1] = '\0';
       
       // we have a directory, add it to the list.
-      if( noBasePath )
-         directoryVector.push_back(StringTable->insert(newpath));
-      else {
+	   if( noBasePath ){
+		   directoryVector.push_back(StringTable->insert(newpath));
+	   } else {
          U32 fullpathlen = dStrlen(basePath) + dStrlen(newpath) + 2;
          char fullpath[fullpathlen];
          dSprintf(fullpath,fullpathlen,"%s/%s",basePath,newpath);
-         fullpath[fullpathlen] = '\0';
-         
+         fullpath[fullpathlen - 1] = '\0';
          directoryVector.push_back(StringTable->insert(fullpath));
       }
       
       // and recurse into it, unless we've run out of depth
-      if( depth != 0) // passing a val of -1 as the recurse depth means go forever
-         recurseDumpDirectories(basePath, newpath, directoryVector, depth-1, noBasePath);
+	   if( depth != 0){
+		   // passing a val of -1 as the recurse depth means go "forever" - that doesn't actually follow from this code. But it will probably recur further than the file system allows, so whatevs
+		   recurseDumpDirectories(basePath, newpath, directoryVector, depth-1, noBasePath);
+	   }
    }
    closedir(dir);
    return true;
@@ -830,7 +838,7 @@ static bool recurseDumpPath(const char* curPath, Vector<Platform::FileInfo>& fil
       U32 len = dStrlen(curPath) + entry->d_namlen + 2;
       char pathbuf[len];
       dSprintf( pathbuf, len, "%s/%s", curPath, entry->d_name);
-      pathbuf[len] = '\0';
+      pathbuf[len - 1] = '\0';
       
       // ok, deal with directories and files seperately.
       if( entry->d_type == DT_DIR )
