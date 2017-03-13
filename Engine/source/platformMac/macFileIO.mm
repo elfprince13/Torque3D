@@ -592,7 +592,7 @@ StringTableEntry Platform::getCurrentDirectory()
 }
 
 //-----------------------------------------------------------------------------
-bool Platform::setCurrentDirectory(StringTableEntry newDir)
+bool Platform::setCurrentDirectory(const char * newDir)
 {
    return (chdir(newDir) == 0);
 }

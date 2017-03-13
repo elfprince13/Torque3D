@@ -174,13 +174,13 @@ namespace Platform
       bool isdst;     ///< True if daylight savings time is active
    };
 
-	enum ALERT_ASSERT_RESULT
-	{
-		ALERT_ASSERT_DEBUG,
-		ALERT_ASSERT_IGNORE,
-		ALERT_ASSERT_IGNORE_ALL,
-		ALERT_ASSERT_EXIT
-	};
+   enum ALERT_ASSERT_RESULT
+   {
+      ALERT_ASSERT_DEBUG,
+      ALERT_ASSERT_IGNORE,
+      ALERT_ASSERT_IGNORE_ALL,
+      ALERT_ASSERT_EXIT
+   };
 
 
    void getLocalTime(LocalTime &);
@@ -259,11 +259,11 @@ namespace Platform
    // Directory functions.  Dump path returns false iff the directory cannot be
    //  opened.
    
-   StringTableEntry getCurrentDirectory();
-   bool             setCurrentDirectory(StringTableEntry newDir);
+   const char * getCurrentDirectory();
+   bool             setCurrentDirectory(const char * newDir);
 
-   StringTableEntry getTemporaryDirectory();
-   StringTableEntry getTemporaryFileName();
+   const char * getTemporaryDirectory();
+   const char * getTemporaryFileName();
 
    /// Returns the filename of the torque executable.
    /// On Win32, this is the .exe file.
@@ -411,10 +411,10 @@ namespace Platform
 
    /// Check if a given input event should be excluded.
    const bool checkKeyboardInputExclusion(const InputEventInfo *info);
-	
+   
    
    /// Set/Get whether this is a web deployment 
-	bool getWebDeployment();
+   bool getWebDeployment();
    void setWebDeployment(bool v);
    
 };

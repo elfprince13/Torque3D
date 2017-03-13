@@ -28,9 +28,9 @@
 
 //-----------------------------------------------------------------------------
 
-StringTableEntry Platform::getTemporaryDirectory()
+const char * Platform::getTemporaryDirectory()
 {
-   StringTableEntry path = osGetTemporaryDirectory();
+   const char * path = osGetTemporaryDirectory();
 
    if(! Platform::isDirectory(path))
       path = Platform::getCurrentDirectory();
@@ -39,23 +39,23 @@ StringTableEntry Platform::getTemporaryDirectory()
 }
 
 DefineConsoleFunction( getTemporaryDirectory, const char *, (), ,
-				"@brief Returns the OS temporary directory, \"C:/Users/Mich/AppData/Local/Temp\" for example\n\n"
-				"@note This can be useful to adhering to OS standards and practices, "
-				"but not really used in Torque 3D right now.\n"
-				"@note Be very careful when getting into OS level File I/O."
-				"@return String containing path to OS temp directory\n"
-				"@note This is legacy function brought over from TGB, and does not appear "
-				"to have much use. Possibly deprecate?\n"
-				"@ingroup FileSystem\n"
-				"@internal")
+            "@brief Returns the OS temporary directory, \"C:/Users/Mich/AppData/Local/Temp\" for example\n\n"
+            "@note This can be useful to adhering to OS standards and practices, "
+            "but not really used in Torque 3D right now.\n"
+            "@note Be very careful when getting into OS level File I/O."
+            "@return String containing path to OS temp directory\n"
+            "@note This is legacy function brought over from TGB, and does not appear "
+            "to have much use. Possibly deprecate?\n"
+            "@ingroup FileSystem\n"
+            "@internal")
 {
    return Platform::getTemporaryDirectory();
 }
 
-StringTableEntry Platform::getTemporaryFileName()
+const char * Platform::getTemporaryFileName()
 {
    char buf[512];
-   StringTableEntry path = Platform::getTemporaryDirectory();
+   const char * path = Platform::getTemporaryDirectory();
 
    dSprintf(buf, sizeof(buf), "%s/tgb.%08x.%02x.tmp", path, Platform::getRealMilliseconds(), U32(Platform::getRandom() * 255));
 
@@ -63,17 +63,18 @@ StringTableEntry Platform::getTemporaryFileName()
    if(Platform::isFile(buf))
       return Platform::getTemporaryFileName();
 
+   // FIXME: Put this in a string object, or, better yet, a Path.
    return StringTable->insert(buf);
 }
 
 DefineConsoleFunction( getTemporaryFileName, const char *, (), ,
-				"@brief Creates a name and extension for a potential temporary file\n\n"
-				"This does not create the actual file. It simply creates a random name "
-				"for a file that does not exist.\n\n"
-				"@note This is legacy function brought over from TGB, and does not appear "
-				"to have much use. Possibly deprecate?\n"
-				"@ingroup FileSystem\n"
-				"@internal")
+            "@brief Creates a name and extension for a potential temporary file\n\n"
+            "This does not create the actual file. It simply creates a random name "
+            "for a file that does not exist.\n\n"
+            "@note This is legacy function brought over from TGB, and does not appear "
+            "to have much use. Possibly deprecate?\n"
+            "@ingroup FileSystem\n"
+            "@internal")
 {
    return Platform::getTemporaryFileName();
 }

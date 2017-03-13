@@ -70,12 +70,13 @@ typedef unsigned int   UTF32;       ///< Compiler independent 32 bit Unicode enc
 class StringTableEntry {
    friend class _StringTable;
    const char * mS; // We want to allow assignment, so don't make mS const.
-   StringTableEntry(const char *s) : mS(s) {}
+   explicit StringTableEntry(const char *s) : mS(s) {}
 public:
    // nullptr is a constant so we can happily have a public constructor
    // This is also our sane default
-   StringTableEntry(decltype(nullptr) nullp = nullptr) : mS(nullp) {}
-   StringTableEntry(const StringTableEntry &ste) : mS(ste.mS) {}
+   StringTableEntry(decltype(nullptr) nullp) : mS(nullp) {}
+   StringTableEntry() = default;
+   StringTableEntry(const StringTableEntry &ste) = default;
    operator const char*() const { return mS; }
    inline const char * c_str() const{ return mS; }
 };
