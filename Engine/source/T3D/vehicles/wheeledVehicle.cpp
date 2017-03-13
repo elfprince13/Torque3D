@@ -79,7 +79,7 @@ ConsoleDocClass( WheeledVehicleTire,
 WheeledVehicleTire::WheeledVehicleTire()
 {
    shape = 0;
-   shapeName = "";
+   shapeName = StringTable->EmptyString();
    staticFriction = 1;
    kineticFriction = 0.5f;
    restitution = 1;

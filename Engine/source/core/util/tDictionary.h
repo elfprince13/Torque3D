@@ -92,6 +92,10 @@ namespace DictHash
    {
       return Torque::hash( (const U8 *)data, dStrlen( data ), 0 );
    }
+   
+   inline U32 hash(const StringTableEntry &data) {
+      return hash(data.c_str());
+   }
 
    inline U32 hash(const void *data)
    {

@@ -119,7 +119,7 @@ IMPLEMENT_CALLBACK( GameBase, setControl, void, ( bool controlled ), ( controlle
 
 GameBaseData::GameBaseData()
 {
-   category = "";
+   category = StringTable->EmptyString();
    packed = false;
 }
 

@@ -130,44 +130,44 @@ void SFXEmitter::consoleInit()
 {
    Con::addVariable( "$SFXEmitter::renderEmitters", TypeBool, &smRenderEmitters,
       "Whether to render enhanced range feedback in the editor on all emitters regardless of selection state.\n"
-	  "@ingroup SFX\n");
+     "@ingroup SFX\n");
       
    //TODO: not implemented ATM
    //Con::addVariable( "$SFXEmitter::renderPointSize", TypeF32, &smRenderPointSize );
    
    Con::addVariable( "$SFXEmitter::renderPointDistance", TypeF32, &smRenderPointDistance,
       "The distance between individual points in the sound emitter rendering in the editor as the points move from the emitter's center away to maxDistance.\n"
-	  "@ingroup SFX\n");
+     "@ingroup SFX\n");
    Con::addVariable( "$SFXEmitter::renderRadialIncrements", TypeF32, &smRenderRadialIncrements,
       "The stepping (in degrees) for the radial sweep along the axis of the XY plane sweep for sound emitter rendering in the editor.\n"
-	  "@ingroup SFX\n");
+     "@ingroup SFX\n");
    Con::addVariable( "$SFXEmitter::renderSweepIncrements", TypeF32, &smRenderSweepIncrements,
       "The stepping (in degrees) for the radial sweep on the XY plane for sound emitter rendering in the editor.\n"
-	  "@ingroup SFX\n");
+     "@ingroup SFX\n");
    Con::addVariable( "$SFXEmitter::renderColorPlayingInRange", TypeColorI, &smRenderColorPlayingInRange,
       "The color with which to render a sound emitter's marker cube in the editor when the emitter's sound is playing and in range of the listener.\n"
-	  "@ingroup SFX\n" );
+     "@ingroup SFX\n" );
    Con::addVariable( "$SFXEmitter::renderColorPlayingOutOfRange", TypeColorI, &smRenderColorPlayingOutOfRange,
       "The color with which to render a sound emitter's marker cube in the editor when the emitter's sound is playing but out of the range of the listener.\n"
-	  "@ingroup SFX\n" );
+     "@ingroup SFX\n" );
    Con::addVariable( "$SFXEmitter::renderColorStoppedInRange", TypeColorI, &smRenderColorStoppedInRange,
       "The color with which to render a sound emitter's marker cube in the editor when the emitter's sound is not playing but the emitter is in range of the listener.\n"
-	  "@ingroup SFX\n" );
+     "@ingroup SFX\n" );
    Con::addVariable( "$SFXEmitter::renderColorStoppedOutOfRange", TypeColorI, &smRenderColorStoppedOutOfRange,
       "The color with which to render a sound emitter's marker cube in the editor when the emitter's sound is not playing and the emitter is out of range of the listener.\n"
-	  "@ingroup SFX\n" );
+     "@ingroup SFX\n" );
    Con::addVariable( "$SFXEmitter::renderColorInnerCone", TypeColorI, &smRenderColorInnerCone,
       "The color with which to render dots in the inner sound cone (Editor only).\n"
-	  "@ingroup SFX\n");
+     "@ingroup SFX\n");
    Con::addVariable( "$SFXEmitter::renderColorOuterCone", TypeColorI, &smRenderColorOuterCone,
       "The color with which to render dots in the outer sound cone (Editor only).\n"
-	  "@ingroup SFX\n" );
+     "@ingroup SFX\n" );
    Con::addVariable( "$SFXEmitter::renderColorOutsideVolume", TypeColorI, &smRenderColorOutsideVolume,
       "The color with which to render dots outside of the outer sound cone (Editor only).\n"
-	  "@ingroup SFX\n" );
+     "@ingroup SFX\n" );
    Con::addVariable( "$SFXEmitter::renderColorRangeSphere", TypeColorI, &smRenderColorRangeSphere,
       "The color of the range sphere with which to render sound emitters in the editor.\n"
-	  "@ingroup SFX\n" );
+     "@ingroup SFX\n" );
 }
 
 //-----------------------------------------------------------------------------
@@ -612,7 +612,7 @@ bool SFXEmitter::onAdd()
       
       if( !mTrack )
       {
-         static const char* sProfile = StringTable->insert( "profile" );
+         static StringTableEntry sProfile = StringTable->insert( "profile" );
          const char* profileName = getDataField( sProfile, NULL );
          if( profileName &&  profileName[ 0 ] )
          {
@@ -628,7 +628,7 @@ bool SFXEmitter::onAdd()
 
       // Convert a legacy 'channel' field, if we have one.
       
-      static const char* sChannel = StringTable->insert( "channel" );
+      static StringTableEntry sChannel = StringTable->insert( "channel" );
       const char* channelValue = getDataField( sChannel, NULL );
       if( channelValue && channelValue[ 0 ] )
       {
@@ -638,7 +638,7 @@ bool SFXEmitter::onAdd()
             Con::errorf( "SFXEmitter::onAdd - could not resolve channel '%s' to SFXSource", channelValue );
          else
          {
-            static const char* sSourceGroup = StringTable->insert( "sourceGroup" );
+            static StringTableEntry sSourceGroup = StringTable->insert( "sourceGroup" );
             setDataField( sSourceGroup, NULL, sourceGroup->getIdString() );
             
             // Remove the old 'channel' field.

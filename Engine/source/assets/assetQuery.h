@@ -66,12 +66,12 @@ public:
     /// SimObject overrides
     static void initPersistFields();
 
-    Vector<StringTableEntry> mAssetList;
+    Vector<const char *> mAssetList;
 
     /// Whether asset is contained or not.
     inline bool containsAsset( StringTableEntry assetId )
     {
-       for (Vector<StringTableEntry>::const_iterator assetItr = mAssetList.begin(); assetItr != mAssetList.end(); ++assetItr)
+       for (auto assetItr = mAssetList.begin(); assetItr != mAssetList.end(); ++assetItr)
         {
             if ( *assetItr == assetId )
                 return true;

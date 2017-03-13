@@ -64,7 +64,7 @@ void AssetQuery::onTamlCustomWrite( TamlCustomNodes& customNodes )
         return;
 
     // Iterate asset.
-    for (Vector<StringTableEntry>::iterator assetItr = mAssetList.begin(); assetItr != mAssetList.end(); ++assetItr)
+    for (auto assetItr = mAssetList.begin(); assetItr != mAssetList.end(); ++assetItr)
     {
         // Add asset node.
         TamlCustomNode* pAssetNode = pCustomNode->addNode( ASSETQUERY_ASSETNODE_NAME );

@@ -50,23 +50,24 @@ extern "C" {
    static Namespace::Entry* GetEntry(const char* nameSpace, const char* name)                                          
    {
       Namespace* ns = NULL;
-
+      
       if (!nameSpace || !dStrlen(nameSpace))
          ns = Namespace::mGlobalNamespace;
       else
       {
-         nameSpace = StringTable->insert(nameSpace);
-         ns = Namespace::find(nameSpace); //can specify a package here, maybe need, maybe not
+         StringTableEntry steNS = StringTable->insert(nameSpace);
+         ns = Namespace::find(steNS); //can specify a package here, maybe need, maybe not
       }
-
-      if (!ns)
+      
+      if (!ns) {
          return NULL;
-
-      name = StringTable->insert(name);
-
-      Namespace::Entry* entry = ns->lookupRecursive(name);
-
-      return entry;
+      } else {
+         StringTableEntry steN = StringTable->insert(name);
+         
+         Namespace::Entry* entry = ns->lookupRecursive(steN);
+         
+         return entry;
+      }
    }
 
    const char * script_getconsolexml()
@@ -103,14 +104,14 @@ extern "C" {
 
    void* script_get_stringtable_entry(const char* string)
    {
-      return (void*)StringTable->insert(string);
+      return (void*)StringTable->insert(string).c_str();
    }
 
    // FIELD ACCESS
 
    // fieldNames must be from stringTable coming in! See Engine.stringTable
 
-   const char* script_simobject_getfield_string(U32 id, const char* fieldName)
+   const char* script_simobject_getfield_string(U32 id, StringTableEntry fieldName)
    {
       SimObject *object = Sim::findObject( id );
       if( object )
@@ -120,7 +121,7 @@ extern "C" {
       return "";
    }
 
-   void script_simobject_setfield_string(U32 objectId, const char* fieldName, const char* v)
+   void script_simobject_setfield_string(U32 objectId, StringTableEntry fieldName, const char* v)
    {
       SimObject *object = Sim::findObject( objectId );
       if( object )
@@ -130,7 +131,7 @@ extern "C" {
    }
 
 
-   bool script_simobject_getfield_bool(U32 objectId, const char* fieldName)
+   bool script_simobject_getfield_bool(U32 objectId, StringTableEntry fieldName)
    {
       SimObject *object = Sim::findObject( objectId );
       if( object )
@@ -143,7 +144,7 @@ extern "C" {
       return false;
    }
 
-   void script_simobject_setfield_bool(U32 objectId, const char* fieldName, bool v)
+   void script_simobject_setfield_bool(U32 objectId, StringTableEntry fieldName, bool v)
    {
       SimObject *object = Sim::findObject( objectId );
       if( object )
@@ -152,7 +153,7 @@ extern "C" {
       }
    }
 
-   S32 script_simobject_getfield_int(U32 objectId, const char* fieldName)
+   S32 script_simobject_getfield_int(U32 objectId, StringTableEntry fieldName)
    {
       SimObject *object = Sim::findObject( objectId );
       if( object )
@@ -165,7 +166,7 @@ extern "C" {
       return false;
    }
 
-   void script_simobject_setfield_int(U32 objectId, const char* fieldName, S32 v)
+   void script_simobject_setfield_int(U32 objectId, StringTableEntry fieldName, S32 v)
    {
       SimObject *object = Sim::findObject( objectId );
       if( object )
@@ -177,7 +178,7 @@ extern "C" {
       }
    }
 
-   F32 script_simobject_getfield_float(U32 objectId, const char* fieldName)
+   F32 script_simobject_getfield_float(U32 objectId, StringTableEntry fieldName)
    {
       SimObject *object = Sim::findObject( objectId );
       if( object )
@@ -190,7 +191,7 @@ extern "C" {
       return false;
    }
 
-   void script_simobject_setfield_float(U32 objectId, const char* fieldName, F32 v)
+   void script_simobject_setfield_float(U32 objectId, StringTableEntry fieldName, F32 v)
    {
       SimObject *object = Sim::findObject( objectId );
       if( object )

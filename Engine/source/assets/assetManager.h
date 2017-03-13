@@ -230,7 +230,7 @@ public:
             {
                 // No, so warn.
                 Con::warnf( "Asset Manager: > Failed to acquire asset Id '%s' as loading the asset file failed to return the asset or the correct asset type: '%s'.",
-                    pAssetId, pAssetDefinition->mAssetBaseFilePath.c_str() );
+                    pAssetId, pAssetDefinition->mAssetBaseFilePath );
                 return NULL;
             }
 
@@ -241,7 +241,7 @@ public:
             if ( mEchoInfo )
             {
                 Con::printf( "Asset Manager: > Loading asset into memory as object Id '%d' from file '%s'.",
-                    pAssetDefinition->mpAssetBase->getId(), pAssetDefinition->mAssetBaseFilePath.c_str() );
+                    pAssetDefinition->mpAssetBase->getId(), pAssetDefinition->mAssetBaseFilePath );
             }
 
             // Set ownership by asset manager.

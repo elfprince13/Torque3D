@@ -97,7 +97,7 @@ DefineEngineMethod(AssetManager, addDeclaredAsset, bool, (const char* moduleDefi
 
 //-----------------------------------------------------------------------------
 
-DefineEngineMethod(AssetManager, addPrivateAsset, String, (const char* assetObject), (""),
+DefineEngineMethod(AssetManager, addPrivateAsset, StringTableEntry, (const char* assetObject), (""),
    "Adds a private asset object.\n"
    "@param assetObject The asset object to add as a private asset.\n"
    "@return The allocated private asset Id.\n")
@@ -154,7 +154,7 @@ DefineEngineMethod(AssetManager, removeDeclaredAsset, bool, (const char* assetId
 
 //-----------------------------------------------------------------------------
 
-DefineEngineMethod(AssetManager, getAssetName, String, (const char* assetId), (""),
+DefineEngineMethod(AssetManager, getAssetName, StringTableEntry, (const char* assetId), (""),
    "Gets the asset name from the specified asset Id.\n"
    "@param assetId The selected asset Id.\n"
    "@return The asset name from the specified asset Id.\n")
@@ -164,7 +164,7 @@ DefineEngineMethod(AssetManager, getAssetName, String, (const char* assetId), ("
 
 //-----------------------------------------------------------------------------
 
-DefineEngineMethod(AssetManager, getAssetDescription, String, (const char* assetId), (""),
+DefineEngineMethod(AssetManager, getAssetDescription, StringTableEntry, (const char* assetId), (""),
    "Gets the asset description from the specified asset Id.\n"
    "@param assetId The selected asset Id.\n"
    "@return The asset description from the specified asset Id.\n")
@@ -174,7 +174,7 @@ DefineEngineMethod(AssetManager, getAssetDescription, String, (const char* asset
 
 //-----------------------------------------------------------------------------
 
-DefineEngineMethod(AssetManager, getAssetCategory, String, (const char* assetId), (""),
+DefineEngineMethod(AssetManager, getAssetCategory, StringTableEntry, (const char* assetId), (""),
    "Gets the asset category from the specified asset Id.\n"
    "@param assetId The selected asset Id.\n"
    "@return The asset category from the specified asset Id.\n")
@@ -184,7 +184,7 @@ DefineEngineMethod(AssetManager, getAssetCategory, String, (const char* assetId)
 
 //-----------------------------------------------------------------------------
 
-DefineEngineMethod(AssetManager, getAssetType, String, (const char* assetId), (""),
+DefineEngineMethod(AssetManager, getAssetType, StringTableEntry, (const char* assetId), (""),
    "Gets the asset type from the specified asset Id.\n"
    "@param assetId The selected asset Id.\n"
    "@return The asset type from the specified asset Id.\n")
@@ -194,7 +194,7 @@ DefineEngineMethod(AssetManager, getAssetType, String, (const char* assetId), ("
 
 //-----------------------------------------------------------------------------
 
-DefineEngineMethod(AssetManager, getAssetFilePath, String, (const char* assetId), (""),
+DefineEngineMethod(AssetManager, getAssetFilePath, StringTableEntry, (const char* assetId), (""),
    "Gets the asset file-path from the specified asset Id.\n"
    "@param assetId The selected asset Id.\n"
    "@return The asset file - path from the specified asset Id.\n")
@@ -204,7 +204,7 @@ DefineEngineMethod(AssetManager, getAssetFilePath, String, (const char* assetId)
 
 //-----------------------------------------------------------------------------
 
-DefineEngineMethod(AssetManager, getAssetPath, String, (const char* assetId), (""),
+DefineEngineMethod(AssetManager, getAssetPath, StringTableEntry, (const char* assetId), (""),
    "Gets the asset path (not including the asset file) from the specified asset Id.\n"
    "@param assetId The selected asset Id.\n"
    "@return The asset path(not including the asset file) from the specified asset Id.\n")

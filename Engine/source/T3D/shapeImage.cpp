@@ -189,10 +189,10 @@ ShapeBaseImageData::ShapeBaseImageData()
    lightRadius = 10.f;
    lightBrightness = 1.0f;
 
-   shapeName = "core/art/shapes/noshape.dts";
-   shapeNameFP = "";
-   imageAnimPrefix = "";
-   imageAnimPrefixFP = "";
+   shapeName = StringTable->insert("core/art/shapes/noshape.dts"); // This seems like an odd choice...
+   shapeNameFP = StringTable->EmptyString();
+   imageAnimPrefix = StringTable->EmptyString();
+   imageAnimPrefixFP = StringTable->EmptyString();
    fireState = -1;
    altFireState = -1;
    reloadState = -1;
@@ -2124,7 +2124,7 @@ S32 ShapeBase::getNodeIndex(U32 imageSlot,StringTableEntry nodeName)
 {
    MountedImage& image = mMountedImageList[imageSlot];
    if (image.dataBlock)
-      return image.dataBlock->shape[getImageShapeIndex(image)]->findNode(nodeName);
+      return image.dataBlock->shape[getImageShapeIndex(image)]->findNode(nodeName.c_str());
    else
       return -1;
 }

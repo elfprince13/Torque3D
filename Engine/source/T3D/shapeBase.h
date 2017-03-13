@@ -307,7 +307,7 @@ struct ShapeBaseImageData: public GameBaseData {
    const char*             stateSequence              [MaxStates];
    bool                    stateSequenceRandomFlash   [MaxStates];
 
-   const char*             stateShapeSequence         [MaxStates];
+   StringTableEntry        stateShapeSequence         [MaxStates];
    bool                    stateScaleShapeSequence    [MaxStates];
 
    bool                    stateIgnoreLoadedForReady  [MaxStates];

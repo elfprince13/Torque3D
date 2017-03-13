@@ -66,7 +66,7 @@ ConsoleDocClass( PhysicsShapeData,
 );
 
 PhysicsShapeData::PhysicsShapeData()
-   :  shapeName( NULL ),
+   :  shapeName( nullptr ),
       mass( 1.0f ),
       dynamicFriction( 0.0f ),
       staticFriction( 0.0f ),

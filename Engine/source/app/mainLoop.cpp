@@ -279,22 +279,22 @@ void StandardMainLoop::init()
 #endif
 
    Con::addVariable("timeScale", TypeF32, &ATTS(gTimeScale), "Animation time scale.\n"
-	   "@ingroup platform");
+      "@ingroup platform");
    Con::addVariable("timeAdvance", TypeS32, &ATTS(gTimeAdvance), "The speed at which system processing time advances.\n"
-	   "@ingroup platform");
+      "@ingroup platform");
    Con::addVariable("frameSkip", TypeS32, &ATTS(gFrameSkip), "Sets the number of frames to skip while rendering the scene.\n"
-	   "@ingroup platform");
+      "@ingroup platform");
 
    Con::setVariable( "defaultGame", StringTable->insert("scripts") );
 
    Con::addVariable( "_forceAllMainThread", TypeBool, &ThreadPool::getForceAllMainThread(), "Force all work items to execute on main thread. turns this into a single-threaded system. Primarily useful to find whether malfunctions are caused by parallel execution or not.\n"
-	   "@ingroup platform" );
+      "@ingroup platform" );
 
 #if defined( TORQUE_MINIDUMP ) && defined( TORQUE_RELEASE )
-	Con::addVariable("MiniDump::Dir",	TypeString, &gMiniDumpDir);
-	Con::addVariable("MiniDump::Exec",	TypeString, &gMiniDumpExec);
-	Con::addVariable("MiniDump::Params", TypeString, &gMiniDumpParams);
-	Con::addVariable("MiniDump::ExecDir", TypeString, &gMiniDumpExecDir);
+   Con::addVariable("MiniDump::Dir",   TypeString, &gMiniDumpDir);
+   Con::addVariable("MiniDump::Exec",  TypeString, &gMiniDumpExec);
+   Con::addVariable("MiniDump::Params", TypeString, &gMiniDumpParams);
+   Con::addVariable("MiniDump::ExecDir", TypeString, &gMiniDumpExecDir);
 #endif
 
    // Register the module manager.
@@ -507,7 +507,7 @@ bool StandardMainLoop::handleCommandLine( S32 argc, const char **argv )
             Torque::FS::Unmount( "game" );
             Torque::FS::Mount( "game", Platform::FS::createNativeFS( ( const char* ) szPathCopy ) );
 
-            success = str.open(fdd.mFile, Torque::FS::File::Read);
+            success = str.open(fdd.mFile.c_str(), Torque::FS::File::Read);
             if(success)
                defaultScriptName = fdd.mFile;
          }

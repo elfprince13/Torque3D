@@ -73,6 +73,7 @@ DefineConsoleType( TypeCaseString, const char * )
 DefineConsoleType( TypeRealString, String )
 DefineConsoleType( TypeCommand, String )
 DefineConsoleType( TypeFilename, const char * )
+DefineConsoleType( TypeTabledString, StringTableEntry )
 DefineConsoleType( TypeStringFilename, String )
 
 DefineConsoleType(TypeRotationF, RotationF)

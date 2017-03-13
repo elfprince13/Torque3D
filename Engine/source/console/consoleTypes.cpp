@@ -92,6 +92,29 @@ ConsoleSetType( TypeRealString )
 }
 
 //-----------------------------------------------------------------------------
+// TypeTabledString
+//-----------------------------------------------------------------------------
+ConsoleType(string, TypeTabledString, StringTableEntry, "")
+ImplementConsoleTypeCasters( TypeTabledString, StringTableEntry )
+
+ConsoleGetType( TypeTabledString )
+{
+   const StringTableEntry *theString = static_cast<const StringTableEntry*>(dptr);
+   
+   return theString->c_str();
+}
+
+ConsoleSetType( TypeTabledString )
+{
+   StringTableEntry *theString = static_cast<StringTableEntry*>(dptr);
+   
+   if(argc == 1)
+      *theString = StringTable->insert(argv[0]);
+   else
+      Con::printf("(TypeRealString) Cannot set multiple args to a single string.");
+}
+
+//-----------------------------------------------------------------------------
 // TypeCommand
 //-----------------------------------------------------------------------------
 ConsoleType(string, TypeCommand, String, "")

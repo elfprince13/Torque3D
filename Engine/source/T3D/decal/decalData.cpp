@@ -381,7 +381,7 @@ DecalData* DecalData::findDatablock( String searchName )
    {
       if ( (*iter)->getClassName() != className )
       {
-         Con::errorf( "DecalData::findDatablock - found a class %s object in DecalDataSet!", (*iter)->getClassName().c_str() );
+         Con::errorf( "DecalData::findDatablock - found a class %s object in DecalDataSet!", (*iter)->getClassName() );
          continue;
       }
 

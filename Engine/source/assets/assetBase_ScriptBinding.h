@@ -37,5 +37,5 @@ DefineEngineMethod(AssetBase, getAssetId, String, (), ,
    "Gets the assets' Asset Id.  This is only available if the asset was acquired from the asset manager.\n"
    "@return The assets' Asset Id.\n")
 {
-    return object->getAssetId();
+    return object->getAssetId().c_str();
 }

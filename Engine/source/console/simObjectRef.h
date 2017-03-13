@@ -103,7 +103,7 @@ void SimObjectRef<T>::_set( U32 id )
 {
    mId = id;   
    mObject = NULL;
-   mName = "";
+   mName = StringTable->EmptyString();
 }
 
 template<class T> 

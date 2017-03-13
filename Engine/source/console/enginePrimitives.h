@@ -72,6 +72,8 @@ struct EngineTypeTraits< String > : public _EnginePrimitiveTypeTraits< String >
    }
 };
 
+DECLARE_PRIMITIVE_R(StringTableEntry)
+
 
 // For struct fields, String cannot be used directly but "const UTF16*" must be used
 // instead.  Make sure this works with the template machinery by redirecting the type

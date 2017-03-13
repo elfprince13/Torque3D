@@ -99,7 +99,7 @@ TSStatic::TSStatic()
 
    mTypeMask |= StaticObjectType | StaticShapeObjectType;
 
-   mShapeName        = "";
+   mShapeName        = StringTable->EmptyString();
    mShapeInstance    = NULL;
 
    mPlayAmbient      = true;
@@ -1299,7 +1299,7 @@ DefineEngineMethod( TSStatic, changeMaterial, void, ( const char* mapTo, Materia
    newMat->mMapTo = mapTo;
 
    // Map the material by name in the matmgr
-   MATMGR->mapMaterial( mapTo, newMat->getName() );
+   MATMGR->mapMaterial( mapTo, newMat->getName().c_str() );
 
    // Replace instances with the new material being traded in. Lets make sure that we only
    // target the specific targets per inst, this is actually doing more than we thought

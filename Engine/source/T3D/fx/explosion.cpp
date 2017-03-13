@@ -422,7 +422,7 @@ bool ExplosionData::onAdd()
 
    if (explosionScale.x < 0.01f || explosionScale.y < 0.01f || explosionScale.z < 0.01f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s)::onAdd: ExplosionScale components must be >= 0.01", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s)::onAdd: ExplosionScale components must be >= 0.01", getName());
       explosionScale.x = explosionScale.x < 0.01f ? 0.01f : explosionScale.x;
       explosionScale.y = explosionScale.y < 0.01f ? 0.01f : explosionScale.y;
       explosionScale.z = explosionScale.z < 0.01f ? 0.01f : explosionScale.z;
@@ -430,73 +430,73 @@ bool ExplosionData::onAdd()
 
    if (debrisThetaMin < 0.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMin < 0.0", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMin < 0.0", getName());
       debrisThetaMin = 0.0f;
    }
    if (debrisThetaMax > 180.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMax > 180.0", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMax > 180.0", getName());
       debrisThetaMax = 180.0f;
    }
    if (debrisThetaMin > debrisThetaMax) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMin > debrisThetaMax", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMin > debrisThetaMax", getName());
       debrisThetaMin = debrisThetaMax;
    }
    if (debrisPhiMin < 0.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMin < 0.0", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMin < 0.0", getName());
       debrisPhiMin = 0.0f;
    }
    if (debrisPhiMax > 360.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMax > 360.0", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMax > 360.0", getName());
       debrisPhiMax = 360.0f;
    }
    if (debrisPhiMin > debrisPhiMax) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMin > debrisPhiMax", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMin > debrisPhiMax", getName());
       debrisPhiMin = debrisPhiMax;
    }
    if (debrisNum > 1000) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisNum > 1000", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisNum > 1000", getName());
       debrisNum = 1000;
    }
    if (debrisNumVariance > 1000) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisNumVariance > 1000", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisNumVariance > 1000", getName());
       debrisNumVariance = 1000;
    }
    if (debrisVelocity < 0.1f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisVelocity < 0.1", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisVelocity < 0.1", getName());
       debrisVelocity = 0.1f;
    }
    if (debrisVelocityVariance > 1000) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisVelocityVariance > 1000", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisVelocityVariance > 1000", getName());
       debrisVelocityVariance = 1000;
    }
    if (playSpeed < 0.05f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) playSpeed < 0.05", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) playSpeed < 0.05", getName());
       playSpeed = 0.05f;
    }
    if (lifetimeMS < 1) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) lifetimeMS < 1", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) lifetimeMS < 1", getName());
       lifetimeMS = 1;
    }
    if (lifetimeVariance > lifetimeMS) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) lifetimeVariance > lifetimeMS", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) lifetimeVariance > lifetimeMS", getName());
       lifetimeVariance = lifetimeMS;
    }
    if (delayMS < 0) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) delayMS < 0", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) delayMS < 0", getName());
       delayMS = 0;
    }
    if (delayVariance > delayMS) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) delayVariance > delayMS", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) delayVariance > delayMS", getName());
       delayVariance = delayMS;
    }
    if (offset < 0.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) offset < 0.0", getName().c_str());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) offset < 0.0", getName());
       offset = 0.0f;
    }
 

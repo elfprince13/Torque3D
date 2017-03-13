@@ -33,6 +33,7 @@
 class Stream;
 class DataChunker;
 
+#include <type_traits>
 #include "platform/platform.h"
 #include "console/ast.h"
 #include "console/codeBlock.h"
@@ -238,11 +239,8 @@ namespace Compiler
 
    inline StringTableEntry CodeToSTE(U32 *code, U32 ip)
    {
-#ifdef TORQUE_CPU_X64
-      return (StringTableEntry)(*((U64*)(code+ip)));
-#else
-      return (StringTableEntry)(*(code+ip));
-#endif
+      // TODO: Verify that this hack works.
+      return * reinterpret_cast<StringTableEntry*>(code+ip);
    }
 
    extern void (*STEtoCode)(StringTableEntry ste, U32 ip, U32 *ptr);
@@ -366,7 +364,7 @@ public:
       mPatchList.push_back(PatchEntry(addr, code));
    }
    
-   inline U32 emitSTE(const char *code)
+   inline U32 emitSTE(StringTableEntry code)
    {
       U64 *ptr = (U64*)allocCode(8);
       *ptr = 0;

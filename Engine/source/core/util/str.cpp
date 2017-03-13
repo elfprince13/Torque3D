@@ -550,6 +550,19 @@ String::String(const String &str)
    _string->addRef();
 }
 
+/*String::String(const StringTableEntry &ste)
+{
+   const StringChar* str = ste;
+   PROFILE_SCOPE(String_char_constructor);
+   if( str && *str )
+   {
+      U32 len = dStrlen(str);
+      _string = new ( len ) StringData( str );
+   }
+   else
+      _string = StringData::Empty();
+}*/
+
 String::String(const StringChar *str)
 {
    PROFILE_SCOPE(String_char_constructor);

@@ -228,7 +228,7 @@ bool Ribbon::onAdd()
 
       if(GFX->getPixelShaderVersion() >= 1.1 && dStrlen(mDataBlock->mMatName) > 0 )
       {
-         mRibbonMat = MATMGR->createMatInstance( mDataBlock->mMatName );
+         mRibbonMat = MATMGR->createMatInstance( mDataBlock->mMatName.c_str() );
          GFXStateBlockDesc desc;
          desc.setZReadWrite( true, false );
          desc.cullDefined = true;

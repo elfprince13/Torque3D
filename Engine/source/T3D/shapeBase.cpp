@@ -4911,7 +4911,7 @@ DefineEngineMethod( ShapeBase, changeMaterial, void, ( const char* mapTo, Materi
    newMat->mMapTo = mapTo;
 
    // Map the material by name in the matmgr
-   MATMGR->mapMaterial( mapTo, newMat->getName() );
+   MATMGR->mapMaterial( mapTo, newMat->getName().c_str() );
 
    // Replace instances with the new material being traded in. For ShapeBase
    // class we have to update the server/client objects separately so both
@@ -4942,6 +4942,6 @@ DefineEngineMethod( ShapeBase, getModelFile, const char *, (),,
    if( !datablock )
       return String::EmptyString;
 
-   const char *fieldName = StringTable->insert( String("shapeFile") );
+   StringTableEntry fieldName = StringTable->insert( String("shapeFile") );
    return datablock->getDataField( fieldName, NULL );
 }

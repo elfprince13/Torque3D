@@ -59,6 +59,13 @@ public:
    {
       _split(file);
    }
+   
+   Path( const StringTableEntry &file )
+   :  mIsDirtyFileName( true ),
+   mIsDirtyPath( true )
+   {
+      _split(file.c_str());
+   }
 
    Path( const String &file )
       :  mIsDirtyFileName( true ),
