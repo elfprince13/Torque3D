@@ -67,7 +67,19 @@ typedef unsigned short UTF16;       ///< Compiler independent 16 bit Unicode enc
 
 typedef unsigned int   UTF32;       ///< Compiler independent 32 bit Unicode encoded character
 
-typedef const char* StringTableEntry;
+class StringTableEntry {
+   friend class _StringTable;
+   const char * mS; // We want to allow assignment, so don't make mS const.
+   StringTableEntry(const char *s) : mS(s) {}
+public:
+   // nullptr is a constant so we can happily have a public constructor
+   // This is also our sane default
+   StringTableEntry(decltype(nullptr) nullp = nullptr) : mS(nullp) {}
+   StringTableEntry(const StringTableEntry &ste) : mS(ste.mS) {}
+   operator const char*() const { return mS; }
+   inline const char * c_str() const{ return mS; }
+};
+
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////
 //-------------------------------------- Type constants-------------------------------------------------//

@@ -221,7 +221,7 @@ DecalManager::DecalManager()
 
    setGlobalBounds();
 
-   mDataFileName = NULL;
+   mDataFileName = nullptr;
 
    mTypeMask |= EnvironmentObjectType;
 
@@ -1509,14 +1509,14 @@ bool DecalManager::_createDataFile()
    if( !Torque::FS::IsFile( fileName ) )
    {
       FileStream stream;
-      if( stream.open( mDataFileName, Torque::FS::File::Write ) )
+      if( stream.open( mDataFileName.c_str(), Torque::FS::File::Write ) )
       {
          DecalDataFile dataFile;
          dataFile.write( stream );
       }
    }
 
-   mData = ResourceManager::get().load( mDataFileName );
+   mData = ResourceManager::get().load( mDataFileName.c_str() );
    return (bool)mData;
 }
 

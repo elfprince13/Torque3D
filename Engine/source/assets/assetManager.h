@@ -208,7 +208,7 @@ public:
                     while( assetDependenciesItr != mAssetDependsOn.end() && assetDependenciesItr->key == assetId )
                     {
                         // Info.
-                        Con::printf( "Asset Manager: > Asset Id '%s'", assetDependenciesItr->value );
+                        Con::printf( "Asset Manager: > Asset Id '%s'", assetDependenciesItr->value.c_str() );
 
                         // Next dependency.
                         assetDependenciesItr++;
@@ -230,7 +230,7 @@ public:
             {
                 // No, so warn.
                 Con::warnf( "Asset Manager: > Failed to acquire asset Id '%s' as loading the asset file failed to return the asset or the correct asset type: '%s'.",
-                    pAssetId, pAssetDefinition->mAssetBaseFilePath );
+                    pAssetId, pAssetDefinition->mAssetBaseFilePath.c_str() );
                 return NULL;
             }
 
@@ -241,7 +241,7 @@ public:
             if ( mEchoInfo )
             {
                 Con::printf( "Asset Manager: > Loading asset into memory as object Id '%d' from file '%s'.",
-                    pAssetDefinition->mpAssetBase->getId(), pAssetDefinition->mAssetBaseFilePath );
+                    pAssetDefinition->mpAssetBase->getId(), pAssetDefinition->mAssetBaseFilePath.c_str() );
             }
 
             // Set ownership by asset manager.
@@ -277,7 +277,7 @@ public:
         if ( pAcquiredAsset == NULL )
         {
             // No, so warn.
-            Con::warnf( "Asset Manager: > Failed to acquire asset Id '%s' as it was not the required asset type: '%s'.", pAssetId, pAssetDefinition->mAssetBaseFilePath );
+            Con::warnf( "Asset Manager: > Failed to acquire asset Id '%s' as it was not the required asset type: '%s'.", pAssetId, pAssetDefinition->mAssetBaseFilePath.c_str() );
             return NULL;
         }
 

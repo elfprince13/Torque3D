@@ -510,7 +510,7 @@ GroundCover::GroundCover()
       mBillboardRects[i].point.set( 0.0f, 0.0f );
       mBillboardRects[i].extent.set( 1.0f, 1.0f );
 
-      mShapeFilenames[i] = NULL;
+      mShapeFilenames[i] = nullptr;
       mShapeInstances[i] = NULL;
 
       mBillboardAspectScales[i] = 1.0f;
@@ -612,16 +612,16 @@ void GroundCover::initPersistFields()
 void GroundCover::consoleInit()
 {     
    Con::addVariable( "$pref::GroundCover::densityScale", TypeF32, &smDensityScale, "A global LOD scalar which can reduce the overall density of placed GroundCover.\n" 
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
 
    Con::addVariable( "$GroundCover::renderedCells", TypeS32, &smStatRenderedCells, "Stat for number of rendered cells.\n"
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
    Con::addVariable( "$GroundCover::renderedBillboards", TypeS32, &smStatRenderedBillboards, "Stat for number of rendered billboards.\n"
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
    Con::addVariable( "$GroundCover::renderedBatches", TypeS32, &smStatRenderedBatches, "Stat for number of rendered billboard batches.\n"
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
    Con::addVariable( "$GroundCover::renderedShapes", TypeS32, &smStatRenderedShapes, "Stat for number of rendered shapes.\n"
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
 
    Parent::consoleInit();
 }
@@ -856,16 +856,16 @@ void GroundCover::_initShapes()
          continue;
 
       // Load the shape.
-      Resource<TSShape> shape = ResourceManager::get().load(mShapeFilenames[i]);
+      Resource<TSShape> shape = ResourceManager::get().load(mShapeFilenames[i].c_str());
       if ( !(bool)shape )
       {
-         Con::warnf( "GroundCover::_initShapes() unable to load shape: %s", mShapeFilenames[i] );
+         Con::warnf( "GroundCover::_initShapes() unable to load shape: %s", mShapeFilenames[i].c_str() );
          continue;
       }
 
       if ( isClientObject() && !shape->preloadMaterialList(shape.getPath()) && NetConnection::filesWereDownloaded() )
       {
-         Con::warnf( "GroundCover::_initShapes() material preload failed for shape: %s", mShapeFilenames[i] );
+         Con::warnf( "GroundCover::_initShapes() material preload failed for shape: %s", mShapeFilenames[i].c_str() );
          continue;
       }
 

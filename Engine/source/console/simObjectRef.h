@@ -44,9 +44,9 @@ public:
    static S32 _smTypeId;
 
    SimObjectRef()
-      : mName( "" ),
+      : mName( StringTable->EmptyString() ),
         mId( 0 ),
-        mObject( NULL )
+        mObject( nullptr )
    {
    }
    

@@ -103,7 +103,7 @@ DebrisData::DebrisData()
    lifetimeVariance = 0.0f;
    minSpinSpeed = 0.0f;
    maxSpinSpeed = 0.0f;
-   textureName = NULL;
+   textureName = nullptr;
    shapeName = NULL;
    fade = true;
    useRadiusMass = false;
@@ -139,47 +139,47 @@ bool DebrisData::onAdd()
 
    if( velocityVariance > velocity )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: velocityVariance invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: velocityVariance invalid", getName().c_str());
       velocityVariance = velocity;
    }
    if( friction < -10.0f || friction > 10.0f )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: friction invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: friction invalid", getName().c_str());
       friction = 0.2f;
    }
    if( elasticity < -10.0f || elasticity > 10.0f )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: elasticity invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: elasticity invalid", getName().c_str());
       elasticity = 0.2f;
    }
    if( lifetime < 0.0f || lifetime > 1000.0f )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: lifetime invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: lifetime invalid", getName().c_str());
       lifetime = 3.0f;
    }
    if( lifetimeVariance < 0.0f || lifetimeVariance > lifetime )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: lifetimeVariance invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: lifetimeVariance invalid", getName().c_str());
       lifetimeVariance = 0.0f;
    }
    if( numBounces < 0 || numBounces > 10000 )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: numBounces invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: numBounces invalid", getName().c_str());
       numBounces = 3;
    }
    if( bounceVariance < 0 || bounceVariance > numBounces )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: bounceVariance invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: bounceVariance invalid", getName().c_str());
       bounceVariance = 0;
    }
    if( minSpinSpeed < -10000.0f || minSpinSpeed > 10000.0f || minSpinSpeed > maxSpinSpeed )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: minSpinSpeed invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: minSpinSpeed invalid", getName().c_str());
       minSpinSpeed = maxSpinSpeed - 1.0f;
    }
    if( maxSpinSpeed < -10000.0f || maxSpinSpeed > 10000.0f )
    {
-      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: maxSpinSpeed invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "DebrisData(%s)::onAdd: maxSpinSpeed invalid", getName().c_str());
       maxSpinSpeed = 0.0f;
    }
 
@@ -470,7 +470,7 @@ Debris::~Debris()
 
 void Debris::initPersistFields()
 {
-   addGroup( "Debris" );	
+   addGroup( "Debris" );   
    
       addField( "lifetime", TypeF32, Offset(mLifetime, Debris), 
          "@brief Length of time for this debris object to exist. When expired, the object will be deleted.\n\n"
@@ -522,7 +522,7 @@ bool Debris::onAdd()
          pEmitter->onNewDataBlock( mDataBlock->emitterList[i], false );
          if( !pEmitter->registerObject() )
          {
-            Con::warnf( ConsoleLogEntry::General, "Could not register emitter for particle of class: %s", mDataBlock->getName() );
+            Con::warnf( ConsoleLogEntry::General, "Could not register emitter for particle of class: %s", mDataBlock->getName().c_str() );
             delete pEmitter;
             pEmitter = NULL;
          }

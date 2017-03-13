@@ -252,7 +252,7 @@ void RenderMeshExample::updateMaterial()
       return;
 
    // If the material name matches then don't bother updating it.
-   if ( mMaterialInst && mMaterialName.equal( mMaterialInst->getMaterial()->getName(), String::NoCase ) )
+   if ( mMaterialInst && mMaterialName.equal( mMaterialInst->getMaterial()->getName().c_str(), String::NoCase ) )
       return;
 
    SAFE_DELETE( mMaterialInst );
@@ -312,13 +312,13 @@ void RenderMeshExample::prepRenderImage( SceneRenderState *state )
    ri->worldToCamera = renderPass->allocSharedXform(RenderPassManager::View);
    ri->projection    = renderPass->allocSharedXform(RenderPassManager::Projection);
 
-	// If our material needs lights then fill the RIs 
+   // If our material needs lights then fill the RIs 
    // light vector with the best lights.
    if ( matInst->isForwardLit() )
    {
       LightQuery query;
       query.init( getWorldSphere() );
-		query.getLights( ri->lights, 8 );
+      query.getLights( ri->lights, 8 );
    }
 
    // Make sure we have an up-to-date backbuffer in case
@@ -352,5 +352,5 @@ void RenderMeshExample::prepRenderImage( SceneRenderState *state )
 DefineEngineMethod( RenderMeshExample, postApply, void, (),,
    "A utility method for forcing a network update.\n")
 {
-	object->inspectPostApply();
+   object->inspectPostApply();
 }

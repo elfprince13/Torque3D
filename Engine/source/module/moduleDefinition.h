@@ -308,14 +308,14 @@ protected:
             if ( dependencyItr == moduleDependencies.begin() )
             {
                 // Write out a field/value pair
-                used = dSprintf( pValueBuffer, bufferLeft, "%s=%s", pDependency->mModuleId, pVersionId );
+                used = dSprintf( pValueBuffer, bufferLeft, "%s=%s", pDependency->mModuleId.c_str(), pVersionId );
                 pValueBuffer += used;
                 bufferLeft -= used;
             }
             else
             {
                 // Write out a field/value pair
-                used = dSprintf( pValueBuffer, bufferLeft, ",%s=%s", pDependency->mModuleId, pVersionId );
+                used = dSprintf( pValueBuffer, bufferLeft, ",%s=%s", pDependency->mModuleId.c_str(), pVersionId );
                 pValueBuffer += used;
                 bufferLeft -= used;
             }

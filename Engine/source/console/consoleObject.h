@@ -212,14 +212,10 @@ public:
    ///
    /// @param conIdPtr Pointer to the static S32 console ID.
    /// @param conTypeName Console type name.
-   AbstractClassRep( S32* conIdPtr, const char* typeName )
-      : Parent( sizeof( void* ), conIdPtr, typeName )
+   AbstractClassRep( S32* conIdPtr, const char* typeName ) : Parent( sizeof( void* ), conIdPtr, typeName ),
+   mClassName(mTypeName), parentClass(nullptr), mIsRenderEnabled(true), mIsSelectionEnabled(true)
    {
       VECTOR_SET_ASSOCIATION( mFieldList );
-
-      parentClass  = NULL;
-      mIsRenderEnabled = true;
-      mIsSelectionEnabled = true;
    }
 
    /// @}
@@ -390,7 +386,7 @@ protected:
 
    virtual void init();
 
-   const char *       mClassName;
+   StringTableEntry       mClassName;
    AbstractClassRep * nextClass;
    AbstractClassRep * parentClass;
    Namespace *        mNamespace;
@@ -480,17 +476,17 @@ public:
    struct Field
    {
       Field()
-         :  pFieldname( NULL ),
-            pGroupname( NULL ),
-            pFieldDocs( NULL ),
+         :  pFieldname( nullptr ),
+            pGroupname( nullptr ),
+            pFieldDocs( nullptr ),
             groupExpand( false ),
             type( 0 ),
             offset( 0 ),
             elementCount( 0 ),
-            table( NULL ),
-            validator( NULL ),
-            setDataFn( NULL ),
-            getDataFn( NULL )
+            table( nullptr ),
+            validator( nullptr ),
+            setDataFn( nullptr ),
+            getDataFn( nullptr )
       {
       }
 
@@ -1079,7 +1075,7 @@ inline StringTableEntry ConsoleObject::getClassName() const
 inline const AbstractClassRep::Field * ConsoleObject::findField(StringTableEntry name) const
 {
    AssertFatal(getClassRep() != NULL,
-      avar("Cannot get field '%s' from non-declared dynamic class.", name));
+      avar("Cannot get field '%s' from non-declared dynamic class.", name.c_str()));
    return getClassRep()->findField(name);
 }
 

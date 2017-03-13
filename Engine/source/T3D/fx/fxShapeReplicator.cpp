@@ -37,55 +37,55 @@
 
 //------------------------------------------------------------------------------
 //
-//	Put this in /example/common/editor/editor.cs in function [Editor::create()] (around line 66).
+// Put this in /example/common/editor/editor.cs in function [Editor::create()] (around line 66).
 //
 //   // Ignore Replicated fxStatic Instances.
 //   EWorldEditor.ignoreObjClass("fxShapeReplicatedStatic");
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /example/common/editor/EditorGui.cs in [function Creator::init( %this )]
+// Put this in /example/common/editor/EditorGui.cs in [function Creator::init( %this )]
 //
 //   %Environment_Item[8] = "fxShapeReplicator";  <-- ADD THIS.
 //
 //------------------------------------------------------------------------------
 //
-//	Put the function in /example/common/editor/ObjectBuilderGui.gui [around line 458] ...
+// Put the function in /example/common/editor/ObjectBuilderGui.gui [around line 458] ...
 //
-//	function ObjectBuilderGui::buildfxShapeReplicator(%this)
-//	{
-//		%this.className = "fxShapeReplicator";
-//		%this.process();
-//	}
-//
-//------------------------------------------------------------------------------
-//
-//	Put this in /example/common/client/missionDownload.cs in [function clientCmdMissionStartPhase3(%seq,%missionName)] (line 65)
-//	after codeline 'onPhase2Complete();'.
-//
-//	StartClientReplication();
+// function ObjectBuilderGui::buildfxShapeReplicator(%this)
+// {
+//    %this.className = "fxShapeReplicator";
+//    %this.process();
+// }
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /engine/console/simBase.h (around line 509) in
+// Put this in /example/common/client/missionDownload.cs in [function clientCmdMissionStartPhase3(%seq,%missionName)] (line 65)
+// after codeline 'onPhase2Complete();'.
 //
-//	namespace Sim
+// StartClientReplication();
+//
+//------------------------------------------------------------------------------
+//
+// Put this in /engine/console/simBase.h (around line 509) in
+//
+// namespace Sim
 //  {
-//	   DeclareNamedSet(fxReplicatorSet)  <-- ADD THIS (Note no semi-colon).
+//    DeclareNamedSet(fxReplicatorSet)  <-- ADD THIS (Note no semi-colon).
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /engine/console/simBase.cc (around line 19) in
+// Put this in /engine/console/simBase.cc (around line 19) in
 //
 //  ImplementNamedSet(fxReplicatorSet)  <-- ADD THIS
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /engine/console/simManager.cc [function void init()] (around line 269).
+// Put this in /engine/console/simManager.cc [function void init()] (around line 269).
 //
-//	namespace Sim
+// namespace Sim
 //  {
-//		InstantiateNamedSet(fxReplicatorSet);  <-- ADD THIS
+//    InstantiateNamedSet(fxReplicatorSet);  <-- ADD THIS
 //
 //------------------------------------------------------------------------------
 
@@ -140,31 +140,31 @@ fxShapeReplicator::~fxShapeReplicator()
 void fxShapeReplicator::initPersistFields()
 {
    // Add out own persistent fields.
-   addGroup( "Debugging" );	// MM: Added Group Header.
+   addGroup( "Debugging" );   // MM: Added Group Header.
       addField( "HideReplications",    TypeBool,      Offset( mFieldData.mHideReplications,     fxShapeReplicator ), "Replicated shapes are hidden when set to true." );
       addField( "ShowPlacementArea",   TypeBool,      Offset( mFieldData.mShowPlacementArea,    fxShapeReplicator ), "Draw placement rings when set to true." );
       addField( "PlacementAreaHeight", TypeS32,       Offset( mFieldData.mPlacementBandHeight,  fxShapeReplicator ), "Height of the placement ring in world units." );
       addField( "PlacementColour",     TypeColorF,    Offset( mFieldData.mPlaceAreaColour,      fxShapeReplicator ), "Color of the placement ring." );
-   endGroup( "Debugging" );	// MM: Added Group Footer.
+   endGroup( "Debugging" );   // MM: Added Group Footer.
 
-   addGroup( "Media" );	// MM: Added Group Header.
+   addGroup( "Media" ); // MM: Added Group Header.
       addField( "ShapeFile",           TypeShapeFilename,  Offset( mFieldData.mShapeFile,            fxShapeReplicator ), "Filename of shape to replicate." );
-   endGroup( "Media" );	// MM: Added Group Footer.
+   endGroup( "Media" ); // MM: Added Group Footer.
 
-   addGroup( "Replications" );	// MM: Added Group Header.
+   addGroup( "Replications" );   // MM: Added Group Header.
       addField( "Seed",                TypeS32,       Offset( mFieldData.mSeed,                 fxShapeReplicator ), "Random seed for shape placement." );
       addField( "ShapeCount",          TypeS32,       Offset( mFieldData.mShapeCount,           fxShapeReplicator ), "Maximum shape instance count." );
       addField( "ShapeRetries",        TypeS32,       Offset( mFieldData.mShapeRetries,         fxShapeReplicator ), "Number of times to try placing a shape instance before giving up." );
-   endGroup( "Replications" );	// MM: Added Group Footer.
+   endGroup( "Replications" );   // MM: Added Group Footer.
 
-   addGroup( "Placement Radius" );	// MM: Added Group Header.
+   addGroup( "Placement Radius" );  // MM: Added Group Header.
       addField( "InnerRadiusX",        TypeS32,       Offset( mFieldData.mInnerRadiusX,         fxShapeReplicator ), "Placement area inner radius on the X axis" );
       addField( "InnerRadiusY",        TypeS32,       Offset( mFieldData.mInnerRadiusY,         fxShapeReplicator ), "Placement area inner radius on the Y axis" );
       addField( "OuterRadiusX",        TypeS32,       Offset( mFieldData.mOuterRadiusX,         fxShapeReplicator ), "Placement area outer radius on the X axis" );
       addField( "OuterRadiusY",        TypeS32,       Offset( mFieldData.mOuterRadiusY,         fxShapeReplicator ), "Placement area outer radius on the Y axis" );
-   endGroup( "Placement Radius" );	// MM: Added Group Footer.
+   endGroup( "Placement Radius" );  // MM: Added Group Footer.
 
-   addGroup( "Restraints" );	// MM: Added Group Header.
+   addGroup( "Restraints" );  // MM: Added Group Header.
       addField( "AllowOnTerrain",      TypeBool,      Offset( mFieldData.mAllowOnTerrain,       fxShapeReplicator ), "Shapes will be placed on terrain when set." );
       addField( "AllowOnStatics",      TypeBool,      Offset( mFieldData.mAllowStatics,         fxShapeReplicator ), "Shapes will be placed on Static shapes when set." );
       addField( "AllowOnWater",        TypeBool,      Offset( mFieldData.mAllowOnWater,         fxShapeReplicator ), "Shapes will be placed on/under water when set." );
@@ -173,15 +173,15 @@ void fxShapeReplicator::initPersistFields()
       addField( "Interactions",        TypeBool,      Offset( mFieldData.mInteractions,         fxShapeReplicator ), "Allow physics interactions with shapes." );
       addField( "AllowedTerrainSlope", TypeS32,       Offset( mFieldData.mAllowedTerrainSlope,  fxShapeReplicator ), "Maximum surface angle allowed for shape instances." );
       addField( "TerrainAlignment",    TypePoint3F,   Offset( mFieldData.mTerrainAlignment,     fxShapeReplicator ), "Surface normals will be multiplied by these values when AlignToTerrain is enabled." );
-   endGroup( "Restraints" );	// MM: Added Group Footer.
+   endGroup( "Restraints" );  // MM: Added Group Footer.
 
-   addGroup( "Object Transforms" );	// MM: Added Group Header.
+   addGroup( "Object Transforms" ); // MM: Added Group Header.
       addField( "ShapeScaleMin",       TypePoint3F,   Offset( mFieldData.mShapeScaleMin,        fxShapeReplicator ), "Minimum shape scale." );
       addField( "ShapeScaleMax",       TypePoint3F,   Offset( mFieldData.mShapeScaleMax,        fxShapeReplicator ), "Maximum shape scale." );
       addField( "ShapeRotateMin",      TypePoint3F,   Offset( mFieldData.mShapeRotateMin,       fxShapeReplicator ), "Minimum shape rotation angles.");
       addField( "ShapeRotateMax",      TypePoint3F,   Offset( mFieldData.mShapeRotateMax,       fxShapeReplicator ), "Maximum shape rotation angles." );
       addField( "OffsetZ",             TypeS32,       Offset( mFieldData.mOffsetZ,              fxShapeReplicator ), "Offset shapes by this amount vertically." );
-   endGroup( "Object Transforms" );	// MM: Added Group Footer.
+   endGroup( "Object Transforms" ); // MM: Added Group Footer.
 
    // Initialise parents' persistent fields.
    Parent::initPersistFields();
@@ -191,18 +191,18 @@ void fxShapeReplicator::initPersistFields()
 
 void fxShapeReplicator::CreateShapes(void)
 {
-   F32				HypX, HypY;
-   F32				Angle;
-   U32				RelocationRetry;
-   Point3F			ShapePosition;
-   Point3F			ShapeStart;
-   Point3F			ShapeEnd;
-   Point3F			ShapeScale;
-   EulerF			ShapeRotation;
-   QuatF			QRotation;
-   bool			CollisionResult;
-   RayInfo			RayEvent;
-   TSShape*		pShape;
+   F32            HypX, HypY;
+   F32            Angle;
+   U32            RelocationRetry;
+   Point3F        ShapePosition;
+   Point3F        ShapeStart;
+   Point3F        ShapeEnd;
+   Point3F        ShapeScale;
+   EulerF         ShapeRotation;
+   QuatF       QRotation;
+   bool        CollisionResult;
+   RayInfo        RayEvent;
+   TSShape*    pShape;
 
 
    // Don't create shapes if we are hiding replications.
@@ -212,12 +212,12 @@ void fxShapeReplicator::CreateShapes(void)
    if (dStrcmp(mFieldData.mShapeFile, "") == 0) return;
 
    // Check that we can position somewhere!
-   if (!(	mFieldData.mAllowOnTerrain ||
+   if (!(   mFieldData.mAllowOnTerrain ||
       mFieldData.mAllowStatics ||
       mFieldData.mAllowOnWater))
    {
       // Problem ...
-      Con::warnf(ConsoleLogEntry::General, "[%s] - Could not place object, All alloweds are off!", getName());
+      Con::warnf(ConsoleLogEntry::General, "[%s] - Could not place object, All alloweds are off!", getName().c_str());
 
       // Return here.
       return;
@@ -238,7 +238,7 @@ void fxShapeReplicator::CreateShapes(void)
    // Add shapes.
    for (U32 idx = 0; idx < mFieldData.mShapeCount; idx++)
    {
-      fxShapeReplicatedStatic*	fxStatic;
+      fxShapeReplicatedStatic*   fxStatic;
 
       // Create our static shape.
       fxStatic = new fxShapeReplicatedStatic();
@@ -258,7 +258,7 @@ void fxShapeReplicator::CreateShapes(void)
       if (!fxStatic->registerObject())
       {
          // Problem ...
-         Con::warnf(ConsoleLogEntry::General, "[%s] - Could not load shape file '%s'!", getName(), mFieldData.mShapeFile);
+         Con::warnf(ConsoleLogEntry::General, "[%s] - Could not load shape file '%s'!", getName().c_str(), mFieldData.mShapeFile.c_str());
 
          // Destroy Shape.
          delete fxStatic;
@@ -283,9 +283,9 @@ void fxShapeReplicator::CreateShapes(void)
          ShapePosition = getPosition();
 
          // Calculate a random offset
-         HypX	= RandomGen.randF(mFieldData.mInnerRadiusX, mFieldData.mOuterRadiusX);
-         HypY	= RandomGen.randF(mFieldData.mInnerRadiusY, mFieldData.mOuterRadiusY);
-         Angle	= RandomGen.randF(0, (F32)M_2PI);
+         HypX  = RandomGen.randF(mFieldData.mInnerRadiusX, mFieldData.mOuterRadiusX);
+         HypY  = RandomGen.randF(mFieldData.mInnerRadiusY, mFieldData.mOuterRadiusY);
+         Angle = RandomGen.randF(0, (F32)M_2PI);
 
          // Calcualte the new position.
          ShapePosition.x += HypX * mCos(Angle);
@@ -303,7 +303,7 @@ void fxShapeReplicator::CreateShapes(void)
             CollisionResult = gServerContainer.castRay(ShapeStart, ShapeEnd, FXREPLICATOR_COLLISION_MASK, &RayEvent);
          else
             // Perform Ray Cast Collision on Client Terrain.
-            CollisionResult = gClientContainer.castRay(	ShapeStart, ShapeEnd, FXREPLICATOR_COLLISION_MASK, &RayEvent);
+            CollisionResult = gClientContainer.castRay(  ShapeStart, ShapeEnd, FXREPLICATOR_COLLISION_MASK, &RayEvent);
 
          // Did we hit anything?
          if (CollisionResult)
@@ -315,8 +315,8 @@ void fxShapeReplicator::CreateShapes(void)
             U32 CollisionType = RayEvent.object->getTypeMask();
 
             // Check Illegal Placements.
-            if (((CollisionType & TerrainObjectType) && !mFieldData.mAllowOnTerrain)	||
-               ((CollisionType & StaticShapeObjectType) && !mFieldData.mAllowStatics)	||
+            if (((CollisionType & TerrainObjectType) && !mFieldData.mAllowOnTerrain)   ||
+               ((CollisionType & StaticShapeObjectType) && !mFieldData.mAllowStatics)  ||
                ((CollisionType & WaterObjectType) && !mFieldData.mAllowOnWater) ) continue;
 
             // If we collided with water and are not allowing on the water surface then let's find the
@@ -360,7 +360,7 @@ void fxShapeReplicator::CreateShapes(void)
       else
       {
          // Warning.
-         Con::warnf(ConsoleLogEntry::General, "[%s] - Could not find satisfactory position for shape '%s' on %s!", getName(), mFieldData.mShapeFile,isServerObject()?"Server":"Client");
+         Con::warnf(ConsoleLogEntry::General, "[%s] - Could not find satisfactory position for shape '%s' on %s!", getName().c_str(), mFieldData.mShapeFile.c_str(),isServerObject()?"Server":"Client");
 
          // Unregister Object.
          fxStatic->unregisterObject();
@@ -384,7 +384,7 @@ void fxShapeReplicator::CreateShapes(void)
       else
       {
          // No, so choose a new Rotation (in Radians).
-         ShapeRotation.set(	mDegToRad(RandomGen.randF(mFieldData.mShapeRotateMin.x, mFieldData.mShapeRotateMax.x)),
+         ShapeRotation.set(   mDegToRad(RandomGen.randF(mFieldData.mShapeRotateMin.x, mFieldData.mShapeRotateMax.x)),
             mDegToRad(RandomGen.randF(mFieldData.mShapeRotateMin.y, mFieldData.mShapeRotateMax.y)),
             mDegToRad(RandomGen.randF(mFieldData.mShapeRotateMin.z, mFieldData.mShapeRotateMax.z)));
       }
@@ -402,7 +402,7 @@ void fxShapeReplicator::CreateShapes(void)
       fxStatic->setTransform(XForm);
 
       // Choose a new Scale.
-      ShapeScale.set(	RandomGen.randF(mFieldData.mShapeScaleMin.x, mFieldData.mShapeScaleMax.x),
+      ShapeScale.set(   RandomGen.randF(mFieldData.mShapeScaleMin.x, mFieldData.mShapeScaleMax.x),
          RandomGen.randF(mFieldData.mShapeScaleMin.y, mFieldData.mShapeScaleMax.y),
          RandomGen.randF(mFieldData.mShapeScaleMin.z, mFieldData.mShapeScaleMax.z));
 
@@ -548,12 +548,12 @@ void fxShapeReplicator::inspectPostApply()
 //------------------------------------------------------------------------------
 
 DefineEngineFunction(StartClientReplication, void, (),, "Activates the shape replicator.\n"
-													"@tsexample\n"
-														"// Call the function\n"
-														"StartClientReplication()\n"
-													"@endtsexample\n"
-													"@ingroup Foliage"
-					)
+                                       "@tsexample\n"
+                                          "// Call the function\n"
+                                          "StartClientReplication()\n"
+                                       "@endtsexample\n"
+                                       "@ingroup Foliage"
+               )
 {
    // Find the Replicator Set.
    SimSet *fxReplicatorSet = dynamic_cast<SimSet*>(Sim::findObject("fxReplicatorSet"));
@@ -595,7 +595,7 @@ void fxShapeReplicator::renderArc(const F32 fRadiusX, const F32 fRadiusY)
    PrimBuild::begin(GFXTriangleStrip, 720);
    for (U32 Angle = mCreationAreaAngle; Angle < (mCreationAreaAngle+360); Angle++)
    {
-      F32		XPos, YPos;
+      F32      XPos, YPos;
 
       // Calculate Position.
       XPos = fRadiusX * mCos(mDegToRad(-(F32)Angle));
@@ -609,7 +609,7 @@ void fxShapeReplicator::renderArc(const F32 fRadiusX, const F32 fRadiusY)
 
       PrimBuild::vertex3f(XPos, YPos, -(F32)mFieldData.mPlacementBandHeight/2.0f);
       PrimBuild::vertex3f(XPos, YPos, +(F32)mFieldData.mPlacementBandHeight/2.0f);
-   }			
+   }        
    PrimBuild::end();
 }
 
@@ -662,7 +662,7 @@ void fxShapeReplicator::renderObject(ObjectRenderInst *ri, SceneRenderState *sta
    // Calculate Elapsed Time and take new Timestamp.
    S32 Time = Platform::getVirtualMilliseconds();
    F32 ElapsedTime = (Time - mLastRenderTime) * 0.001f;
-   mLastRenderTime = Time;	
+   mLastRenderTime = Time; 
 
    renderPlacementArea(ElapsedTime);
 }
@@ -677,32 +677,32 @@ U32 fxShapeReplicator::packUpdate(NetConnection * con, U32 mask, BitStream * str
    // Write Replication Flag.
    if (stream->writeFlag(mask & ReplicationMask))
    {
-      stream->writeAffineTransform(mObjToWorld);						// Replicator Position.
+      stream->writeAffineTransform(mObjToWorld);                  // Replicator Position.
 
-      stream->writeInt(mFieldData.mSeed, 32);							// Replicator Seed.
-      stream->writeInt(mFieldData.mShapeCount, 32);					// Shapes Count.
-      stream->writeInt(mFieldData.mShapeRetries, 32);					// Shapes Retries.
+      stream->writeInt(mFieldData.mSeed, 32);                     // Replicator Seed.
+      stream->writeInt(mFieldData.mShapeCount, 32);               // Shapes Count.
+      stream->writeInt(mFieldData.mShapeRetries, 32);             // Shapes Retries.
       stream->writeString(mFieldData.mShapeFile);
-      stream->writeInt(mFieldData.mInnerRadiusX, 32);					// Shapes Inner Radius X.
-      stream->writeInt(mFieldData.mInnerRadiusY, 32);					// Shapes Inner Radius Y.
-      stream->writeInt(mFieldData.mOuterRadiusX, 32);					// Shapes Outer Radius X.
-      stream->writeInt(mFieldData.mOuterRadiusY, 32);					// Shapes Outer Radius Y.
-      mathWrite(*stream, mFieldData.mShapeScaleMin);					// Shapes Scale Min.
-      mathWrite(*stream, mFieldData.mShapeScaleMax);					// Shapes Scale Max.
-      mathWrite(*stream, mFieldData.mShapeRotateMin);					// Shapes Rotate Min.
-      mathWrite(*stream, mFieldData.mShapeRotateMax);					// Shapes Rotate Max.
-      stream->writeSignedInt(mFieldData.mOffsetZ, 32);				// Shapes Offset Z.
-      stream->writeFlag(mFieldData.mAllowOnTerrain);					// Allow on Terrain.
-      stream->writeFlag(mFieldData.mAllowStatics);					// Allow on Statics.
-      stream->writeFlag(mFieldData.mAllowOnWater);					// Allow on Water.
-      stream->writeFlag(mFieldData.mAllowWaterSurface);				// Allow on Water Surface.
-      stream->writeSignedInt(mFieldData.mAllowedTerrainSlope, 32);	// Shapes Offset Z.
-      stream->writeFlag(mFieldData.mAlignToTerrain);					// Shapes AlignToTerrain.
-      mathWrite(*stream, mFieldData.mTerrainAlignment);				// Write Terrain Alignment.
-      stream->writeFlag(mFieldData.mHideReplications);				// Hide Replications.
-      stream->writeFlag(mFieldData.mInteractions);					// Shape Interactions.
-      stream->writeFlag(mFieldData.mShowPlacementArea);				// Show Placement Area Flag.
-      stream->writeInt(mFieldData.mPlacementBandHeight, 32);			// Placement Area Height.
+      stream->writeInt(mFieldData.mInnerRadiusX, 32);             // Shapes Inner Radius X.
+      stream->writeInt(mFieldData.mInnerRadiusY, 32);             // Shapes Inner Radius Y.
+      stream->writeInt(mFieldData.mOuterRadiusX, 32);             // Shapes Outer Radius X.
+      stream->writeInt(mFieldData.mOuterRadiusY, 32);             // Shapes Outer Radius Y.
+      mathWrite(*stream, mFieldData.mShapeScaleMin);              // Shapes Scale Min.
+      mathWrite(*stream, mFieldData.mShapeScaleMax);              // Shapes Scale Max.
+      mathWrite(*stream, mFieldData.mShapeRotateMin);             // Shapes Rotate Min.
+      mathWrite(*stream, mFieldData.mShapeRotateMax);             // Shapes Rotate Max.
+      stream->writeSignedInt(mFieldData.mOffsetZ, 32);            // Shapes Offset Z.
+      stream->writeFlag(mFieldData.mAllowOnTerrain);              // Allow on Terrain.
+      stream->writeFlag(mFieldData.mAllowStatics);             // Allow on Statics.
+      stream->writeFlag(mFieldData.mAllowOnWater);             // Allow on Water.
+      stream->writeFlag(mFieldData.mAllowWaterSurface);           // Allow on Water Surface.
+      stream->writeSignedInt(mFieldData.mAllowedTerrainSlope, 32);   // Shapes Offset Z.
+      stream->writeFlag(mFieldData.mAlignToTerrain);              // Shapes AlignToTerrain.
+      mathWrite(*stream, mFieldData.mTerrainAlignment);           // Write Terrain Alignment.
+      stream->writeFlag(mFieldData.mHideReplications);            // Hide Replications.
+      stream->writeFlag(mFieldData.mInteractions);             // Shape Interactions.
+      stream->writeFlag(mFieldData.mShowPlacementArea);           // Show Placement Area Flag.
+      stream->writeInt(mFieldData.mPlacementBandHeight, 32);         // Placement Area Height.
       stream->write(mFieldData.mPlaceAreaColour);
    }
 
@@ -720,34 +720,34 @@ void fxShapeReplicator::unpackUpdate(NetConnection * con, BitStream * stream)
    // Read Replication Details.
    if(stream->readFlag())
    {
-      MatrixF		ReplicatorObjectMatrix;
+      MatrixF     ReplicatorObjectMatrix;
 
-      stream->readAffineTransform(&ReplicatorObjectMatrix);				// Replication Position.
+      stream->readAffineTransform(&ReplicatorObjectMatrix);          // Replication Position.
 
-      mFieldData.mSeed					= stream->readInt(32);			// Replicator Seed.
-      mFieldData.mShapeCount				= stream->readInt(32);			// Shapes Count.
-      mFieldData.mShapeRetries			= stream->readInt(32);			// Shapes Retries.
-      mFieldData.mShapeFile				= stream->readSTString();		// Shape File.
-      mFieldData.mInnerRadiusX			= stream->readInt(32);			// Shapes Inner Radius X.
-      mFieldData.mInnerRadiusY			= stream->readInt(32);			// Shapes Inner Radius Y.
-      mFieldData.mOuterRadiusX			= stream->readInt(32);			// Shapes Outer Radius X.
-      mFieldData.mOuterRadiusY			= stream->readInt(32);			// Shapes Outer Radius Y.
-      mathRead(*stream, &mFieldData.mShapeScaleMin);						// Shapes Scale Min.
-      mathRead(*stream, &mFieldData.mShapeScaleMax);						// Shapes Scale Max.
-      mathRead(*stream, &mFieldData.mShapeRotateMin);						// Shapes Rotate Min.
-      mathRead(*stream, &mFieldData.mShapeRotateMax);						// Shapes Rotate Max.
-      mFieldData.mOffsetZ					= stream->readSignedInt(32);	// Shapes Offset Z.
-      mFieldData.mAllowOnTerrain			= stream->readFlag();			// Allow on Terrain.
-      mFieldData.mAllowStatics			= stream->readFlag();			// Allow on Statics.
-      mFieldData.mAllowOnWater			= stream->readFlag();			// Allow on Water.
-      mFieldData.mAllowWaterSurface		= stream->readFlag();			// Allow on Water Surface.
-      mFieldData.mAllowedTerrainSlope		= stream->readSignedInt(32);	// Allowed Terrain Slope.
-      mFieldData.mAlignToTerrain			= stream->readFlag();			// Read AlignToTerrain.
-      mathRead(*stream, &mFieldData.mTerrainAlignment);					// Read Terrain Alignment.
-      mFieldData.mHideReplications		= stream->readFlag();			// Hide Replications.
-      mFieldData.mInteractions			= stream->readFlag();			// Read Interactions.
-      mFieldData.mShowPlacementArea	= stream->readFlag();				// Show Placement Area Flag.
-      mFieldData.mPlacementBandHeight	= stream->readInt(32);				// Placement Area Height.
+      mFieldData.mSeed              = stream->readInt(32);        // Replicator Seed.
+      mFieldData.mShapeCount           = stream->readInt(32);        // Shapes Count.
+      mFieldData.mShapeRetries         = stream->readInt(32);        // Shapes Retries.
+      mFieldData.mShapeFile            = stream->readSTString();     // Shape File.
+      mFieldData.mInnerRadiusX         = stream->readInt(32);        // Shapes Inner Radius X.
+      mFieldData.mInnerRadiusY         = stream->readInt(32);        // Shapes Inner Radius Y.
+      mFieldData.mOuterRadiusX         = stream->readInt(32);        // Shapes Outer Radius X.
+      mFieldData.mOuterRadiusY         = stream->readInt(32);        // Shapes Outer Radius Y.
+      mathRead(*stream, &mFieldData.mShapeScaleMin);                 // Shapes Scale Min.
+      mathRead(*stream, &mFieldData.mShapeScaleMax);                 // Shapes Scale Max.
+      mathRead(*stream, &mFieldData.mShapeRotateMin);                // Shapes Rotate Min.
+      mathRead(*stream, &mFieldData.mShapeRotateMax);                // Shapes Rotate Max.
+      mFieldData.mOffsetZ              = stream->readSignedInt(32);  // Shapes Offset Z.
+      mFieldData.mAllowOnTerrain       = stream->readFlag();         // Allow on Terrain.
+      mFieldData.mAllowStatics         = stream->readFlag();         // Allow on Statics.
+      mFieldData.mAllowOnWater         = stream->readFlag();         // Allow on Water.
+      mFieldData.mAllowWaterSurface    = stream->readFlag();         // Allow on Water Surface.
+      mFieldData.mAllowedTerrainSlope     = stream->readSignedInt(32);  // Allowed Terrain Slope.
+      mFieldData.mAlignToTerrain       = stream->readFlag();         // Read AlignToTerrain.
+      mathRead(*stream, &mFieldData.mTerrainAlignment);              // Read Terrain Alignment.
+      mFieldData.mHideReplications     = stream->readFlag();         // Hide Replications.
+      mFieldData.mInteractions         = stream->readFlag();         // Read Interactions.
+      mFieldData.mShowPlacementArea = stream->readFlag();            // Show Placement Area Flag.
+      mFieldData.mPlacementBandHeight  = stream->readInt(32);           // Placement Area Height.
       stream->read(&mFieldData.mPlaceAreaColour);
 
       // Set Transform.

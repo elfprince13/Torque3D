@@ -59,110 +59,110 @@ ConsoleDocClass( ConvexShape,
 
 Point3F ConvexShapeCollisionConvex::support( const VectorF &vec ) const
 {
-	const Vector< Point3F > &pointList = pShape->mGeometry.points;
+   const Vector< Point3F > &pointList = pShape->mGeometry.points;
 
-	if ( pointList.empty() )
-		return pShape->getObjBox().getCenter();
-	
-	// This doesn't deal with the case that the farthest plane along vec is also
-	// perpendicular to it, but in that case maybe it doesn't matter which point we return
-	// anyway.
+   if ( pointList.empty() )
+      return pShape->getObjBox().getCenter();
+   
+   // This doesn't deal with the case that the farthest plane along vec is also
+   // perpendicular to it, but in that case maybe it doesn't matter which point we return
+   // anyway.
 
-	F32 bestDot = mDot( pointList[0], vec );
+   F32 bestDot = mDot( pointList[0], vec );
 
-	const Point3F *bestP = &pointList[0];
+   const Point3F *bestP = &pointList[0];
 
-	for ( S32 i = 1; i < pointList.size(); i++ )
-	{
-		F32 newD = mDot( pointList[i], vec );
+   for ( S32 i = 1; i < pointList.size(); i++ )
+   {
+      F32 newD = mDot( pointList[i], vec );
 
-		if ( newD > bestDot )
-		{
-			bestDot = newD;
-			bestP = &pointList[i];
-		}
-	}
+      if ( newD > bestDot )
+      {
+         bestDot = newD;
+         bestP = &pointList[i];
+      }
+   }
 
-	return *bestP;
+   return *bestP;
 }
 
 void ConvexShapeCollisionConvex::getFeatures( const MatrixF &mat, const VectorF &n, ConvexFeature *cf )
 {
-	if ( pShape->mGeometry.points.empty() )
-	{
-		cf->material = 0;
-		cf->object = NULL;
-		return;
-	}
+   if ( pShape->mGeometry.points.empty() )
+   {
+      cf->material = 0;
+      cf->object = NULL;
+      return;
+   }
 
-	cf->material = 0;
-	cf->object = mObject;
+   cf->material = 0;
+   cf->object = mObject;
 
-	// Simple implementation... Add all Points, Edges and Faces.
+   // Simple implementation... Add all Points, Edges and Faces.
 
 
-	// Points...
+   // Points...
 
-	S32 firstVert = cf->mVertexList.size();
-	
-	const Vector< Point3F > &pointList = pShape->mGeometry.points;
-	const U32 pointListCount = pointList.size();
+   S32 firstVert = cf->mVertexList.size();
+   
+   const Vector< Point3F > &pointList = pShape->mGeometry.points;
+   const U32 pointListCount = pointList.size();
 
-	cf->mVertexList.increment( pointListCount );
+   cf->mVertexList.increment( pointListCount );
 
-	for ( S32 i = 0; i < pointListCount; i++ )	
-		mat.mulP( pointList[i], &(cf->mVertexList[ firstVert + i ]) );	
-	
+   for ( S32 i = 0; i < pointListCount; i++ )   
+      mat.mulP( pointList[i], &(cf->mVertexList[ firstVert + i ]) ); 
+   
 
-	// Edges and Triangles for each face...
+   // Edges and Triangles for each face...
 
-	const Vector< ConvexShape::Face > &faceList = pShape->mGeometry.faces;
+   const Vector< ConvexShape::Face > &faceList = pShape->mGeometry.faces;
 
-	for ( S32 i = 0; i < faceList.size(); i++ )
-	{
-		// Add this Face's Edges.
+   for ( S32 i = 0; i < faceList.size(); i++ )
+   {
+      // Add this Face's Edges.
 
-		const Vector< ConvexShape::Edge > &edgeList = faceList[i].edges;		
-		const U32 edgeCount = edgeList.size();
-		const S32 firstEdge = cf->mEdgeList.size();
+      const Vector< ConvexShape::Edge > &edgeList = faceList[i].edges;     
+      const U32 edgeCount = edgeList.size();
+      const S32 firstEdge = cf->mEdgeList.size();
 
-		cf->mEdgeList.increment( edgeCount );
+      cf->mEdgeList.increment( edgeCount );
 
-		for ( S32 j = 0; j < edgeCount; j++ )
-		{
-			cf->mEdgeList[ firstEdge + j ].vertex[0] = faceList[i].points[ edgeList[j].p0 ];
-			cf->mEdgeList[ firstEdge + j ].vertex[1] = faceList[i].points[ edgeList[j].p1 ];
-		}
+      for ( S32 j = 0; j < edgeCount; j++ )
+      {
+         cf->mEdgeList[ firstEdge + j ].vertex[0] = faceList[i].points[ edgeList[j].p0 ];
+         cf->mEdgeList[ firstEdge + j ].vertex[1] = faceList[i].points[ edgeList[j].p1 ];
+      }
 
-		// Add this face's Triangles. 
+      // Add this face's Triangles. 
 
-		// Note that ConvexFeature calls triangles 'faces' but a ConvexShape 'Face' is not
-		// necessarily a single triangle.
-				
-		const Vector< ConvexShape::Triangle > &triangleList = faceList[i].triangles;
-		const U32 triangleCount = triangleList.size();
-		S32 firstTriangle = cf->mFaceList.size();
+      // Note that ConvexFeature calls triangles 'faces' but a ConvexShape 'Face' is not
+      // necessarily a single triangle.
+            
+      const Vector< ConvexShape::Triangle > &triangleList = faceList[i].triangles;
+      const U32 triangleCount = triangleList.size();
+      S32 firstTriangle = cf->mFaceList.size();
 
-		cf->mFaceList.increment( triangleCount );
+      cf->mFaceList.increment( triangleCount );
 
-		for ( S32 j = 0; j < triangleCount; j++ )
-		{			
-			ConvexFeature::Face &cft = cf->mFaceList[ firstTriangle + j ];
+      for ( S32 j = 0; j < triangleCount; j++ )
+      {        
+         ConvexFeature::Face &cft = cf->mFaceList[ firstTriangle + j ];
 
-			cft.normal = faceList[i].normal;
-			cft.vertex[0] = triangleList[j].p0;
-			cft.vertex[1] = triangleList[j].p1;
-			cft.vertex[2] = triangleList[j].p2;
-		}
-	}	
+         cft.normal = faceList[i].normal;
+         cft.vertex[0] = triangleList[j].p0;
+         cft.vertex[1] = triangleList[j].p1;
+         cft.vertex[2] = triangleList[j].p2;
+      }
+   }  
 }
 
 
 void ConvexShapeCollisionConvex::getPolyList( AbstractPolyList* list )
 {
-	SphereF sphere( Point3F::Zero, 0.0f );
-	
-	pShape->buildPolyList( PLC_Collision, list, Box3F::Invalid, sphere );	
+   SphereF sphere( Point3F::Zero, 0.0f );
+   
+   pShape->buildPolyList( PLC_Collision, list, Box3F::Invalid, sphere );   
 }
 
 
@@ -203,22 +203,22 @@ bool ConvexShape::protectedSetSurface( void *object, const char *index, const ch
    ConvexShape *shape = static_cast< ConvexShape* >( object );
 
    QuatF quat;
-	Point3F pos;
-	//MatrixF mat;
+   Point3F pos;
+   //MatrixF mat;
 
-	/*
+   /*
    dSscanf( data, "%g %g %g %g %g %g %g %g %g %g %g %g %g %g %g %g", 
       &mat[0], &mat[1], &mat[2], &mat[3], 
       &mat[4], &mat[5], &mat[6], &mat[7], 
       &mat[8], &mat[9], &mat[10], &mat[11],
       &mat[12], &mat[13], &mat[14], &mat[15] );
-	*/
+   */
 
-	dSscanf( data, "%g %g %g %g %g %g %g", &quat.x, &quat.y, &quat.z, &quat.w, &pos.x, &pos.y, &pos.z );
+   dSscanf( data, "%g %g %g %g %g %g %g", &quat.x, &quat.y, &quat.z, &quat.w, &pos.x, &pos.y, &pos.z );
 
-	MatrixF surface;
-	quat.setMatrix( &surface );
-	surface.setPosition( pos );
+   MatrixF surface;
+   quat.setMatrix( &surface );
+   surface.setPosition( pos );
 
    shape->mSurfaces.push_back( surface );   
 
@@ -378,8 +378,8 @@ void ConvexShape::writeFields( Stream &stream, U32 tabStop )
    {      
       const MatrixF &mat = mSurfaces[i];
 
-		QuatF quat( mat );
-		Point3F pos( mat.getPosition() );
+      QuatF quat( mat );
+      Point3F pos( mat.getPosition() );
 
       stream.writeTabs(tabStop);
 
@@ -437,7 +437,7 @@ U32 ConvexShape::packUpdate( NetConnection *conn, U32 mask, BitStream *stream )
       for ( S32 i = 0; i < surfCount; i++ )    
       {
          QuatF quat( mSurfaces[i] );
-		 Point3F pos( mSurfaces[i].getPosition() );
+       Point3F pos( mSurfaces[i].getPosition() );
 
          mathWrite( *stream, quat );
          mathWrite( *stream, pos );                    
@@ -538,12 +538,12 @@ void ConvexShape::prepRenderImage( SceneRenderState *state )
    ri->worldToCamera = renderPass->allocSharedXform(RenderPassManager::View);
    ri->projection    = renderPass->allocSharedXform(RenderPassManager::Projection);
 
-	// If we need lights then set them up.
+   // If we need lights then set them up.
    if ( matInst->isForwardLit() )
    {
       LightQuery query;
       query.init( getWorldSphere() );
-		query.getLights( ri->lights, 8 );
+      query.getLights( ri->lights, 8 );
    }
 
    // Make sure we have an up-to-date backbuffer in case
@@ -624,7 +624,7 @@ void ConvexShape::buildConvex( const Box3F &box, Convex *convex )
 
 bool ConvexShape::buildPolyList( PolyListContext context, AbstractPolyList *plist, const Box3F &box, const SphereF &sphere )
 {
-   if ( mGeometry.points.empty() )	
+   if ( mGeometry.points.empty() )  
       return false;
 
    // If we're exporting deal with that first.
@@ -645,7 +645,7 @@ bool ConvexShape::buildPolyList( PolyListContext context, AbstractPolyList *plis
 
    S32 base = plist->addPoint( pointList[0] );
 
-   for ( S32 i = 1; i < pointList.size(); i++ )	
+   for ( S32 i = 1; i < pointList.size(); i++ ) 
       plist->addPoint( pointList[i] );
 
 
@@ -678,7 +678,7 @@ bool ConvexShape::buildPolyList( PolyListContext context, AbstractPolyList *plis
 
    for ( S32 i = 0; i < faceList.size(); i++ )
    {
-      const ConvexShape::Face &face = faceList[i];		
+      const ConvexShape::Face &face = faceList[i];    
 
       plist->begin( 0, i );
 
@@ -715,7 +715,7 @@ void ConvexShape::_export( OptimizedPolyList *plist, const Box3F &box, const Sph
 
    for ( S32 i = 0; i < faceList.size(); i++ )
    {
-      const ConvexShape::Face &face = faceList[i];		
+      const ConvexShape::Face &face = faceList[i];    
 
       plist->begin( matInst, i, OptimizedPolyList::TriangleList );
 
@@ -942,11 +942,11 @@ void ConvexShape::cullEmptyPlanes( Vector< U32 > *removedPlanes )
 
 void ConvexShape::exportToCollada()
 {
-	if ( mSurfaces.size() == 0 )
-	{
-		Con::errorf( "ConvexShape::exportToCollada() - has no surfaces to export!" );
-		return;
-	}
+   if ( mSurfaces.size() == 0 )
+   {
+      Con::errorf( "ConvexShape::exportToCollada() - has no surfaces to export!" );
+      return;
+   }
 }
 
 void ConvexShape::resizePlanes( const Point3F &size )
@@ -1005,7 +1005,7 @@ void ConvexShape::getSurfaceLineList( S32 surfId, Vector< Point3F > &lineList )
 void ConvexShape::_updateMaterial()
 {   
    // If the material name matches then don't bother updating it.
-   if ( mMaterialInst && mMaterialName.equal( mMaterialInst->getMaterial()->getName(), String::NoCase ) )
+   if ( mMaterialInst && mMaterialName.equal( mMaterialInst->getMaterial()->getName().c_str(), String::NoCase ) )
       return;
 
    SAFE_DELETE( mMaterialInst );
@@ -1041,9 +1041,9 @@ void ConvexShape::_updateGeometry( bool updateCollision )
    for ( S32 i = 0; i < mSurfaces.size(); i++ )   
       mPlanes.push_back( PlaneF( mSurfaces[i].getPosition(), mSurfaces[i].getUpVector() ) );
 
-	Vector< Point3F > tangents;
-	for ( S32 i = 0; i < mSurfaces.size(); i++ )
-		tangents.push_back( mSurfaces[i].getRightVector() );
+   Vector< Point3F > tangents;
+   for ( S32 i = 0; i < mSurfaces.size(); i++ )
+      tangents.push_back( mSurfaces[i].getRightVector() );
    
    mGeometry.generate( mPlanes, tangents );
 
@@ -1055,7 +1055,7 @@ void ConvexShape::_updateGeometry( bool updateCollision )
    // Reset our surface center points.
 
    for ( S32 i = 0; i < faceList.size(); i++ )
-		mSurfaces[ faceList[i].id ].setPosition( faceList[i].centroid );
+      mSurfaces[ faceList[i].id ].setPosition( faceList[i].centroid );
 
    mPlanes.clear();
 
@@ -1065,10 +1065,10 @@ void ConvexShape::_updateGeometry( bool updateCollision )
    // Update bounding box.   
    updateBounds( false );
 
-	mVertexBuffer = NULL;
-	mPrimitiveBuffer = NULL;
-	mVertCount = 0;
-	mPrimCount = 0;
+   mVertexBuffer = NULL;
+   mPrimitiveBuffer = NULL;
+   mVertCount = 0;
+   mPrimCount = 0;
 
    if ( updateCollision )
       _updateCollision();
@@ -1081,45 +1081,45 @@ void ConvexShape::_updateGeometry( bool updateCollision )
       return;
 
 
-	// Get total vert and prim count.
+   // Get total vert and prim count.
 
-	for ( S32 i = 0; i < faceList.size(); i++ )	
-	{
-		U32 count = faceList[i].triangles.size();
-		mPrimCount += count;
-		mVertCount += count * 3;		
-	}
+   for ( S32 i = 0; i < faceList.size(); i++ )  
+   {
+      U32 count = faceList[i].triangles.size();
+      mPrimCount += count;
+      mVertCount += count * 3;      
+   }
 
-	// Allocate VB and copy in data.
+   // Allocate VB and copy in data.
 
-	mVertexBuffer.set( GFX, mVertCount, GFXBufferTypeStatic );
-	VertexType *pVert = mVertexBuffer.lock();
+   mVertexBuffer.set( GFX, mVertCount, GFXBufferTypeStatic );
+   VertexType *pVert = mVertexBuffer.lock();
 
-	for ( S32 i = 0; i < faceList.size(); i++ )
-	{
-		const ConvexShape::Face &face = faceList[i];
-		const Vector< U32 > &facePntMap = face.points;
-		const Vector< ConvexShape::Triangle > &triangles = face.triangles;
-		const ColorI &faceColor = sgConvexFaceColors[ i % sgConvexFaceColorCount ];
+   for ( S32 i = 0; i < faceList.size(); i++ )
+   {
+      const ConvexShape::Face &face = faceList[i];
+      const Vector< U32 > &facePntMap = face.points;
+      const Vector< ConvexShape::Triangle > &triangles = face.triangles;
+      const ColorI &faceColor = sgConvexFaceColors[ i % sgConvexFaceColorCount ];
 
-		for ( S32 j = 0; j < triangles.size(); j++ )
-		{
-			for ( S32 k = 0; k < 3; k++ )
-			{
-				pVert->normal = face.normal;
-				pVert->tangent = face.tangent;
-				pVert->color = faceColor;			
-				pVert->point = pointList[ facePntMap[ triangles[j][k] ] ];
-				pVert->texCoord = face.texcoords[ triangles[j][k] ];
+      for ( S32 j = 0; j < triangles.size(); j++ )
+      {
+         for ( S32 k = 0; k < 3; k++ )
+         {
+            pVert->normal = face.normal;
+            pVert->tangent = face.tangent;
+            pVert->color = faceColor;        
+            pVert->point = pointList[ facePntMap[ triangles[j][k] ] ];
+            pVert->texCoord = face.texcoords[ triangles[j][k] ];
 
-				pVert++;
-			}
-		}		
-	}	
+            pVert++;
+         }
+      }     
+   }  
 
-	mVertexBuffer.unlock();
+   mVertexBuffer.unlock();
 
-	// Allocate PB
+   // Allocate PB
 
    mPrimitiveBuffer.set( GFX, mPrimCount * 3, mPrimCount, GFXBufferTypeStatic );
 
@@ -1193,7 +1193,7 @@ void ConvexShape::_renderDebug( ObjectRenderInst *ri, SceneRenderState *state, B
 
 
    const Vector< Point3F > &pointList = mGeometry.points;
-	const Vector< ConvexShape::Face > &faceList = mGeometry.faces;
+   const Vector< ConvexShape::Face > &faceList = mGeometry.faces;
 
    // Render Edges.
    if ( false )
@@ -1456,7 +1456,7 @@ void ConvexShape::Geometry::generate( const Vector< PlaneF > &planes, const Vect
    PROFILE_SCOPE( Geometry_generate );
 
    points.clear();
-   faces.clear();	
+   faces.clear(); 
 
    AssertFatal( planes.size() == tangents.size(), "ConvexShape - incorrect plane/tangent count." );
 
@@ -1591,42 +1591,42 @@ void ConvexShape::Geometry::generate( const Vector< PlaneF > &planes, const Vect
       //AssertFatal( newFace.points.size() == newFace.edges.size(), "ConvexShape - face point count does not equal edge count." );
 
 
-		// Fill in some basic Face information.
+      // Fill in some basic Face information.
 
-		newFace.id = i;
-		newFace.normal = planes[i];
-		newFace.tangent = tangents[i];
+      newFace.id = i;
+      newFace.normal = planes[i];
+      newFace.tangent = tangents[i];
 
 
-		// Make a working array of Point3Fs on this face.
+      // Make a working array of Point3Fs on this face.
 
-		U32 pntCount = newFace.points.size();		
-		Point3F *workPoints = new Point3F[ pntCount ];
+      U32 pntCount = newFace.points.size();     
+      Point3F *workPoints = new Point3F[ pntCount ];
 
-		for ( S32 j = 0; j < pntCount; j++ )
-			workPoints[j] = points[ newFace.points[j] ];
+      for ( S32 j = 0; j < pntCount; j++ )
+         workPoints[j] = points[ newFace.points[j] ];
 
 
       // Calculate the average point for calculating winding order.
 
       Point3F averagePnt = Point3F::Zero;
 
-		for ( S32 j = 0; j < pntCount; j++ )
-			averagePnt += workPoints[j];
+      for ( S32 j = 0; j < pntCount; j++ )
+         averagePnt += workPoints[j];
 
-		averagePnt /= pntCount;		
+      averagePnt /= pntCount;    
 
 
-		// Sort points in correct winding order.
+      // Sort points in correct winding order.
 
-		U32 *vertMap = new U32[pntCount];
+      U32 *vertMap = new U32[pntCount];
 
       MatrixF quadMat( true );
       quadMat.setPosition( averagePnt );
       quadMat.setColumn( 0, newFace.tangent );
       quadMat.setColumn( 1, mCross( newFace.normal, newFace.tangent ) );
       quadMat.setColumn( 2, newFace.normal );
-		quadMat.inverse();
+      quadMat.inverse();
 
       // Transform working points into quad space 
       // so we can work with them as 2D points.
@@ -1634,7 +1634,7 @@ void ConvexShape::Geometry::generate( const Vector< PlaneF > &planes, const Vect
       for ( S32 j = 0; j < pntCount; j++ )
          quadMat.mulP( workPoints[j] );
 
-		MathUtils::sortQuadWindingOrder( true, workPoints, vertMap, pntCount );
+      MathUtils::sortQuadWindingOrder( true, workPoints, vertMap, pntCount );
 
       // Save points in winding order.
 
@@ -1682,48 +1682,48 @@ void ConvexShape::Geometry::generate( const Vector< PlaneF > &planes, const Vect
       delete [] workPoints;
       workPoints = NULL;
 
-		// Make polygons / triangles for this face.
+      // Make polygons / triangles for this face.
 
-		const U32 polyCount = pntCount - 2;
+      const U32 polyCount = pntCount - 2;
 
-		newFace.triangles.setSize( polyCount );
+      newFace.triangles.setSize( polyCount );
 
-		for ( S32 j = 0; j < polyCount; j++ )
-		{
-			ConvexShape::Triangle &poly = newFace.triangles[j];
+      for ( S32 j = 0; j < polyCount; j++ )
+      {
+         ConvexShape::Triangle &poly = newFace.triangles[j];
 
-			poly.p0 = vertMap[0];
+         poly.p0 = vertMap[0];
 
-			if ( j == 0 )
-			{
-				poly.p1 = vertMap[ 1 ];
-				poly.p2 = vertMap[ 2 ];
-			}
-			else
-			{
-				poly.p1 = vertMap[ 1 + j ];
-				poly.p2 = vertMap[ 2 + j ];
-			}
-		}
+         if ( j == 0 )
+         {
+            poly.p1 = vertMap[ 1 ];
+            poly.p2 = vertMap[ 2 ];
+         }
+         else
+         {
+            poly.p1 = vertMap[ 1 + j ];
+            poly.p2 = vertMap[ 2 + j ];
+         }
+      }
 
-		delete [] vertMap;
+      delete [] vertMap;
 
 
-		// Calculate texture coordinates for each point in this face.
+      // Calculate texture coordinates for each point in this face.
 
-		const Point3F binormal = mCross( newFace.normal, newFace.tangent );
-		PlaneF planey( newFace.centroid - 0.5f * binormal, binormal );
-		PlaneF planex( newFace.centroid - 0.5f * newFace.tangent, newFace.tangent );
+      const Point3F binormal = mCross( newFace.normal, newFace.tangent );
+      PlaneF planey( newFace.centroid - 0.5f * binormal, binormal );
+      PlaneF planex( newFace.centroid - 0.5f * newFace.tangent, newFace.tangent );
 
-		newFace.texcoords.setSize( newFace.points.size() );
+      newFace.texcoords.setSize( newFace.points.size() );
 
-		for ( S32 j = 0; j < newFace.points.size(); j++ )
-		{
-			F32 x = planex.distToPlane( points[ newFace.points[ j ] ] );
-			F32 y = planey.distToPlane( points[ newFace.points[ j ] ] );
+      for ( S32 j = 0; j < newFace.points.size(); j++ )
+      {
+         F32 x = planex.distToPlane( points[ newFace.points[ j ] ] );
+         F32 y = planey.distToPlane( points[ newFace.points[ j ] ] );
 
-			newFace.texcoords[j].set( -x, -y );
-		}
+         newFace.texcoords[j].set( -x, -y );
+      }
 
       // Data verification tests.
 #ifdef TORQUE_ENABLE_ASSERTS

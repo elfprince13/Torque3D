@@ -132,7 +132,7 @@ void ShapeAsset::initializeAsset()
 
 bool ShapeAsset::loadShape()
 {
-   mShape = ResourceManager::get().load(mFileName);
+   mShape = ResourceManager::get().load(mFileName.c_str());
 
    if (!mShape)
    {

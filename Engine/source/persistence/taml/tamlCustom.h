@@ -649,7 +649,7 @@ private:
                 continue;
 
             // Warn!
-            Con::warnf("Conflicting Taml node field name of '%s' in node '%s'.", pCustomField->getFieldName(), mNodeName );
+            Con::warnf("Conflicting Taml node field name of '%s' in node '%s'.", pCustomField->getFieldName().c_str(), mNodeName.c_str() );
 
             // Cache node field.
             TamlCustomFieldFactory.cacheObject( pCustomField );
@@ -661,7 +661,7 @@ private:
         {
             // Warn.
             Con::warnf("Taml field name '%s' has a field value that is too long (Max:%d): '%s'.",
-                pCustomField->getFieldName(),
+                pCustomField->getFieldName().c_str(),
                 MAX_TAML_NODE_FIELDVALUE_LENGTH,
                 pCustomField->getFieldValue() );
 

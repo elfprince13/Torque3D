@@ -258,7 +258,7 @@ class Namespace
       static void shutdown();
       static Namespace *global();
 
-      static Namespace *find(StringTableEntry name, StringTableEntry package=NULL);
+      static Namespace *find(StringTableEntry name, StringTableEntry package=nullptr);
 
       static void activatePackage(StringTableEntry name);
       static void deactivatePackage(StringTableEntry name);
@@ -301,12 +301,7 @@ public:
 
    public:
 
-      Entry() {
-         name = NULL;
-         notify = NULL;
-         nextEntry = NULL;
-         mUsage = NULL;
-         mIsConstant = false;
+      Entry() : name(nullptr), notify(nullptr), nextEntry(nullptr), mUsage(nullptr), mIsConstant(false) {
          value.init();
       }
       
@@ -316,7 +311,7 @@ public:
       Entry *mNext;
       
       void reset() {
-         name = NULL;
+         name = nullptr;
          value.cleanup();
          if ( notify )
             delete notify;
@@ -341,7 +336,7 @@ public:
       {
          if( mIsConstant )
          {
-            Con::errorf( "Cannot assign value to constant '%s'.", name );
+            Con::errorf( "Cannot assign value to constant '%s'.", name.c_str() );
             return;
          }
          
@@ -356,7 +351,7 @@ public:
       {
          if( mIsConstant )
          {
-            Con::errorf( "Cannot assign value to constant '%s'.", name );
+            Con::errorf( "Cannot assign value to constant '%s'.", name.c_str() );
             return;
          }
          
@@ -371,7 +366,7 @@ public:
       {
          if( mIsConstant )
          {
-            Con::errorf( "Cannot assign value to constant '%s'.", name );
+            Con::errorf( "Cannot assign value to constant '%s'.", name.c_str() );
             return;
          }
          
@@ -387,7 +382,7 @@ public:
       {
          if( mIsConstant )
          {
-            Con::errorf( "Cannot assign value to constant '%s'.", name );
+            Con::errorf( "Cannot assign value to constant '%s'.", name.c_str() );
             return;
          }
          

@@ -122,7 +122,7 @@ struct MessageQueue
    StringTableEntry mQueueName;
    VectorPtr<IMessageListener *> mListeners;
 
-   MessageQueue() : mQueueName("")
+   MessageQueue() : mQueueName(StringTable->EmptyString())
    {
    }
 

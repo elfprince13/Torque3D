@@ -111,10 +111,10 @@ ParticleData::ParticleData()
    texCoords[2].set(1.0,1.0);   // (defaults to entire particle)
    texCoords[3].set(1.0,0.0);
    animTexTiling.set(0,0);      // tiling dimensions 
-   animTexFramesString = NULL;  // string of animation frame indices
-   animTexUVs = NULL;           // array of tile vertex UVs
-   textureName = NULL;          // texture filename
-   textureHandle = NULL;        // loaded texture handle
+   animTexFramesString = nullptr;  // string of animation frame indices
+   animTexUVs = nullptr;           // array of tile vertex UVs
+   textureName = nullptr;          // texture filename
+   textureHandle = nullptr;        // loaded texture handle
 }
 
 //-----------------------------------------------------------------------------
@@ -335,14 +335,14 @@ void ParticleData::unpackData(BitStream* stream)
       sizes[i] = stream->readFloat(14) * MaxParticleSize;
       times[i] = stream->readFloat(8);
    }
-   textureName = (stream->readFlag()) ? stream->readSTString() : 0;
+   textureName = (stream->readFlag()) ? stream->readSTString() : nullptr;
    for (i = 0; i < 4; i++)
       mathRead(*stream, &texCoords[i]);
    
    animateTexture = stream->readFlag();
    if (animateTexture)
    {
-     animTexFramesString = (stream->readFlag()) ? stream->readSTString() : 0;
+     animTexFramesString = (stream->readFlag()) ? stream->readSTString() : nullptr;
      mathRead(*stream, &animTexTiling);
      framesPerSec = stream->readInt(8);
    }
@@ -389,39 +389,39 @@ bool ParticleData::onAdd()
       return false;
 
    if (dragCoefficient < 0.0) {
-      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) drag coeff less than 0", getName());
+      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) drag coeff less than 0", getName().c_str());
       dragCoefficient = 0.0f;
    }
    if (lifetimeMS < 1) {
-      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) lifetime < 1 ms", getName());
+      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) lifetime < 1 ms", getName().c_str());
       lifetimeMS = 1;
    }
    if (lifetimeVarianceMS >= lifetimeMS) {
-      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) lifetimeVariance >= lifetime", getName());
+      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) lifetimeVariance >= lifetime", getName().c_str());
       lifetimeVarianceMS = lifetimeMS - 1;
    }
    if (spinSpeed > 1000.f || spinSpeed < -1000.f) {
-      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) spinSpeed invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) spinSpeed invalid", getName().c_str());
       return false;
    }
    if (spinRandomMin > 1000.f || spinRandomMin < -1000.f) {
-      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) spinRandomMin invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) spinRandomMin invalid", getName().c_str());
       spinRandomMin = -360.0;
       return false;
    }
    if (spinRandomMin > spinRandomMax) {
-      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) spinRandomMin greater than spinRandomMax", getName());
+      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) spinRandomMin greater than spinRandomMax", getName().c_str());
       spinRandomMin = spinRandomMax - (spinRandomMin - spinRandomMax );
       return false;
    }
    if (spinRandomMax > 1000.f || spinRandomMax < -1000.f) {
-      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) spinRandomMax invalid", getName());
+      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) spinRandomMax invalid", getName().c_str());
       spinRandomMax = 360.0;
       return false;
    }
    if (framesPerSec > 255)
    {
-      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) framesPerSec > 255, too high", getName());
+      Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) framesPerSec > 255, too high", getName().c_str());
       framesPerSec = 255;
       return false;
    }
@@ -429,7 +429,7 @@ bool ParticleData::onAdd()
    times[0] = 0.0f;
    for (U32 i = 1; i < 4; i++) {
       if (times[i] < times[i-1]) {
-         Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) times[%d] < times[%d]", getName(), i, i-1);
+         Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) times[%d] < times[%d]", getName().c_str(), i, i-1);
          times[i] = times[i-1];
       }
    }
@@ -442,7 +442,7 @@ bool ParticleData::onAdd()
      {
        Con::warnf(ConsoleLogEntry::General, 
                   "ParticleData(%s) bad value(s) for animTexTiling [%d or %d <= 0], invalid datablock", 
-                  animTexTiling.x, animTexTiling.y, getName());
+                  animTexTiling.x, animTexTiling.y, getName().c_str());
        return false;
      }
 
@@ -451,21 +451,21 @@ bool ParticleData::onAdd()
      {
        Con::warnf(ConsoleLogEntry::General, 
                   "ParticleData(%s) bad values for animTexTiling [%d*%d > %d], invalid datablock", 
-                  animTexTiling.x, animTexTiling.y, 256, getName());
+                  animTexTiling.x, animTexTiling.y, 256, getName().c_str());
        return false;
      }
 
      // A list of frames is required
      if (!animTexFramesString || !animTexFramesString[0]) 
      {
-       Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) no animTexFrames, invalid datablock", getName());
+       Con::warnf(ConsoleLogEntry::General, "ParticleData(%s) no animTexFrames, invalid datablock", getName().c_str());
        return false;
      }
 
      // The frame list cannot be too long.
      if (animTexFramesString && dStrlen(animTexFramesString) > 255) 
      {
-       Con::errorf(ConsoleLogEntry::General, "ParticleData(%s) animTexFrames string too long [> 255 chars]", getName());
+       Con::errorf(ConsoleLogEntry::General, "ParticleData(%s) animTexFrames string too long [> 255 chars]", getName().c_str());
        return false;
      }
    }
@@ -488,10 +488,10 @@ bool ParticleData::preload(bool server, String &errorStr)
       // texture is *not* an error since the emitter may provide one.
       if (textureName && textureName[0])
       {
-        textureHandle = GFXTexHandle(textureName, &GFXDefaultStaticDiffuseProfile, avar("%s() - textureHandle (line %d)", __FUNCTION__, __LINE__));
+        textureHandle = GFXTexHandle(textureName.c_str(), &GFXDefaultStaticDiffuseProfile, avar("%s() - textureHandle (line %d)", __FUNCTION__, __LINE__));
         if (!textureHandle)
         {
-          errorStr = String::ToString("Missing particle texture: %s", textureName);
+          errorStr = String::ToString("Missing particle texture: %s", textureName.c_str());
           error = true;
         }
       }
@@ -611,15 +611,15 @@ void ParticleData::initializeParticle(Particle* init, const Point3F& inheritVelo
 bool ParticleData::reload(char errorBuffer[256])
 {
    bool error = false;
-	if (textureName && textureName[0])
+   if (textureName && textureName[0])
    {
-        textureHandle = GFXTexHandle(textureName, &GFXDefaultStaticDiffuseProfile, avar("%s() - textureHandle (line %d)", __FUNCTION__, __LINE__));
+        textureHandle = GFXTexHandle(textureName.c_str(), &GFXDefaultStaticDiffuseProfile, avar("%s() - textureHandle (line %d)", __FUNCTION__, __LINE__));
         if (!textureHandle)
         {
-				dSprintf(errorBuffer, 256, "Missing particle texture: %s", textureName);
-				error = true;
-		  }
-	}
+            dSprintf(errorBuffer, 256, "Missing particle texture: %s", textureName.c_str());
+            error = true;
+        }
+   }
    /*
    numFrames = 0;
    for( S32 i=0; i<PDC_MAX_TEX; i++ )

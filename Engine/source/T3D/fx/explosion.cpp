@@ -218,7 +218,7 @@ ConsoleDocClass( ExplosionData,
 
 ExplosionData::ExplosionData()
 {
-   dtsFileName  = NULL;
+   dtsFileName  = nullptr;
    particleDensity = 10;
    particleRadius = 1.0f;
 
@@ -422,7 +422,7 @@ bool ExplosionData::onAdd()
 
    if (explosionScale.x < 0.01f || explosionScale.y < 0.01f || explosionScale.z < 0.01f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s)::onAdd: ExplosionScale components must be >= 0.01", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s)::onAdd: ExplosionScale components must be >= 0.01", getName().c_str());
       explosionScale.x = explosionScale.x < 0.01f ? 0.01f : explosionScale.x;
       explosionScale.y = explosionScale.y < 0.01f ? 0.01f : explosionScale.y;
       explosionScale.z = explosionScale.z < 0.01f ? 0.01f : explosionScale.z;
@@ -430,73 +430,73 @@ bool ExplosionData::onAdd()
 
    if (debrisThetaMin < 0.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMin < 0.0", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMin < 0.0", getName().c_str());
       debrisThetaMin = 0.0f;
    }
    if (debrisThetaMax > 180.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMax > 180.0", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMax > 180.0", getName().c_str());
       debrisThetaMax = 180.0f;
    }
    if (debrisThetaMin > debrisThetaMax) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMin > debrisThetaMax", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisThetaMin > debrisThetaMax", getName().c_str());
       debrisThetaMin = debrisThetaMax;
    }
    if (debrisPhiMin < 0.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMin < 0.0", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMin < 0.0", getName().c_str());
       debrisPhiMin = 0.0f;
    }
    if (debrisPhiMax > 360.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMax > 360.0", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMax > 360.0", getName().c_str());
       debrisPhiMax = 360.0f;
    }
    if (debrisPhiMin > debrisPhiMax) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMin > debrisPhiMax", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisPhiMin > debrisPhiMax", getName().c_str());
       debrisPhiMin = debrisPhiMax;
    }
    if (debrisNum > 1000) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisNum > 1000", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisNum > 1000", getName().c_str());
       debrisNum = 1000;
    }
    if (debrisNumVariance > 1000) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisNumVariance > 1000", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisNumVariance > 1000", getName().c_str());
       debrisNumVariance = 1000;
    }
    if (debrisVelocity < 0.1f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisVelocity < 0.1", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisVelocity < 0.1", getName().c_str());
       debrisVelocity = 0.1f;
    }
    if (debrisVelocityVariance > 1000) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisVelocityVariance > 1000", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) debrisVelocityVariance > 1000", getName().c_str());
       debrisVelocityVariance = 1000;
    }
    if (playSpeed < 0.05f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) playSpeed < 0.05", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) playSpeed < 0.05", getName().c_str());
       playSpeed = 0.05f;
    }
    if (lifetimeMS < 1) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) lifetimeMS < 1", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) lifetimeMS < 1", getName().c_str());
       lifetimeMS = 1;
    }
    if (lifetimeVariance > lifetimeMS) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) lifetimeVariance > lifetimeMS", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) lifetimeVariance > lifetimeMS", getName().c_str());
       lifetimeVariance = lifetimeMS;
    }
    if (delayMS < 0) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) delayMS < 0", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) delayMS < 0", getName().c_str());
       delayMS = 0;
    }
    if (delayVariance > delayMS) {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) delayVariance > delayMS", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) delayVariance > delayMS", getName().c_str());
       delayVariance = delayMS;
    }
    if (offset < 0.0f)
    {
-      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) offset < 0.0", getName());
+      Con::warnf(ConsoleLogEntry::General, "ExplosionData(%s) offset < 0.0", getName().c_str());
       offset = 0.0f;
    }
 
@@ -642,7 +642,7 @@ void ExplosionData::packData(BitStream* stream)
 
 void ExplosionData::unpackData(BitStream* stream)
 {
-	Parent::unpackData(stream);
+   Parent::unpackData(stream);
 
    dtsFileName = stream->readSTString();
 
@@ -760,9 +760,9 @@ bool ExplosionData::preload(bool server, String &errorStr)
    }
 
    if (dtsFileName && dtsFileName[0]) {
-      explosionShape = ResourceManager::get().load(dtsFileName);
+      explosionShape = ResourceManager::get().load(dtsFileName.c_str());
       if (!bool(explosionShape)) {
-         errorStr = String::ToString("ExplosionData: Couldn't load shape \"%s\"", dtsFileName);
+         errorStr = String::ToString("ExplosionData: Couldn't load shape \"%s\"", dtsFileName.c_str());
          return false;
       }
 
@@ -1196,7 +1196,7 @@ void Explosion::launchDebris( Point3F &axis )
 
       if( !debris->registerObject() )
       {
-         Con::warnf( ConsoleLogEntry::General, "Could not register debris for class: %s", mDataBlock->getName() );
+         Con::warnf( ConsoleLogEntry::General, "Could not register debris for class: %s", mDataBlock->getName().c_str() );
          delete debris;
          debris = NULL;
       }
@@ -1276,7 +1276,7 @@ bool Explosion::explode()
          pEmitter->setDataBlock( mDataBlock->emitterList[i] );
          if( !pEmitter->registerObject() )
          {
-            Con::warnf( ConsoleLogEntry::General, "Could not register emitter for particle of class: %s", mDataBlock->getName() );
+            Con::warnf( ConsoleLogEntry::General, "Could not register emitter for particle of class: %s", mDataBlock->getName().c_str() );
             SAFE_DELETE(pEmitter);
          }
          mEmitterList[i] = pEmitter;

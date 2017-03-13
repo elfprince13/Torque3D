@@ -1234,7 +1234,7 @@ public:
    {
       mThis = pThis;
       mArgc = mInitialArgc = 2;
-      mCallbackName = NULL;
+      mCallbackName = nullptr;
    }
 
    
