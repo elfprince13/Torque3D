@@ -142,7 +142,8 @@ class SimSet : public SimObject, public TamlChildren
       /// @{
 
       ///
-      typedef SimObjectList::iterator iterator;
+   typedef SimObjectList::iterator iterator;
+   typedef SimObjectList::const_iterator const_iterator;
       typedef SimObjectList::value_type value;
       SimObject* front() { return objectList.front(); }
       SimObject* first() { return objectList.first(); }
@@ -151,6 +152,8 @@ class SimSet : public SimObject, public TamlChildren
       S32        size() const  { return objectList.size(); }
       iterator   begin() { return objectList.begin(); }
       iterator   end()   { return objectList.end(); }
+      const_iterator begin() const { return objectList.begin(); }
+     const_iterator end() const { return objectList.end(); }
       value operator[] (S32 index) { return objectList[U32(index)]; }
 
       inline iterator find( iterator first, iterator last, SimObject *obj)
