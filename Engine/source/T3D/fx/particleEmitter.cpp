@@ -201,7 +201,7 @@ void ParticleEmitterData::initPersistFields()
 
       addFieldV( "ejectionOffset", TYPEID< F32 >(), Offset(ejectionOffset, ParticleEmitterData), &ejectionFValidator,
          "Distance along ejection Z axis from which to eject particles." );
-		 
+       
       addFieldV( "ejectionOffsetVariance", TYPEID< F32 >(), Offset(ejectionOffsetVariance, ParticleEmitterData), &ejectionFValidator,
          "Distance Padding along ejection Z axis from which to eject particles." );
 
@@ -844,8 +844,8 @@ bool ParticleEmitter::onNewDataBlock( GameBaseData *dptr, bool reload )
 //-----------------------------------------------------------------------------
 ColorF ParticleEmitter::getCollectiveColor()
 {
-	U32 count = 0;
-	ColorF color = ColorF(0.0f, 0.0f, 0.0f);
+   U32 count = 0;
+   ColorF color = ColorF(0.0f, 0.0f, 0.0f);
 
    count = n_parts;
    for( Particle* part = part_list_head.next; part != NULL; part = part->next )
@@ -853,15 +853,15 @@ ColorF ParticleEmitter::getCollectiveColor()
       color += part->color;
    }
 
-	if(count > 0)
+   if(count > 0)
    {
       color /= F32(count);
    }
 
-	//if(color.red == 0.0f && color.green == 0.0f && color.blue == 0.0f)
-	//	color = color;
+   //if(color.red == 0.0f && color.green == 0.0f && color.blue == 0.0f)
+   // color = color;
 
-	return color;
+   return color;
 }
 
 
@@ -1384,9 +1384,9 @@ void ParticleEmitter::advanceTime(F32 dt)
 //-----------------------------------------------------------------------------
 void ParticleEmitter::updateKeyData( Particle *part )
 {
-	//Ensure that our lifetime is never below 0
-	if( part->totalLifetime < 1 )
-		part->totalLifetime = 1;
+   //Ensure that our lifetime is never below 0
+   if( part->totalLifetime < 1 )
+      part->totalLifetime = 1;
 
    F32 t = F32(part->currentAge) / F32(part->totalLifetime);
    AssertFatal(t <= 1.0f, "Out out bounds filter function for particle.");
@@ -1558,7 +1558,7 @@ void ParticleEmitter::copyToVB( const Point3F &camPos, const ColorF &ambientColo
              setupOriented(partPtr, camPos, ambientColor, buffPtr);
         }
       }
-	  PROFILE_END();
+     PROFILE_END();
    }
    else if (mDataBlock->alignParticles)
    {
@@ -1600,7 +1600,7 @@ void ParticleEmitter::copyToVB( const Point3F &camPos, const ColorF &ambientColo
                setupAligned(partPtr, ambientColor, buffPtr);
          }
       }
-	  PROFILE_END();
+     PROFILE_END();
    }
    else
    {

@@ -642,7 +642,7 @@ void ExplosionData::packData(BitStream* stream)
 
 void ExplosionData::unpackData(BitStream* stream)
 {
-	Parent::unpackData(stream);
+   Parent::unpackData(stream);
 
    dtsFileName = stream->readSTString();
 

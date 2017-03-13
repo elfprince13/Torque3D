@@ -611,15 +611,15 @@ void ParticleData::initializeParticle(Particle* init, const Point3F& inheritVelo
 bool ParticleData::reload(char errorBuffer[256])
 {
    bool error = false;
-	if (textureName && textureName[0])
+   if (textureName && textureName[0])
    {
         textureHandle = GFXTexHandle(textureName, &GFXDefaultStaticDiffuseProfile, avar("%s() - textureHandle (line %d)", __FUNCTION__, __LINE__));
         if (!textureHandle)
         {
-				dSprintf(errorBuffer, 256, "Missing particle texture: %s", textureName);
-				error = true;
-		  }
-	}
+            dSprintf(errorBuffer, 256, "Missing particle texture: %s", textureName);
+            error = true;
+        }
+   }
    /*
    numFrames = 0;
    for( S32 i=0; i<PDC_MAX_TEX; i++ )

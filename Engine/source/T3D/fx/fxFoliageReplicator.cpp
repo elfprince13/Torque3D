@@ -23,9 +23,9 @@
 // Written by Melvyn May, Started on 4th August 2002.
 //
 // "My code is written for the Torque community, so do your worst with it,
-//	just don't rip-it-off and call it your own without even thanking me".
+// just don't rip-it-off and call it your own without even thanking me".
 //
-//	- Melv.
+// - Melv.
 //
 //
 // Conversion to TSE By Brian "bzztbomb" Richardson 9/2005
@@ -47,7 +47,7 @@
 #include "T3D/fx/fxFoliageReplicator.h"
 
 #include "gfx/gfxDevice.h"
-#include "gfx/primBuilder.h"	// Used for debug / mission edit rendering
+#include "gfx/primBuilder.h"  // Used for debug / mission edit rendering
 #include "console/consoleTypes.h"
 #include "core/stream/bitStream.h"
 #include "math/mRandom.h"
@@ -72,48 +72,48 @@ GFXImplementVertexFormat( GFXVertexFoliage )
 
 //------------------------------------------------------------------------------
 //
-//	Put the function in /example/common/editor/ObjectBuilderGui.gui [around line 458] ...
+// Put the function in /example/common/editor/ObjectBuilderGui.gui [around line 458] ...
 //
-//	function ObjectBuilderGui::buildfxFoliageReplicator(%this)
-//	{
-//		%this.className = "fxFoliageReplicator";
-//		%this.process();
-//	}
+// function ObjectBuilderGui::buildfxFoliageReplicator(%this)
+// {
+//    %this.className = "fxFoliageReplicator";
+//    %this.process();
+// }
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /example/common/editor/EditorGui.cs in [function Creator::init( %this )]
-//	
+// Put this in /example/common/editor/EditorGui.cs in [function Creator::init( %this )]
+// 
 //   %Environment_Item[8] = "fxFoliageReplicator";  <-- ADD THIS.
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /example/common/client/missionDownload.cs in [function clientCmdMissionStartPhase3(%seq,%missionName)] (line 65)
-//	after codeline 'onPhase2Complete();'.
+// Put this in /example/common/client/missionDownload.cs in [function clientCmdMissionStartPhase3(%seq,%missionName)] (line 65)
+// after codeline 'onPhase2Complete();'.
 //
-//	StartFoliageReplication();
+// StartFoliageReplication();
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /engine/console/simBase.h (around line 509) in
+// Put this in /engine/console/simBase.h (around line 509) in
 //
-//	namespace Sim
+// namespace Sim
 //  {
-//	   DeclareNamedSet(fxFoliageSet)  <-- ADD THIS (Note no semi-colon).
+//    DeclareNamedSet(fxFoliageSet)  <-- ADD THIS (Note no semi-colon).
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /engine/console/simBase.cc (around line 19) in
+// Put this in /engine/console/simBase.cc (around line 19) in
 //
 //  ImplementNamedSet(fxFoliageSet)  <-- ADD THIS (Note no semi-colon).
 //
 //------------------------------------------------------------------------------
 //
-//	Put this in /engine/console/simManager.cc [function void init()] (around line 269).
+// Put this in /engine/console/simManager.cc [function void init()] (around line 269).
 //
-//	namespace Sim
+// namespace Sim
 //  {
-//		InstantiateNamedSet(fxFoliageSet);  <-- ADD THIS (Including Semi-colon).
+//    InstantiateNamedSet(fxFoliageSet);  <-- ADD THIS (Including Semi-colon).
 //
 //------------------------------------------------------------------------------
 extern bool gEditingMission;
@@ -331,30 +331,30 @@ fxFoliageReplicator::~fxFoliageReplicator()
 void fxFoliageReplicator::initPersistFields()
 {
    // Add out own persistent fields.
-   addGroup( "Debugging" );	// MM: Added Group Header.
+   addGroup( "Debugging" );   // MM: Added Group Header.
       addField( "UseDebugInfo",        TypeBool,      Offset( mFieldData.mUseDebugInfo,         fxFoliageReplicator ), "Culling bins are drawn when set to true." );
       addField( "DebugBoxHeight",      TypeF32,       Offset( mFieldData.mDebugBoxHeight,       fxFoliageReplicator ), "Height multiplier for drawn culling bins.");
       addField( "HideFoliage",         TypeBool,      Offset( mFieldData.mHideFoliage,          fxFoliageReplicator ), "Foliage is hidden when set to true." );
       addField( "ShowPlacementArea",   TypeBool,      Offset( mFieldData.mShowPlacementArea,    fxFoliageReplicator ), "Draw placement rings when set to true." );
       addField( "PlacementAreaHeight", TypeS32,       Offset( mFieldData.mPlacementBandHeight,  fxFoliageReplicator ), "Height of the placement ring in world units." );
       addField( "PlacementColour",     TypeColorF,    Offset( mFieldData.mPlaceAreaColour,      fxFoliageReplicator ), "Color of the placement ring." );
-   endGroup( "Debugging" );	// MM: Added Group Footer.
+   endGroup( "Debugging" );   // MM: Added Group Footer.
 
-   addGroup( "Media" );	// MM: Added Group Header.
+   addGroup( "Media" ); // MM: Added Group Header.
       addField( "Seed",                TypeS32,       Offset( mFieldData.mSeed,                 fxFoliageReplicator ), "Random seed for foliage placement." );
       addField( "FoliageFile",         TypeFilename,  Offset( mFieldData.mFoliageFile,          fxFoliageReplicator ), "Image file for the foliage texture." );
       addField( "FoliageCount",        TypeS32,       Offset( mFieldData.mFoliageCount,         fxFoliageReplicator ), "Maximum foliage instance count." );
       addField( "FoliageRetries",      TypeS32,       Offset( mFieldData.mFoliageRetries,       fxFoliageReplicator ), "Number of times to try placing a foliage instance before giving up." );
-   endGroup( "Media" );	// MM: Added Group Footer.
+   endGroup( "Media" ); // MM: Added Group Footer.
 
-   addGroup( "Area" );	// MM: Added Group Header.
+   addGroup( "Area" );  // MM: Added Group Header.
       addField( "InnerRadiusX",        TypeS32,       Offset( mFieldData.mInnerRadiusX,         fxFoliageReplicator ), "Placement area inner radius on the X axis" );
       addField( "InnerRadiusY",        TypeS32,       Offset( mFieldData.mInnerRadiusY,         fxFoliageReplicator ), "Placement area inner radius on the Y axis" );
       addField( "OuterRadiusX",        TypeS32,       Offset( mFieldData.mOuterRadiusX,         fxFoliageReplicator ), "Placement area outer radius on the X axis" );
       addField( "OuterRadiusY",        TypeS32,       Offset( mFieldData.mOuterRadiusY,         fxFoliageReplicator ), "Placement area outer radius on the Y axis" );
-   endGroup( "Area" );	// MM: Added Group Footer.
+   endGroup( "Area" );  // MM: Added Group Footer.
 
-   addGroup( "Dimensions" );	// MM: Added Group Header.
+   addGroup( "Dimensions" );  // MM: Added Group Header.
       addField( "MinWidth",            TypeF32,       Offset( mFieldData.mMinWidth,             fxFoliageReplicator ), "Minimum width of foliage billboards" );
       addField( "MaxWidth",            TypeF32,       Offset( mFieldData.mMaxWidth,             fxFoliageReplicator ), "Maximum width of foliage billboards" );
       addField( "MinHeight",           TypeF32,       Offset( mFieldData.mMinHeight,            fxFoliageReplicator ), "Minimum height of foliage billboards" );
@@ -364,9 +364,9 @@ void fxFoliageReplicator::initPersistFields()
       addField( "OffsetZ",             TypeF32,       Offset( mFieldData.mOffsetZ,              fxFoliageReplicator ), "Offset billboards by this amount vertically." );
       addField( "RandomFlip",          TypeBool,      Offset( mFieldData.mRandomFlip,           fxFoliageReplicator ), "Randomly flip billboards left-to-right." );
       addField( "UseTrueBillboards",   TypeBool,      Offset( mFieldData.mUseTrueBillboards,    fxFoliageReplicator ), "Use camera facing billboards ( including the z axis )." );
-   endGroup( "Dimensions" );	// MM: Added Group Footer.
+   endGroup( "Dimensions" );  // MM: Added Group Footer.
 
-   addGroup( "Culling" );	// MM: Added Group Header.
+   addGroup( "Culling" );  // MM: Added Group Header.
       addField( "UseCulling",          TypeBool,      Offset( mFieldData.mUseCulling,           fxFoliageReplicator ), "Use culling bins when enabled." );
       addField( "CullResolution",      TypeS32,       Offset( mFieldData.mCullResolution,       fxFoliageReplicator ), "Minimum size of culling bins.  Must be >= 8 and <= OuterRadius." );
       addField( "ViewDistance",        TypeF32,       Offset( mFieldData.mViewDistance,         fxFoliageReplicator ), "Maximum distance from camera where foliage appears." );
@@ -375,32 +375,32 @@ void fxFoliageReplicator::initPersistFields()
       addField( "FadeOutRegion",       TypeF32,       Offset( mFieldData.mFadeOutRegion,        fxFoliageReplicator ), "Region before ViewClosest where foliage fades in/out." );
       addField( "AlphaCutoff",         TypeF32,       Offset( mFieldData.mAlphaCutoff,          fxFoliageReplicator ), "Minimum alpha value allowed on foliage instances." );
       addField( "GroundAlpha",         TypeF32,       Offset( mFieldData.mGroundAlpha,          fxFoliageReplicator ), "Alpha of the foliage at ground level. 0 = transparent, 1 = opaque." );
-   endGroup( "Culling" );	// MM: Added Group Footer.
+   endGroup( "Culling" );  // MM: Added Group Footer.
 
-   addGroup( "Animation" );	// MM: Added Group Header.
+   addGroup( "Animation" );   // MM: Added Group Header.
       addField( "SwayOn",              TypeBool,      Offset( mFieldData.mSwayOn,               fxFoliageReplicator ), "Foliage should sway randomly when true." );
       addField( "SwaySync",            TypeBool,      Offset( mFieldData.mSwaySync,             fxFoliageReplicator ), "Foliage instances should sway together when true and SwayOn is enabled." );
       addField( "SwayMagSide",         TypeF32,       Offset( mFieldData.mSwayMagnitudeSide,    fxFoliageReplicator ), "Left-to-right sway magnitude." );
       addField( "SwayMagFront",        TypeF32,       Offset( mFieldData.mSwayMagnitudeFront,   fxFoliageReplicator ), "Front-to-back sway magnitude." );
       addField( "MinSwayTime",         TypeF32,       Offset( mFieldData.mMinSwayTime,          fxFoliageReplicator ), "Minumum sway cycle time in seconds." );
       addField( "MaxSwayTime",         TypeF32,       Offset( mFieldData.mMaxSwayTime,          fxFoliageReplicator ), "Maximum sway cycle time in seconds." );
-   endGroup( "Animation" );	// MM: Added Group Footer.
+   endGroup( "Animation" );   // MM: Added Group Footer.
 
-   addGroup( "Lighting" );	// MM: Added Group Header.
+   addGroup( "Lighting" ); // MM: Added Group Header.
       addField( "LightOn",             TypeBool,      Offset( mFieldData.mLightOn,              fxFoliageReplicator ), "Foliage should be illuminated with changing lights when true." );
       addField( "LightSync",           TypeBool,      Offset( mFieldData.mLightSync,            fxFoliageReplicator ), "Foliage instances have the same lighting when set and LightOn is set." );
       addField( "MinLuminance",        TypeF32,       Offset( mFieldData.mMinLuminance,         fxFoliageReplicator ), "Minimum luminance for foliage instances." );
       addField( "MaxLuminance",        TypeF32,       Offset( mFieldData.mMaxLuminance,         fxFoliageReplicator ), "Maximum luminance for foliage instances." );
       addField( "LightTime",           TypeF32,       Offset( mFieldData.mLightTime,            fxFoliageReplicator ), "Time before foliage illumination cycle repeats." );
-   endGroup( "Lighting" );	// MM: Added Group Footer.
+   endGroup( "Lighting" ); // MM: Added Group Footer.
 
-   addGroup( "Restrictions" );	// MM: Added Group Header.
+   addGroup( "Restrictions" );   // MM: Added Group Header.
       addField( "AllowOnTerrain",      TypeBool,      Offset( mFieldData.mAllowOnTerrain,       fxFoliageReplicator ), "Foliage will be placed on terrain when set." );
       addField( "AllowOnStatics",      TypeBool,      Offset( mFieldData.mAllowStatics,         fxFoliageReplicator ), "Foliage will be placed on Static shapes when set." );
       addField( "AllowOnWater",        TypeBool,      Offset( mFieldData.mAllowOnWater,         fxFoliageReplicator ), "Foliage will be placed on/under water when set." );
       addField( "AllowWaterSurface",   TypeBool,      Offset( mFieldData.mAllowWaterSurface,    fxFoliageReplicator ), "Foliage will be placed on water when set. Requires AllowOnWater." );
       addField( "AllowedTerrainSlope", TypeS32,       Offset( mFieldData.mAllowedTerrainSlope,  fxFoliageReplicator ), "Maximum surface angle allowed for foliage instances." );
-   endGroup( "Restrictions" );	// MM: Added Group Footer.
+   endGroup( "Restrictions" );   // MM: Added Group Footer.
 
    // Initialise parents' persistent fields.
    Parent::initPersistFields();
@@ -410,19 +410,19 @@ void fxFoliageReplicator::initPersistFields()
 
 void fxFoliageReplicator::CreateFoliage(void)
 {
-   F32				HypX, HypY;
-   F32				Angle;
-   U32				RelocationRetry;
-   Point3F			FoliagePosition;
-   Point3F			FoliageStart;
-   Point3F			FoliageEnd;
-   Point3F			FoliageScale;
-   bool			CollisionResult;
-   RayInfo			RayEvent;
+   F32            HypX, HypY;
+   F32            Angle;
+   U32            RelocationRetry;
+   Point3F        FoliagePosition;
+   Point3F        FoliageStart;
+   Point3F        FoliageEnd;
+   Point3F        FoliageScale;
+   bool        CollisionResult;
+   RayInfo        RayEvent;
 
    // Let's get a minimum bounding volume.
-   Point3F	MinPoint( -0.5, -0.5, -0.5 );
-   Point3F	MaxPoint(  0.5,  0.5,  0.5 );
+   Point3F  MinPoint( -0.5, -0.5, -0.5 );
+   Point3F  MaxPoint(  0.5,  0.5,  0.5 );
 
    // Check Host.
    AssertFatal(isClientObject(), "Trying to create Foliage on Server, this is bad!");
@@ -432,7 +432,7 @@ void fxFoliageReplicator::CreateFoliage(void)
          return;
 
    // Check that we can position somewhere!
-   if (!(	mFieldData.mAllowOnTerrain ||
+   if (!(   mFieldData.mAllowOnTerrain ||
       mFieldData.mAllowStatics ||
       mFieldData.mAllowOnWater))
    {
@@ -459,93 +459,93 @@ void fxFoliageReplicator::CreateFoliage(void)
    //
    // A little explanation is called for here ...
    //
-   //			The approach to this problem has been choosen to make it *much* easier for
-   //			the user to control the quad-tree culling resolution.  The user enters a single
-   //			world-space value 'mCullResolution' which controls the highest resolution at
-   //			which the replicator will check visibility culling.
+   //       The approach to this problem has been choosen to make it *much* easier for
+   //       the user to control the quad-tree culling resolution.  The user enters a single
+   //       world-space value 'mCullResolution' which controls the highest resolution at
+   //       which the replicator will check visibility culling.
    //
-   //			example:	If 'mCullResolution' is 32 and the size of the replicated area is 128 radius
-   //						(256 diameter) then this results in the replicator creating a quad-tree where
-   //						there are 256/32 = 8x8 blocks.  Each of these can be checked to see if they
-   //						reside within the viewing frustum and if not then they get culled therefore
-   //						removing the need to parse all the billboards that occcupy that region.
-   //						Most of the time you will get better than this as the culling algorithm will
-   //						check the culling pyramid from the top to bottom e.g. the follow 'blocks'
-   //						will be checked:-
+   //       example: If 'mCullResolution' is 32 and the size of the replicated area is 128 radius
+   //                (256 diameter) then this results in the replicator creating a quad-tree where
+   //                there are 256/32 = 8x8 blocks.  Each of these can be checked to see if they
+   //                reside within the viewing frustum and if not then they get culled therefore
+   //                removing the need to parse all the billboards that occcupy that region.
+   //                Most of the time you will get better than this as the culling algorithm will
+   //                check the culling pyramid from the top to bottom e.g. the follow 'blocks'
+   //                will be checked:-
    //
-   //						 1 x 256 x 256 (All of replicated area)
-   //						 4 x 128 x 128 (4 corners of above)
-   //						16 x  64 x  64 (16 x 4 corners of above)
-   //						etc.
-   //
-   //
-   //	1.		First-up, the replicator needs to create a fixed-list of quad-tree nodes to work with.
-   //
-   //			To calculate this we take the largest outer-radius value set in the replicator and
-   //			calculate how many quad-tree levels are required to achieve the selected 'mCullResolution'.
-   //			One of the initial problems is that the replicator has seperate radii values for X & Y.
-   //			This can lead to a culling resolution smaller in one axis than the other if there is a
-   //			difference between the Outer-Radii.  Unfortunately, we just live with this as there is
-   //			not much we can do here if we still want to allow the user to have this kind of
-   //			elliptical placement control.
-   //
-   //			To calculate the number of nodes needed we using the following equation:-
-   //
-   //			Note:- We are changing the Logarithmic bases from 10 -> 2 ... grrrr!
-   //
-   //			Cr = mCullResolution
-   //			Rs = Maximum Radii Diameter
+   //                 1 x 256 x 256 (All of replicated area)
+   //                 4 x 128 x 128 (4 corners of above)
+   //                16 x  64 x  64 (16 x 4 corners of above)
+   //                etc.
    //
    //
-   //				( Log10( Rs / Cr )       )
-   //			int ( ---------------- + 0.5 )
-   //				( Log10( 2 )             )
+   // 1.    First-up, the replicator needs to create a fixed-list of quad-tree nodes to work with.
    //
-   //					---------|
-   //					 |
-   //					  |			 n
-   //					  /			4
-   //					 /
-   //					---------|
-   //					   n = 0
+   //       To calculate this we take the largest outer-radius value set in the replicator and
+   //       calculate how many quad-tree levels are required to achieve the selected 'mCullResolution'.
+   //       One of the initial problems is that the replicator has seperate radii values for X & Y.
+   //       This can lead to a culling resolution smaller in one axis than the other if there is a
+   //       difference between the Outer-Radii.  Unfortunately, we just live with this as there is
+   //       not much we can do here if we still want to allow the user to have this kind of
+   //       elliptical placement control.
    //
+   //       To calculate the number of nodes needed we using the following equation:-
    //
-   //			So basically we calculate the number of blocks in 1D at the highest resolution, then
-   //			calculate the inverse exponential (base 2 - 1D) to achieve that quantity of blocks.
-   //			We round that upto the next highest integer = e.  We then sum 4 to the power 0->e
-   //			which gives us the correct number of nodes required.  e is also stored as the starting
-   //			level value for populating the quad-tree (see 3. below).
+   //       Note:- We are changing the Logarithmic bases from 10 -> 2 ... grrrr!
    //
-   //	2.		We then proceed to calculate the billboard positions as normal and calculate and assign
-   //			each billboard a basic volume (rather than treat each as a point).  We need to take into
-   //			account possible front/back swaying as well as the basic plane dimensions here.
-   //			When all the billboards have been choosen we then proceed to populate the quad-tree.
-   //
-   //	3.		To populate the quad-tree we start with a box which completely encapsulates the volume
-   //			occupied by all the billboards and enter into a recursive procedure to process that node.
-   //			Processing this node involves splitting it into quadrants in X/Y untouched (for now).
-   //			We then find candidate billboards with each of these quadrants searching using the
-   //			current subset of shapes from the parent (this reduces the searching to a minimum and
-   //			is very efficient).
-   //
-   //			If a quadrant does not enclose any billboards then the node is dropped otherwise it
-   //			is processed again using the same procedure.
-   //
-   //			This happens until we have recursed through the maximum number of levels as calculated
-   //			using the summation max (see equation above).  When level 0 is reached, the current list
-   //			of enclosed objects is stored within the node (for the rendering algorithm).
-   //
-   //	4.		When this is complete we have finished here.  The next stage is when rendering takes place.
-   //			An algorithm steps through the quad-tree from the top and does visibility culling on
-   //			each box (with respect to the viewing frustum) and culls as appropriate.  If the box is
-   //			visible then the next level is checked until we reach level 0 where the node contains
-   //			a complete subset of billboards enclosed by the visible box.
+   //       Cr = mCullResolution
+   //       Rs = Maximum Radii Diameter
    //
    //
-   //	Using the above algorithm we can now generate *massive* quantities of billboards and (using the
-   //	appropriate 'mCullResolution') only visible blocks of billboards will be processed.
+   //          ( Log10( Rs / Cr )       )
+   //       int ( ---------------- + 0.5 )
+   //          ( Log10( 2 )             )
    //
-   //	- Melv.
+   //             ---------|
+   //              |
+   //               |          n
+   //               /         4
+   //              /
+   //             ---------|
+   //                n = 0
+   //
+   //
+   //       So basically we calculate the number of blocks in 1D at the highest resolution, then
+   //       calculate the inverse exponential (base 2 - 1D) to achieve that quantity of blocks.
+   //       We round that upto the next highest integer = e.  We then sum 4 to the power 0->e
+   //       which gives us the correct number of nodes required.  e is also stored as the starting
+   //       level value for populating the quad-tree (see 3. below).
+   //
+   // 2.    We then proceed to calculate the billboard positions as normal and calculate and assign
+   //       each billboard a basic volume (rather than treat each as a point).  We need to take into
+   //       account possible front/back swaying as well as the basic plane dimensions here.
+   //       When all the billboards have been choosen we then proceed to populate the quad-tree.
+   //
+   // 3.    To populate the quad-tree we start with a box which completely encapsulates the volume
+   //       occupied by all the billboards and enter into a recursive procedure to process that node.
+   //       Processing this node involves splitting it into quadrants in X/Y untouched (for now).
+   //       We then find candidate billboards with each of these quadrants searching using the
+   //       current subset of shapes from the parent (this reduces the searching to a minimum and
+   //       is very efficient).
+   //
+   //       If a quadrant does not enclose any billboards then the node is dropped otherwise it
+   //       is processed again using the same procedure.
+   //
+   //       This happens until we have recursed through the maximum number of levels as calculated
+   //       using the summation max (see equation above).  When level 0 is reached, the current list
+   //       of enclosed objects is stored within the node (for the rendering algorithm).
+   //
+   // 4.    When this is complete we have finished here.  The next stage is when rendering takes place.
+   //       An algorithm steps through the quad-tree from the top and does visibility culling on
+   //       each box (with respect to the viewing frustum) and culls as appropriate.  If the box is
+   //       visible then the next level is checked until we reach level 0 where the node contains
+   //       a complete subset of billboards enclosed by the visible box.
+   //
+   //
+   // Using the above algorithm we can now generate *massive* quantities of billboards and (using the
+   // appropriate 'mCullResolution') only visible blocks of billboards will be processed.
+   //
+   // - Melv.
    //
    // ----------------------------------------------------------------------------------------------------------------------
 
@@ -578,7 +578,7 @@ void fxFoliageReplicator::CreateFoliage(void)
    // Calculate the number of potential nodes required.
    mPotentialFoliageNodes = 0;
    for (U32 n = 0; n <= mQuadTreeLevels; n++)
-      mPotentialFoliageNodes += (U32)(mCeil(mPow(4.0f, (F32) n)));	// Ceil to be safe!
+      mPotentialFoliageNodes += (U32)(mCeil(mPow(4.0f, (F32) n)));   // Ceil to be safe!
 
    // ----------------------------------------------------------------------------------------------------------------------
    // Step 2.
@@ -590,8 +590,8 @@ void fxFoliageReplicator::CreateFoliage(void)
    // Add Foliage.
    for (U32 idx = 0; idx < mFieldData.mFoliageCount; idx++)
    {
-      fxFoliageItem*	pFoliageItem;
-      Point3F			FoliageOffsetPos;
+      fxFoliageItem* pFoliageItem;
+      Point3F        FoliageOffsetPos;
 
       // Reset Relocation Retry.
       RelocationRetry = mFieldData.mFoliageRetries;
@@ -603,9 +603,9 @@ void fxFoliageReplicator::CreateFoliage(void)
          FoliagePosition = getPosition();
 
          // Calculate a random offset
-         HypX	= RandomGen.randF((F32) mFieldData.mInnerRadiusX < mFieldData.mOuterRadiusX ? mFieldData.mInnerRadiusX : mFieldData.mOuterRadiusX, (F32) mFieldData.mOuterRadiusX);
-         HypY	= RandomGen.randF((F32) mFieldData.mInnerRadiusY < mFieldData.mOuterRadiusY ? mFieldData.mInnerRadiusY : mFieldData.mOuterRadiusY, (F32) mFieldData.mOuterRadiusY);
-         Angle	= RandomGen.randF(0, (F32) M_2PI);
+         HypX  = RandomGen.randF((F32) mFieldData.mInnerRadiusX < mFieldData.mOuterRadiusX ? mFieldData.mInnerRadiusX : mFieldData.mOuterRadiusX, (F32) mFieldData.mOuterRadiusX);
+         HypY  = RandomGen.randF((F32) mFieldData.mInnerRadiusY < mFieldData.mOuterRadiusY ? mFieldData.mInnerRadiusY : mFieldData.mOuterRadiusY, (F32) mFieldData.mOuterRadiusY);
+         Angle = RandomGen.randF(0, (F32) M_2PI);
 
          // Calcualte the new position.
          FoliagePosition.x += HypX * mCos(Angle);
@@ -617,7 +617,7 @@ void fxFoliageReplicator::CreateFoliage(void)
          FoliageEnd.z= -2000.f;
 
          // Perform Ray Cast Collision on Client.
-         CollisionResult = gClientContainer.castRay(	FoliageStart, FoliageEnd, FXFOLIAGEREPLICATOR_COLLISION_MASK, &RayEvent);
+         CollisionResult = gClientContainer.castRay(  FoliageStart, FoliageEnd, FXFOLIAGEREPLICATOR_COLLISION_MASK, &RayEvent);
 
          // Did we hit anything?
          if (CollisionResult)
@@ -629,8 +629,8 @@ void fxFoliageReplicator::CreateFoliage(void)
             U32 CollisionType = RayEvent.object->getTypeMask();
 
             // Check Illegal Placements, fail if we hit a disallowed type.
-            if (((CollisionType & TerrainObjectType) && !mFieldData.mAllowOnTerrain)	||
-               ((CollisionType & StaticShapeObjectType ) && !mFieldData.mAllowStatics)	||
+            if (((CollisionType & TerrainObjectType) && !mFieldData.mAllowOnTerrain)   ||
+               ((CollisionType & StaticShapeObjectType ) && !mFieldData.mAllowStatics) ||
                ((CollisionType & WaterObjectType) && !mFieldData.mAllowOnWater) ) continue;
 
             // If we collided with water and are not allowing on the water surface then let's find the
@@ -715,22 +715,22 @@ void fxFoliageReplicator::CreateFoliage(void)
          pFoliageItem->Flipped = (RandomGen.randF(0, 1000) < 500.0f) ? false : true;
       else
          // No, so turn-off flipping.
-         pFoliageItem->Flipped = false;		
+         pFoliageItem->Flipped = false;      
 
       // Calculate Foliage Item World Box.
-      // NOTE:-	We generate a psuedo-volume here.  It's basically the volume to which the
-      //			plane can move and this includes swaying!
+      // NOTE:-   We generate a psuedo-volume here.  It's basically the volume to which the
+      //       plane can move and this includes swaying!
       //
       // Is Sway On?
       if (mFieldData.mSwayOn)
       {
          // Yes, so take swaying into account...
-         pFoliageItem->FoliageBox.minExtents =	FoliagePosition +
+         pFoliageItem->FoliageBox.minExtents =  FoliagePosition +
             Point3F(-pFoliageItem->Width / 2.0f - mFieldData.mSwayMagnitudeSide,
             -0.5f - mFieldData.mSwayMagnitudeFront,
             pFoliageItem->Height );
 
-         pFoliageItem->FoliageBox.maxExtents =	FoliagePosition +
+         pFoliageItem->FoliageBox.maxExtents =  FoliagePosition +
             Point3F(+pFoliageItem->Width / 2.0f + mFieldData.mSwayMagnitudeSide,
             +0.5f + mFieldData.mSwayMagnitudeFront,
             pFoliageItem->Height );
@@ -738,12 +738,12 @@ void fxFoliageReplicator::CreateFoliage(void)
       else
       {
          // No, so give it a minimum volume...
-         pFoliageItem->FoliageBox.minExtents =	FoliagePosition +
+         pFoliageItem->FoliageBox.minExtents =  FoliagePosition +
             Point3F(-pFoliageItem->Width / 2.0f,
             -0.5f,
             pFoliageItem->Height );
 
-         pFoliageItem->FoliageBox.maxExtents =	FoliagePosition +
+         pFoliageItem->FoliageBox.maxExtents =  FoliagePosition +
             Point3F(+pFoliageItem->Width / 2.0f,
             +0.5f,
             pFoliageItem->Height );
@@ -767,7 +767,7 @@ void fxFoliageReplicator::CreateFoliage(void)
       // Yes, so step through Foliage.
       for (U32 idx = 0; idx < mCurrentFoliageCount; idx++)
       {
-         fxFoliageItem*	pFoliageItem;
+         fxFoliageItem* pFoliageItem;
 
          // Fetch the Foliage Item.
          pFoliageItem = mReplicatedFoliage[idx];
@@ -803,8 +803,8 @@ void fxFoliageReplicator::CreateFoliage(void)
 
       // Yes, so step through Foliage.
       for (U32 idx = 0; idx < mCurrentFoliageCount; idx++)
-      {			
-         fxFoliageItem*	pFoliageItem;
+      {        
+         fxFoliageItem* pFoliageItem;
 
          // Fetch the Foliage Item.
          pFoliageItem = mReplicatedFoliage[idx];
@@ -881,8 +881,8 @@ void fxFoliageReplicator::CreateFoliage(void)
 
    // Dump (*very*) approximate allocated memory.
    F32 MemoryAllocated = (F32) ((mNextAllocatedNodeIdx-1) * sizeof(fxFoliageQuadrantNode));
-   MemoryAllocated		+=	mCurrentFoliageCount * sizeof(fxFoliageItem);
-   MemoryAllocated		+=	mCurrentFoliageCount * sizeof(fxFoliageItem*);
+   MemoryAllocated      += mCurrentFoliageCount * sizeof(fxFoliageItem);
+   MemoryAllocated      += mCurrentFoliageCount * sizeof(fxFoliageItem*);
    Con::printf("fxFoliageReplicator - Approx. %0.2fMb allocated.", MemoryAllocated / 1048576.0f);
 
    // ----------------------------------------------------------------------------------------------------------------------
@@ -929,8 +929,8 @@ void fxFoliageReplicator::SetupShader()
    mFoliageShaderTrueBillboardSC       = mShader->getShaderConstHandle( "$TrueBillboard" );
    mFoliageShaderGroundAlphaSC         = mShader->getShaderConstHandle( "$groundAlpha" );
    mFoliageShaderAmbientColorSC        = mShader->getShaderConstHandle( "$ambient" );     
-   mDiffuseTextureSC							= mShader->getShaderConstHandle( "$diffuseMap" );
-   mAlphaMapTextureSC						= mShader->getShaderConstHandle( "$alphaMap" ); 
+   mDiffuseTextureSC                   = mShader->getShaderConstHandle( "$diffuseMap" );
+   mAlphaMapTextureSC                  = mShader->getShaderConstHandle( "$alphaMap" ); 
 }
 
 // Ok, what we do is let the older code setup the FoliageItem list and the QuadTree.
@@ -939,7 +939,7 @@ void fxFoliageReplicator::SetupShader()
 // want to sort the items within the buffer by the quadtreenodes
 void fxFoliageReplicator::SetupBuffers()
 {
-   // Following two arrays are used to build the vertex and primitive buffers.	
+   // Following two arrays are used to build the vertex and primitive buffers.   
    Point3F basePoints[8];
    basePoints[0] = Point3F(-0.5f, 0.0f, 1.0f);
    basePoints[1] = Point3F(-0.5f, 0.0f, 0.0f);
@@ -950,14 +950,14 @@ void fxFoliageReplicator::SetupBuffers()
    texCoords[0] = Point2F(0.0, 0.0);
    texCoords[1] = Point2F(0.0, 1.0);
    texCoords[2] = Point2F(1.0, 1.0);
-   texCoords[3] = Point2F(1.0, 0.0);	
+   texCoords[3] = Point2F(1.0, 0.0);   
 
    // Init our Primitive Buffer
    U32 indexSize = mFieldData.mFoliageCount * 6;
    U16* indices = new U16[indexSize];
    // Two triangles per particle
    for (U16 i = 0; i < mFieldData.mFoliageCount; i++) {
-      U16* idx = &indices[i*6];		// hey, no offset math below, neat
+      U16* idx = &indices[i*6];     // hey, no offset math below, neat
       U16 vertOffset = i*4;
       idx[0] = vertOffset + 0;
       idx[1] = vertOffset + 1;
@@ -978,7 +978,7 @@ void fxFoliageReplicator::SetupBuffers()
    U32 currPrimitiveStartIndex = 0;
    mVertexBuffer.set(GFX, mFieldData.mFoliageCount * 4, GFXBufferTypeStatic);
    mVertexBuffer.lock();
-   U32 idx = 0;	
+   U32 idx = 0;   
    for (S32 qtIdx = 0; qtIdx < mFoliageQuadTree.size(); qtIdx++) {
       fxFoliageQuadrantNode* quadNode = mFoliageQuadTree[qtIdx];
       if (quadNode->Level == 0) {
@@ -993,14 +993,14 @@ void fxFoliageReplicator::SetupBuffers()
                for (U32 vertIndex = 0; vertIndex < 4; vertIndex++) {
                   GFXVertexFoliage *vert = &mVertexBuffer[(idx*4) + vertIndex];
                   // This is the position of the billboard.
-                  vert->point = pFoliageItem->Transform.getPosition();			
+                  vert->point = pFoliageItem->Transform.getPosition();        
                   // Normal contains the point of the billboard (except for the y component, see below)
                   vert->normal = basePoints[vertIndex];
 
                   vert->normal.x *= pFoliageItem->Width;
                   vert->normal.z *= pFoliageItem->Height;
                   // Handle texture coordinates
-                  vert->texCoord = texCoords[vertIndex];				
+                  vert->texCoord = texCoords[vertIndex];          
                   if (pFoliageItem->Flipped)
                      vert->texCoord.x = 1.0f - vert->texCoord.x;
                   // Handle sway. Sway is stored in a texture coord. The x coordinate is the sway phase multiplier, 
@@ -1020,7 +1020,7 @@ void fxFoliageReplicator::SetupBuffers()
          }
       }
    }
-   mVertexBuffer.unlock();	
+   mVertexBuffer.unlock(); 
 
    DestroyFoliageItems();
 }
@@ -1172,7 +1172,7 @@ void fxFoliageReplicator::DestroyFoliageItems()
    // Remove shapes.
    for (S32 idx = 0; idx < mReplicatedFoliage.size(); idx++)
    {
-      fxFoliageItem*	pFoliageItem;
+      fxFoliageItem* pFoliageItem;
 
       // Fetch the Foliage Item.
       pFoliageItem = mReplicatedFoliage[idx];
@@ -1208,7 +1208,7 @@ void fxFoliageReplicator::DestroyFoliage(void)
    DestroyFoliageItems();
 
    // Let's remove the Quad-Tree allocations.
-   for (	Vector<fxFoliageQuadrantNode*>::iterator QuadNodeItr = mFoliageQuadTree.begin();
+   for ( Vector<fxFoliageQuadrantNode*>::iterator QuadNodeItr = mFoliageQuadTree.begin();
       QuadNodeItr != mFoliageQuadTree.end();
       QuadNodeItr++ )
    {
@@ -1330,11 +1330,11 @@ void fxFoliageReplicator::inspectPostApply()
 //------------------------------------------------------------------------------
 
 DefineEngineFunction(StartFoliageReplication, void,(),, "Activates the foliage replicator.\n"
-													"@tsexample\n"
-														"// Call the function\n"
-														"StartFoliageReplication();\n"
-													"@endtsexample\n"
-													"@ingroup Foliage")
+                                       "@tsexample\n"
+                                          "// Call the function\n"
+                                          "StartFoliageReplication();\n"
+                                       "@endtsexample\n"
+                                       "@ingroup Foliage")
 {
    // Find the Replicator Set.
    SimSet *fxFoliageSet = dynamic_cast<SimSet*>(Sim::findObject("fxFoliageSet"));
@@ -1383,8 +1383,8 @@ void fxFoliageReplicator::prepRenderImage( SceneRenderState* state )
 void fxFoliageReplicator::computeAlphaTex()
 {
    // Distances used in alpha
-   const F32	ClippedViewDistance		= mFieldData.mViewDistance;
-   const F32	MaximumViewDistance		= ClippedViewDistance + mFieldData.mFadeInRegion;
+   const F32   ClippedViewDistance     = mFieldData.mViewDistance;
+   const F32   MaximumViewDistance     = ClippedViewDistance + mFieldData.mFadeInRegion;
 
    // This is used for the alpha computation in the shader.
    for (U32 i = 0; i < AlphaTexLen; i++) {
@@ -1416,7 +1416,7 @@ void fxFoliageReplicator::renderArc(const F32 fRadiusX, const F32 fRadiusY)
    PrimBuild::begin(GFXTriangleStrip, 720);
    for (U32 Angle = mCreationAreaAngle; Angle < (mCreationAreaAngle+360); Angle++)
    {
-      F32		XPos, YPos;
+      F32      XPos, YPos;
 
       // Calculate Position.
       XPos = fRadiusX * mCos(mDegToRad(-(F32)Angle));
@@ -1430,7 +1430,7 @@ void fxFoliageReplicator::renderArc(const F32 fRadiusX, const F32 fRadiusY)
 
       PrimBuild::vertex3f(XPos, YPos, -(F32)mFieldData.mPlacementBandHeight/2.0f);
       PrimBuild::vertex3f(XPos, YPos, +(F32)mFieldData.mPlacementBandHeight/2.0f);
-   }			
+   }        
    PrimBuild::end();
 }
 
@@ -1488,7 +1488,7 @@ void fxFoliageReplicator::renderObject(ObjectRenderInst *ri, SceneRenderState *s
    // Calculate Elapsed Time and take new Timestamp.
    S32 Time = Platform::getVirtualMilliseconds();
    F32 ElapsedTime = (Time - mLastRenderTime) * 0.001f;
-   mLastRenderTime = Time;	
+   mLastRenderTime = Time; 
 
    renderPlacementArea(ElapsedTime);
 
@@ -1528,12 +1528,12 @@ void fxFoliageReplicator::renderObject(ObjectRenderInst *ri, SceneRenderState *s
          mGlobalLightPhase = mGlobalLightPhase + (mGlobalLightTimeRatio * ElapsedTime);
 
          // Compute other light parameters
-         const F32	LuminanceMidPoint		= (mFieldData.mMinLuminance + mFieldData.mMaxLuminance) / 2.0f;
-         const F32	LuminanceMagnitude		= mFieldData.mMaxLuminance - LuminanceMidPoint;
+         const F32   LuminanceMidPoint    = (mFieldData.mMinLuminance + mFieldData.mMaxLuminance) / 2.0f;
+         const F32   LuminanceMagnitude      = mFieldData.mMaxLuminance - LuminanceMidPoint;
 
          // Distances used in alpha
-         const F32	ClippedViewDistance		= mFieldData.mViewDistance;
-         const F32	MaximumViewDistance		= ClippedViewDistance + mFieldData.mFadeInRegion;
+         const F32   ClippedViewDistance     = mFieldData.mViewDistance;
+         const F32   MaximumViewDistance     = ClippedViewDistance + mFieldData.mFadeInRegion;
 
          if (mFoliageShaderConsts.isValid())
          {
@@ -1544,7 +1544,7 @@ void fxFoliageReplicator::renderObject(ObjectRenderInst *ri, SceneRenderState *s
             mFoliageShaderConsts->setSafe(mFoliageShaderLuminanceMagnitudeSC, LuminanceMagnitude);
             mFoliageShaderConsts->setSafe(mFoliageShaderLuminanceMidpointSC, LuminanceMidPoint);
 
-            // Set up our shader constants	
+            // Set up our shader constants   
             // Projection matrix
             MatrixF proj = GFX->getProjectionMatrix();
             //proj.transpose();
@@ -1577,7 +1577,7 @@ void fxFoliageReplicator::renderObject(ObjectRenderInst *ri, SceneRenderState *s
          GFX->setShader( mShader );
 
          GFX->setTexture(mDiffuseTextureSC->getSamplerRegister(), mFieldData.mFoliageTexture);
-         // computeAlphaTex();		// Uncomment if we figure out how to clamp to fogAndHaze
+         // computeAlphaTex();      // Uncomment if we figure out how to clamp to fogAndHaze
          GFX->setTexture(mAlphaMapTextureSC->getSamplerRegister(), mAlphaTexture);
 
          // Setup our buffers
@@ -1603,7 +1603,7 @@ void fxFoliageReplicator::renderObject(ObjectRenderInst *ri, SceneRenderState *s
             }
          }
          else 
-         {	
+         {  
             // Draw the whole shebang!
             GFX->drawIndexedPrimitive(GFXTriangleList, 0, 0, mVertexBuffer->mNumVerts, 
                0, mPrimBuffer->mIndexCount / 3);
@@ -1649,62 +1649,62 @@ U32 fxFoliageReplicator::packUpdate(NetConnection * con, U32 mask, BitStream * s
    // Write Foliage Replication Flag.
    if (stream->writeFlag(mask & FoliageReplicationMask))
    {
-      stream->writeAffineTransform(mObjToWorld);						// Foliage Master-Object Position.
+      stream->writeAffineTransform(mObjToWorld);                  // Foliage Master-Object Position.
 
-      stream->writeFlag(mFieldData.mUseDebugInfo);					// Foliage Debug Information Flag.
-      stream->write(mFieldData.mDebugBoxHeight);						// Foliage Debug Height.
-      stream->write(mFieldData.mSeed);								// Foliage Seed.
-      stream->write(mFieldData.mFoliageCount);						// Foliage Count.
-      stream->write(mFieldData.mFoliageRetries);						// Foliage Retries.
-      stream->writeString(mFieldData.mFoliageFile);					// Foliage File.
+      stream->writeFlag(mFieldData.mUseDebugInfo);             // Foliage Debug Information Flag.
+      stream->write(mFieldData.mDebugBoxHeight);                  // Foliage Debug Height.
+      stream->write(mFieldData.mSeed);                      // Foliage Seed.
+      stream->write(mFieldData.mFoliageCount);                 // Foliage Count.
+      stream->write(mFieldData.mFoliageRetries);                  // Foliage Retries.
+      stream->writeString(mFieldData.mFoliageFile);               // Foliage File.
 
-      stream->write(mFieldData.mInnerRadiusX);						// Foliage Inner Radius X.
-      stream->write(mFieldData.mInnerRadiusY);						// Foliage Inner Radius Y.
-      stream->write(mFieldData.mOuterRadiusX);						// Foliage Outer Radius X.
-      stream->write(mFieldData.mOuterRadiusY);						// Foliage Outer Radius Y.
+      stream->write(mFieldData.mInnerRadiusX);                 // Foliage Inner Radius X.
+      stream->write(mFieldData.mInnerRadiusY);                 // Foliage Inner Radius Y.
+      stream->write(mFieldData.mOuterRadiusX);                 // Foliage Outer Radius X.
+      stream->write(mFieldData.mOuterRadiusY);                 // Foliage Outer Radius Y.
 
-      stream->write(mFieldData.mMinWidth);							// Foliage Minimum Width.
-      stream->write(mFieldData.mMaxWidth);							// Foliage Maximum Width.
-      stream->write(mFieldData.mMinHeight);							// Foliage Minimum Height.
-      stream->write(mFieldData.mMaxHeight);							// Foliage Maximum Height.
-      stream->write(mFieldData.mFixAspectRatio);						// Foliage Fix Aspect Ratio.
-      stream->write(mFieldData.mFixSizeToMax);						// Foliage Fix Size to Max.
-      stream->write(mFieldData.mOffsetZ);								// Foliage Offset Z.
-      stream->writeFlag(mFieldData.mRandomFlip);					// Foliage Random Flip.
+      stream->write(mFieldData.mMinWidth);                     // Foliage Minimum Width.
+      stream->write(mFieldData.mMaxWidth);                     // Foliage Maximum Width.
+      stream->write(mFieldData.mMinHeight);                    // Foliage Minimum Height.
+      stream->write(mFieldData.mMaxHeight);                    // Foliage Maximum Height.
+      stream->write(mFieldData.mFixAspectRatio);                  // Foliage Fix Aspect Ratio.
+      stream->write(mFieldData.mFixSizeToMax);                 // Foliage Fix Size to Max.
+      stream->write(mFieldData.mOffsetZ);                      // Foliage Offset Z.
+      stream->writeFlag(mFieldData.mRandomFlip);               // Foliage Random Flip.
       stream->writeFlag(mFieldData.mUseTrueBillboards);        // Foliage faces the camera (including z axis)
 
-      stream->write(mFieldData.mUseCulling);							// Foliage Use Culling.
-      stream->write(mFieldData.mCullResolution);						// Foliage Cull Resolution.
-      stream->write(mFieldData.mViewDistance);						// Foliage View Distance.
-      stream->write(mFieldData.mViewClosest);							// Foliage View Closest.
-      stream->write(mFieldData.mFadeInRegion);						// Foliage Fade-In Region.
-      stream->write(mFieldData.mFadeOutRegion);						// Foliage Fade-Out Region.
-      stream->write(mFieldData.mAlphaCutoff);							// Foliage Alpha Cutoff.
-      stream->write(mFieldData.mGroundAlpha);							// Foliage Ground Alpha.
+      stream->write(mFieldData.mUseCulling);                   // Foliage Use Culling.
+      stream->write(mFieldData.mCullResolution);                  // Foliage Cull Resolution.
+      stream->write(mFieldData.mViewDistance);                 // Foliage View Distance.
+      stream->write(mFieldData.mViewClosest);                     // Foliage View Closest.
+      stream->write(mFieldData.mFadeInRegion);                 // Foliage Fade-In Region.
+      stream->write(mFieldData.mFadeOutRegion);                // Foliage Fade-Out Region.
+      stream->write(mFieldData.mAlphaCutoff);                     // Foliage Alpha Cutoff.
+      stream->write(mFieldData.mGroundAlpha);                     // Foliage Ground Alpha.
 
-      stream->writeFlag(mFieldData.mSwayOn);							// Foliage Sway On Flag.
-      stream->writeFlag(mFieldData.mSwaySync);						// Foliage Sway Sync Flag.
-      stream->write(mFieldData.mSwayMagnitudeSide);					// Foliage Sway Magnitude Side2Side.
-      stream->write(mFieldData.mSwayMagnitudeFront);					// Foliage Sway Magnitude Front2Back.
-      stream->write(mFieldData.mMinSwayTime);							// Foliage Minimum Sway Time.
-      stream->write(mFieldData.mMaxSwayTime);							// Foliage Maximum way Time.
+      stream->writeFlag(mFieldData.mSwayOn);                   // Foliage Sway On Flag.
+      stream->writeFlag(mFieldData.mSwaySync);                 // Foliage Sway Sync Flag.
+      stream->write(mFieldData.mSwayMagnitudeSide);               // Foliage Sway Magnitude Side2Side.
+      stream->write(mFieldData.mSwayMagnitudeFront);              // Foliage Sway Magnitude Front2Back.
+      stream->write(mFieldData.mMinSwayTime);                     // Foliage Minimum Sway Time.
+      stream->write(mFieldData.mMaxSwayTime);                     // Foliage Maximum way Time.
 
-      stream->writeFlag(mFieldData.mLightOn);							// Foliage Light On Flag.
-      stream->writeFlag(mFieldData.mLightSync);						// Foliage Light Sync
-      stream->write(mFieldData.mMinLuminance);						// Foliage Minimum Luminance.
-      stream->write(mFieldData.mMaxLuminance);						// Foliage Maximum Luminance.
-      stream->write(mFieldData.mLightTime);							// Foliage Light Time.
+      stream->writeFlag(mFieldData.mLightOn);                     // Foliage Light On Flag.
+      stream->writeFlag(mFieldData.mLightSync);                // Foliage Light Sync
+      stream->write(mFieldData.mMinLuminance);                 // Foliage Minimum Luminance.
+      stream->write(mFieldData.mMaxLuminance);                 // Foliage Maximum Luminance.
+      stream->write(mFieldData.mLightTime);                    // Foliage Light Time.
 
-      stream->writeFlag(mFieldData.mAllowOnTerrain);					// Allow on Terrain.
-      stream->writeFlag(mFieldData.mAllowStatics);					// Allow on Statics.
-      stream->writeFlag(mFieldData.mAllowOnWater);					// Allow on Water.
-      stream->writeFlag(mFieldData.mAllowWaterSurface);				// Allow on Water Surface.
-      stream->write(mFieldData.mAllowedTerrainSlope);					// Foliage Offset Z.
+      stream->writeFlag(mFieldData.mAllowOnTerrain);              // Allow on Terrain.
+      stream->writeFlag(mFieldData.mAllowStatics);             // Allow on Statics.
+      stream->writeFlag(mFieldData.mAllowOnWater);             // Allow on Water.
+      stream->writeFlag(mFieldData.mAllowWaterSurface);           // Allow on Water Surface.
+      stream->write(mFieldData.mAllowedTerrainSlope);             // Foliage Offset Z.
 
-      stream->writeFlag(mFieldData.mHideFoliage);						// Hide Foliage.
-      stream->writeFlag(mFieldData.mShowPlacementArea);				// Show Placement Area Flag.
-      stream->write(mFieldData.mPlacementBandHeight);					// Placement Area Height.
-      stream->write(mFieldData.mPlaceAreaColour);						// Placement Area Colour.
+      stream->writeFlag(mFieldData.mHideFoliage);                 // Hide Foliage.
+      stream->writeFlag(mFieldData.mShowPlacementArea);           // Show Placement Area Flag.
+      stream->write(mFieldData.mPlacementBandHeight);             // Placement Area Height.
+      stream->write(mFieldData.mPlaceAreaColour);                 // Placement Area Colour.
    }
 
    // Were done ...
@@ -1721,70 +1721,70 @@ void fxFoliageReplicator::unpackUpdate(NetConnection * con, BitStream * stream)
    // Read Replication Details.
    if(stream->readFlag())
    {
-      MatrixF		ReplicatorObjectMatrix;
+      MatrixF     ReplicatorObjectMatrix;
 
-      stream->readAffineTransform(&ReplicatorObjectMatrix);			// Foliage Master Object Position.
+      stream->readAffineTransform(&ReplicatorObjectMatrix);       // Foliage Master Object Position.
 
-      mFieldData.mUseDebugInfo = stream->readFlag();					// Foliage Debug Information Flag.
-      stream->read(&mFieldData.mDebugBoxHeight);						// Foliage Debug Height.
-      stream->read(&mFieldData.mSeed);								// Foliage Seed.
-      stream->read(&mFieldData.mFoliageCount);						// Foliage Count.
-      stream->read(&mFieldData.mFoliageRetries);						// Foliage Retries.
-      mFieldData.mFoliageFile = stream->readSTString();				// Foliage File.
+      mFieldData.mUseDebugInfo = stream->readFlag();              // Foliage Debug Information Flag.
+      stream->read(&mFieldData.mDebugBoxHeight);                  // Foliage Debug Height.
+      stream->read(&mFieldData.mSeed);                      // Foliage Seed.
+      stream->read(&mFieldData.mFoliageCount);                 // Foliage Count.
+      stream->read(&mFieldData.mFoliageRetries);                  // Foliage Retries.
+      mFieldData.mFoliageFile = stream->readSTString();           // Foliage File.
 
-      stream->read(&mFieldData.mInnerRadiusX);						// Foliage Inner Radius X.
-      stream->read(&mFieldData.mInnerRadiusY);						// Foliage Inner Radius Y.
-      stream->read(&mFieldData.mOuterRadiusX);						// Foliage Outer Radius X.
-      stream->read(&mFieldData.mOuterRadiusY);						// Foliage Outer Radius Y.
+      stream->read(&mFieldData.mInnerRadiusX);                 // Foliage Inner Radius X.
+      stream->read(&mFieldData.mInnerRadiusY);                 // Foliage Inner Radius Y.
+      stream->read(&mFieldData.mOuterRadiusX);                 // Foliage Outer Radius X.
+      stream->read(&mFieldData.mOuterRadiusY);                 // Foliage Outer Radius Y.
 
-      stream->read(&mFieldData.mMinWidth);							// Foliage Minimum Width.
-      stream->read(&mFieldData.mMaxWidth);							// Foliage Maximum Width.
-      stream->read(&mFieldData.mMinHeight);							// Foliage Minimum Height.
-      stream->read(&mFieldData.mMaxHeight);							// Foliage Maximum Height.
-      stream->read(&mFieldData.mFixAspectRatio);						// Foliage Fix Aspect Ratio.
-      stream->read(&mFieldData.mFixSizeToMax);						// Foliage Fix Size to Max.
-      stream->read(&mFieldData.mOffsetZ);								// Foliage Offset Z.
-      mFieldData.mRandomFlip = stream->readFlag();					// Foliage Random Flip.
+      stream->read(&mFieldData.mMinWidth);                     // Foliage Minimum Width.
+      stream->read(&mFieldData.mMaxWidth);                     // Foliage Maximum Width.
+      stream->read(&mFieldData.mMinHeight);                    // Foliage Minimum Height.
+      stream->read(&mFieldData.mMaxHeight);                    // Foliage Maximum Height.
+      stream->read(&mFieldData.mFixAspectRatio);                  // Foliage Fix Aspect Ratio.
+      stream->read(&mFieldData.mFixSizeToMax);                 // Foliage Fix Size to Max.
+      stream->read(&mFieldData.mOffsetZ);                      // Foliage Offset Z.
+      mFieldData.mRandomFlip = stream->readFlag();             // Foliage Random Flip.
       
       bool wasTrueBB = mFieldData.mUseTrueBillboards;
       mFieldData.mUseTrueBillboards = stream->readFlag();      // Foliage is camera facing (including z axis).
 
-      stream->read(&mFieldData.mUseCulling);							// Foliage Use Culling.
-      stream->read(&mFieldData.mCullResolution);						// Foliage Cull Resolution.
-      stream->read(&mFieldData.mViewDistance);						// Foliage View Distance.
-      stream->read(&mFieldData.mViewClosest);							// Foliage View Closest.
-      stream->read(&mFieldData.mFadeInRegion);						// Foliage Fade-In Region.
-      stream->read(&mFieldData.mFadeOutRegion);						// Foliage Fade-Out Region.
-      stream->read(&mFieldData.mAlphaCutoff);							// Foliage Alpha Cutoff.
-      stream->read(&mFieldData.mGroundAlpha);							// Foliage Ground Alpha.
+      stream->read(&mFieldData.mUseCulling);                   // Foliage Use Culling.
+      stream->read(&mFieldData.mCullResolution);                  // Foliage Cull Resolution.
+      stream->read(&mFieldData.mViewDistance);                 // Foliage View Distance.
+      stream->read(&mFieldData.mViewClosest);                     // Foliage View Closest.
+      stream->read(&mFieldData.mFadeInRegion);                 // Foliage Fade-In Region.
+      stream->read(&mFieldData.mFadeOutRegion);                // Foliage Fade-Out Region.
+      stream->read(&mFieldData.mAlphaCutoff);                     // Foliage Alpha Cutoff.
+      stream->read(&mFieldData.mGroundAlpha);                     // Foliage Ground Alpha.
 
-      mFieldData.mSwayOn = stream->readFlag();						// Foliage Sway On Flag.
-      mFieldData.mSwaySync = stream->readFlag();						// Foliage Sway Sync Flag.
-      stream->read(&mFieldData.mSwayMagnitudeSide);					// Foliage Sway Magnitude Side2Side.
-      stream->read(&mFieldData.mSwayMagnitudeFront);					// Foliage Sway Magnitude Front2Back.
-      stream->read(&mFieldData.mMinSwayTime);							// Foliage Minimum Sway Time.
-      stream->read(&mFieldData.mMaxSwayTime);							// Foliage Maximum way Time.
+      mFieldData.mSwayOn = stream->readFlag();                 // Foliage Sway On Flag.
+      mFieldData.mSwaySync = stream->readFlag();                  // Foliage Sway Sync Flag.
+      stream->read(&mFieldData.mSwayMagnitudeSide);               // Foliage Sway Magnitude Side2Side.
+      stream->read(&mFieldData.mSwayMagnitudeFront);              // Foliage Sway Magnitude Front2Back.
+      stream->read(&mFieldData.mMinSwayTime);                     // Foliage Minimum Sway Time.
+      stream->read(&mFieldData.mMaxSwayTime);                     // Foliage Maximum way Time.
 
-      mFieldData.mLightOn = stream->readFlag();						// Foliage Light On Flag.
-      mFieldData.mLightSync = stream->readFlag();						// Foliage Light Sync
-      stream->read(&mFieldData.mMinLuminance);						// Foliage Minimum Luminance.
-      stream->read(&mFieldData.mMaxLuminance);						// Foliage Maximum Luminance.
-      stream->read(&mFieldData.mLightTime);							// Foliage Light Time.
+      mFieldData.mLightOn = stream->readFlag();                // Foliage Light On Flag.
+      mFieldData.mLightSync = stream->readFlag();                 // Foliage Light Sync
+      stream->read(&mFieldData.mMinLuminance);                 // Foliage Minimum Luminance.
+      stream->read(&mFieldData.mMaxLuminance);                 // Foliage Maximum Luminance.
+      stream->read(&mFieldData.mLightTime);                    // Foliage Light Time.
 
-      mFieldData.mAllowOnTerrain = stream->readFlag();				// Allow on Terrain.
-      mFieldData.mAllowStatics = stream->readFlag();					// Allow on Statics.
-      mFieldData.mAllowOnWater = stream->readFlag();					// Allow on Water.
-      mFieldData.mAllowWaterSurface = stream->readFlag();				// Allow on Water Surface.
-      stream->read(&mFieldData.mAllowedTerrainSlope);					// Allowed Terrain Slope.
+      mFieldData.mAllowOnTerrain = stream->readFlag();            // Allow on Terrain.
+      mFieldData.mAllowStatics = stream->readFlag();              // Allow on Statics.
+      mFieldData.mAllowOnWater = stream->readFlag();              // Allow on Water.
+      mFieldData.mAllowWaterSurface = stream->readFlag();            // Allow on Water Surface.
+      stream->read(&mFieldData.mAllowedTerrainSlope);             // Allowed Terrain Slope.
 
-      mFieldData.mHideFoliage = stream->readFlag();					// Hide Foliage.
-      mFieldData.mShowPlacementArea = stream->readFlag();				// Show Placement Area Flag.
-      stream->read(&mFieldData.mPlacementBandHeight);					// Placement Area Height.
+      mFieldData.mHideFoliage = stream->readFlag();               // Hide Foliage.
+      mFieldData.mShowPlacementArea = stream->readFlag();            // Show Placement Area Flag.
+      stream->read(&mFieldData.mPlacementBandHeight);             // Placement Area Height.
       stream->read(&mFieldData.mPlaceAreaColour);
 
       // Calculate Fade-In/Out Gradients.
-      mFadeInGradient		= 1.0f / mFieldData.mFadeInRegion;
-      mFadeOutGradient	= 1.0f / mFieldData.mFadeOutRegion;
+      mFadeInGradient      = 1.0f / mFieldData.mFadeInRegion;
+      mFadeOutGradient  = 1.0f / mFieldData.mFadeOutRegion;
 
       // Set Transform.
       setTransform(ReplicatorObjectMatrix);

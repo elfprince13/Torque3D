@@ -470,7 +470,7 @@ Debris::~Debris()
 
 void Debris::initPersistFields()
 {
-   addGroup( "Debris" );	
+   addGroup( "Debris" );   
    
       addField( "lifetime", TypeF32, Offset(mLifetime, Debris), 
          "@brief Length of time for this debris object to exist. When expired, the object will be deleted.\n\n"

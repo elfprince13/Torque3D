@@ -612,16 +612,16 @@ void GroundCover::initPersistFields()
 void GroundCover::consoleInit()
 {     
    Con::addVariable( "$pref::GroundCover::densityScale", TypeF32, &smDensityScale, "A global LOD scalar which can reduce the overall density of placed GroundCover.\n" 
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
 
    Con::addVariable( "$GroundCover::renderedCells", TypeS32, &smStatRenderedCells, "Stat for number of rendered cells.\n"
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
    Con::addVariable( "$GroundCover::renderedBillboards", TypeS32, &smStatRenderedBillboards, "Stat for number of rendered billboards.\n"
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
    Con::addVariable( "$GroundCover::renderedBatches", TypeS32, &smStatRenderedBatches, "Stat for number of rendered billboard batches.\n"
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
    Con::addVariable( "$GroundCover::renderedShapes", TypeS32, &smStatRenderedShapes, "Stat for number of rendered shapes.\n"
-	   "@ingroup Foliage\n");
+      "@ingroup Foliage\n");
 
    Parent::consoleInit();
 }

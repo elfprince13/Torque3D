@@ -126,8 +126,8 @@ bool DecalData::onAdd()
    
    getSet()->addObject( this );
 
-	if( texRows > 1 || texCols > 1 )
-		reloadRects();
+   if( texRows > 1 || texCols > 1 )
+      reloadRects();
 
    return true;
 }
@@ -262,7 +262,7 @@ void DecalData::packData( BitStream *stream )
    stream->write( materialName );
    stream->write( lifeSpan );
    stream->write( fadeTime );
-	stream->write( texCoordCount );
+   stream->write( texCoordCount );
 
    for (S32 i = 0; i < texCoordCount; i++)
       mathWrite( *stream, texRect[i] );
@@ -273,10 +273,10 @@ void DecalData::packData( BitStream *stream )
    stream->write( clippingMasks );
    stream->write( clippingAngle );
    
-	stream->write( texRows );
+   stream->write( texRows );
    stream->write( texCols );
-	stream->write( frame );
-	stream->write( randomize );
+   stream->write( frame );
+   stream->write( randomize );
 }
 
 void DecalData::unpackData( BitStream *stream )
@@ -290,7 +290,7 @@ void DecalData::unpackData( BitStream *stream )
    _updateMaterial();
    stream->read( &lifeSpan );
    stream->read( &fadeTime );
-	stream->read( &texCoordCount );
+   stream->read( &texCoordCount );
 
    for (S32 i = 0; i < texCoordCount; i++)
       mathRead(*stream, &texRect[i]);
@@ -301,10 +301,10 @@ void DecalData::unpackData( BitStream *stream )
    stream->read( &clippingMasks );
    stream->read( &clippingAngle );
    
-	stream->read( &texRows );
+   stream->read( &texRows );
    stream->read( &texCols );
-	stream->read( &frame );
-	stream->read( &randomize );
+   stream->read( &frame );
+   stream->read( &randomize );
 }
 
 void DecalData::_initMaterial()
@@ -395,79 +395,79 @@ DecalData* DecalData::findDatablock( String searchName )
 
 void DecalData::inspectPostApply()
 { 
-	reloadRects();
+   reloadRects();
 }
 
 void DecalData::reloadRects()
 { 
-	F32 rowsBase = 0;
-	F32 colsBase = 0;
-	bool canRenderRowsByFrame = false;
-	bool canRenderColsByFrame = false;
-	S32 id = 0;
-	
-	texRect[id].point.x = 0.f;
-	texRect[id].extent.x = 1.f;
-	texRect[id].point.y = 0.f;
-	texRect[id].extent.y = 1.f;
-	
-	texCoordCount = (texRows * texCols) - 1;
+   F32 rowsBase = 0;
+   F32 colsBase = 0;
+   bool canRenderRowsByFrame = false;
+   bool canRenderColsByFrame = false;
+   S32 id = 0;
+   
+   texRect[id].point.x = 0.f;
+   texRect[id].extent.x = 1.f;
+   texRect[id].point.y = 0.f;
+   texRect[id].extent.y = 1.f;
+   
+   texCoordCount = (texRows * texCols) - 1;
 
-	if( texCoordCount > 16 )
-	{
-		Con::warnf("Coordinate max must be lower than 16 to be a valid decal !");
-		texRows = 1;
-		texCols = 1;
-		texCoordCount = 1;
-	}
+   if( texCoordCount > 16 )
+   {
+      Con::warnf("Coordinate max must be lower than 16 to be a valid decal !");
+      texRows = 1;
+      texCols = 1;
+      texCoordCount = 1;
+   }
 
-	// use current datablock information in order to build a template to extract
-	// coordinates from. 
-	if( texRows > 1 )
-	{
-		rowsBase = ( 1.f / texRows );
-		canRenderRowsByFrame = true;
-	}
-	if( texCols > 1 )
-	{
-		colsBase = ( 1.f / texCols );
-		canRenderColsByFrame = true;
-	}
+   // use current datablock information in order to build a template to extract
+   // coordinates from. 
+   if( texRows > 1 )
+   {
+      rowsBase = ( 1.f / texRows );
+      canRenderRowsByFrame = true;
+   }
+   if( texCols > 1 )
+   {
+      colsBase = ( 1.f / texCols );
+      canRenderColsByFrame = true;
+   }
 
-	// if were able, lets enter the loop
+   // if were able, lets enter the loop
    if( frame >= 0 && (canRenderRowsByFrame || canRenderColsByFrame) )
-	{
-		// columns first then rows
-		for ( S32 colId = 1; colId <= texCols; colId++ )
-		{
-			for ( S32 rowId = 1; rowId <= texRows; rowId++, id++ )
-			{
-				// if were over the coord count, lets go
-				if(id > texCoordCount)
-					return;
+   {
+      // columns first then rows
+      for ( S32 colId = 1; colId <= texCols; colId++ )
+      {
+         for ( S32 rowId = 1; rowId <= texRows; rowId++, id++ )
+         {
+            // if were over the coord count, lets go
+            if(id > texCoordCount)
+               return;
 
-				// keep our dimensions correct
-				if(rowId > texRows)
-					rowId = 1;
+            // keep our dimensions correct
+            if(rowId > texRows)
+               rowId = 1;
 
-				if(colId > texCols)
-					colId = 1;
+            if(colId > texCols)
+               colId = 1;
 
-				// start setting our rect values per frame
-				if( canRenderRowsByFrame )
-				{
-					texRect[id].point.x = rowsBase * ( rowId - 1 );
-					texRect[id].extent.x = rowsBase;
-				}
-				
-				if( canRenderColsByFrame )
-				{
-					texRect[id].point.y = colsBase * ( colId - 1 );
-					texRect[id].extent.y = colsBase;
-				}
-			}
-		}
-	}
+            // start setting our rect values per frame
+            if( canRenderRowsByFrame )
+            {
+               texRect[id].point.x = rowsBase * ( rowId - 1 );
+               texRect[id].extent.x = rowsBase;
+            }
+            
+            if( canRenderColsByFrame )
+            {
+               texRect[id].point.y = colsBase * ( colId - 1 );
+               texRect[id].extent.y = colsBase;
+            }
+         }
+      }
+   }
 }
 
 DefineEngineMethod(DecalData, postApply, void, (),,
