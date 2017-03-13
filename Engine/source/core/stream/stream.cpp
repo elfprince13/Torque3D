@@ -199,9 +199,9 @@ void Stream::readLine(U8 *buffer, U32 bufferSize)
 #if defined(TORQUE_OS_MAC)
       U32 pushPos = getPosition(); // in case we need to back up.
       if (read(buff)) // feeling free to overwrite the \r as the NULL below will overwrite again...
-	      if (*buff != '\n') // then push our position back.
-	         setPosition(pushPos);
-	   break; // we're always done after seeing the CR...
+         if (*buff != '\n') // then push our position back.
+            setPosition(pushPos);
+      break; // we're always done after seeing the CR...
 #else
       buff--; // 'erases' the CR of a CRLF
 #endif

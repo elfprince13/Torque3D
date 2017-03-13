@@ -481,9 +481,9 @@ static U32 sgStringInstances;
 
 #endif
 DefineConsoleFunction( dumpStringMemStats, void, (), , "()"
-				"@brief Dumps information about String memory usage\n\n"
-				"@ingroup Debugging\n"
-				"@ingroup Strings\n")
+            "@brief Dumps information about String memory usage\n\n"
+            "@ingroup Debugging\n"
+            "@ingroup Strings\n")
 {
 #ifdef TORQUE_DEBUG
    Con::printf( "String Data: %i instances, %i bytes", sgStringInstances, sgStringMemBytes );
@@ -658,7 +658,7 @@ bool String::isEmpty() const
 
 bool String::isEmpty(const char* str)
 {
-	return str == 0 || str[0] == '\0';
+   return str == 0 || str[0] == '\0';
 }
 
 bool String::isShared() const
@@ -1429,7 +1429,7 @@ void String::copy(StringChar* dst, const StringChar *src, U32 len)
 
 #if defined(TORQUE_OS_WIN) || defined(TORQUE_OS_XBOX) || defined(TORQUE_OS_XENON)
 // This standard function is not defined when compiling with VC7...
-#define vsnprintf	_vsnprintf
+#define vsnprintf _vsnprintf
 #endif
 
 String::StrFormat::~StrFormat()
